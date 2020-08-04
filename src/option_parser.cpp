@@ -201,7 +201,7 @@ static
 void
 set_default_options(fuse_args *args)
 {
-  set_option(args,"default_permissions");
+  //  set_option(args,"default_permissions");
 }
 
 static
