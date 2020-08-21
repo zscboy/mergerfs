@@ -1549,20 +1549,17 @@ req_fuse(fuse_req_t req)
 }
 
 int
-fuse_fs_getattr(struct fuse_fs  *fs,
-                const char      *path,
-                struct stat     *buf,
-                fuse_timeouts_t *timeout)
+fuse_fs_getattr(struct fuse_fs  *fs_,
+                const char      *path_,
+                struct stat     *buf_,
+                fuse_timeouts_t *timeout_)
 {
-  if(fs->op.getattr == NULL)
+  if(fs_->op.getattr == NULL)
     return -ENOSYS;
 
-  if(fs->debug)
-    fprintf(stderr,"getattr %s\n",path);
+  fuse_get_context()->private_data = fs_->user_data;
 
-  fuse_get_context()->private_data = fs->user_data;
-
-  return fs->op.getattr(path,buf,timeout);
+  return fs_->op.getattr(path_,buf_,timeout_);
 }
 
 int
@@ -2872,11 +2869,10 @@ fuse_lib_forget_multi(fuse_req_t               req,
 
 static
 void
-fuse_lib_getattr(fuse_req_t        req,
-                 fuse_ino_t        ino,
-                 fuse_file_info_t *fi)
+fuse_lib_getattr(fuse_req_t        req_,
+                 fuse_ino_t        ino_,
+                 fuse_file_info_t *fi_)
 {
-
   int err;
   char *path;
   struct fuse *f;
@@ -2885,15 +2881,15 @@ fuse_lib_getattr(fuse_req_t        req,
   fuse_timeouts_t timeout;
   fuse_file_info_t ffi = {0};
 
-  f = req_fuse_prepare(req);
-  if(fi == NULL)
+  f = req_fuse_prepare(req_);
+  if(fi_ == NULL)
     {
       pthread_mutex_lock(&f->lock);
-      node = get_node(f,ino);
+      node = get_node(f,ino_);
       if(node->is_hidden)
         {
-          fi = &ffi;
-          fi->fh = node->hidden_fh;
+          fi_ = &ffi;
+          fi_->fh = node->hidden_fh;
         }
       pthread_mutex_unlock(&f->lock);
     }
@@ -2902,44 +2898,44 @@ fuse_lib_getattr(fuse_req_t        req,
 
   err = 0;
   path = NULL;
-  if((fi == NULL) || (f->fs->op.fgetattr == NULL))
-    err = get_path(f,ino,&path);
+  if((fi_ == NULL) || (f->fs->op.fgetattr == NULL))
+    err = get_path(f,ino_,&path);
 
   if(!err)
     {
-      err = ((fi == NULL) ?
+      err = ((fi_ == NULL) ?
              fuse_fs_getattr(f->fs,path,&buf,&timeout) :
-             fuse_fs_fgetattr(f->fs,&buf,fi,&timeout));
+             fuse_fs_fgetattr(f->fs,&buf,fi_,&timeout));
 
-      free_path(f,ino,path);
+      free_path(f,ino_,path);
     }
 
   if(!err)
     {
       pthread_mutex_lock(&f->lock);
-      node = get_node(f,ino);
+      node = get_node(f,ino_);
       update_stat(node,&buf);
       pthread_mutex_unlock(&f->lock);
-      set_stat(f,ino,&buf);
-      fuse_reply_attr(req,&buf,timeout.attr);
+      set_stat(f,ino_,&buf);
+      fuse_reply_attr(req_,&buf,timeout.attr);
     }
   else
     {
-      reply_err(req,err);
+      reply_err(req_,err);
     }
 }
 
 int
-fuse_fs_chmod(struct fuse_fs *fs,
-              const char     *path,
-              mode_t          mode)
+fuse_fs_chmod(struct fuse_fs *fs_,
+              const char     *path_,
+              mode_t          mode_)
 {
-  if(fs->op.chmod == NULL)
+  if(fs_->op.chmod == NULL)
     return -ENOSYS;
 
-  fuse_get_context()->private_data = fs->user_data;
+  fuse_get_context()->private_data = fs_->user_data;
 
-  return fs->op.chmod(path,mode);
+  return fs_->op.chmod(path_,mode_);
 }
 
 int
@@ -2963,7 +2959,7 @@ fuse_lib_setattr(fuse_req_t        req,
                  int               valid,
                  fuse_file_info_t *fi)
 {
-  struct fuse *f = req_fuse_prepare(req);
+  struct fuse *f;
   struct stat buf;
   char *path;
   int err;
@@ -2971,6 +2967,7 @@ fuse_lib_setattr(fuse_req_t        req,
   fuse_timeouts_t timeout;
   fuse_file_info_t ffi = {0};
 
+  f = req_fuse_prepare(req);
   if(fi == NULL)
     {
       pthread_mutex_lock(&f->lock);
