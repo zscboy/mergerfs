@@ -112,6 +112,51 @@ namespace l
   }
 
   static
+  int 
+  combinedir(const Branches::CPtr &branches_,
+             const char           *fusepath_,
+             const StrVec         &combinedirs_,
+             StrVec               *paths_)
+  {
+    string fusepath(fusepath_);
+    bool exist = false;
+    for(const auto &dir : combinedirs_)
+    {
+      if (fusepath.rfind(dir, 0) == 0) 
+      {
+        exist = true;
+        break;
+      }
+    }
+
+    if (!exist) 
+    {
+      return 0;
+    }
+
+    const string basepath*  = NULL;
+    string basename = fs::path::basename(fusepath_);
+    for(const auto &branch : *branches_)
+    {
+      for(const auto &dir : combinedirs_)
+      {
+        string path = fs::path::make(dir, basename)
+        if(fs::exists(branch.path, path))
+        {
+          basepath = &branch.path;
+          break;
+        }
+      }
+    }
+
+    if (basepath != NULL)
+    {
+      paths_->push_back(*basepath)
+    }
+
+  }
+
+  static
   int
   mkdir(const Policy::Search &getattrPolicy_,
         const Policy::Create &mkdirPolicy_,
@@ -127,13 +172,23 @@ namespace l
 
     fusedirpath = fs::path::dirname(fusepath_);
 
-    rv = getattrPolicy_(branches_,fusedirpath.c_str(),&existingpaths);
-    if(rv == -1)
-      return -errno;
+    StrVec combinedirs = {"/cache/", "/sealed/"};
+    rv = combinedir(branches_, fusepath_, &combinedirs, createpaths);
 
-    rv = mkdirPolicy_(branches_,fusedirpath.c_str(),&createpaths);
-    if(rv == -1)
-      return -errno;
+    if (createpaths.size() == 0) 
+    {
+      int rv;
+      rv = getattrPolicy_(branches_,fusedirpath.c_str(),&existingpaths);
+      if(rv == -1)
+        return -errno;
+
+      rv = mkdirPolicy_(branches_,fusedirpath.c_str(),&createpaths);
+      if(rv == -1)
+        return -errno;
+    } 
+    else {
+      existingpaths[0] = createpaths[0]
+    }
 
     return l::mkdir_loop(existingpaths[0],
                          createpaths,
