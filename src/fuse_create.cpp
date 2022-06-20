@@ -134,7 +134,8 @@ namespace l
          const mode_t          mode_,
          const mode_t          umask_,
          const int             flags_,
-         uint64_t             *fh_)
+         uint64_t             *fh_,
+         const string          combinedirs)
   {
     int rv;
     string fullpath;
@@ -144,7 +145,7 @@ namespace l
 
     fusedirpath = fs::path::dirname(fusepath_);
 
-    StrVec combinedirs = {"/cache/", "/sealed/"};
+    StrVec combinedirs = fs::string2Vec(combinedirs);
     fs::combinedir(branches_, fusepath_, combinedirs, &createpaths);
 
     
@@ -195,6 +196,7 @@ namespace FUSE
                      mode_,
                      fc->umask,
                      ffi_->flags,
-                     &ffi_->fh);
+                     &ffi_->fh,
+                     cfg->combinedirs);
   }
 }

@@ -71,4 +71,21 @@ namespace fs
 
   }
 
+  static
+  StrVec 
+  string2Vec(const string combinedirs)
+  {
+    StrVec dirs;
+ 
+    stringstream ss(combinedirs);
+ 
+    while (ss.good()) {
+        string substr;
+        getline(ss, substr, ',');
+        dirs.push_back(substr);
+    }
+ 
+    return dirs
+  }
+
 }

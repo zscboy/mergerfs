@@ -128,7 +128,7 @@ namespace l
 
     fusedirpath = fs::path::dirname(fusepath_);
 
-    StrVec dirs = {"/cache/", "/sealed/"};
+    StrVec dirs = fs::string2Vec(combinedirs);
     fs::combinedir(branches_, fusepath_, dirs, &createpaths);
 
     if (createpaths.size() == 0) 
