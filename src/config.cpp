@@ -110,7 +110,8 @@ Config::Config()
     threads(0),
     version(MERGERFS_VERSION),
     writeback_cache(false),
-    xattr(XAttr::ENUM::PASSTHROUGH)
+    xattr(XAttr::ENUM::PASSTHROUGH),
+    combinedirs()
 {
   _map["async_read"]           = &async_read;
   _map["auto_cache"]           = &auto_cache;
@@ -159,13 +160,13 @@ Config::Config()
   _map["log.metrics"]          = &log_metrics;
   _map["minfreespace"]         = &minfreespace;
   _map["mount"]                = &mount;
-  _map["moveonenospc"]         = &moveonenospc;
   _map["nfsopenhack"]          = &nfsopenhack;
   _map["nullrw"]               = &nullrw;
   _map["pid"]                  = &pid;
   _map["posix_acl"]            = &posix_acl;
   //  _map["readdir"]              = &readdir;
   _map["readdirplus"]          = &readdirplus;
+  _map["moveonenospc"]         = &moveonenospc;
   _map["rename-exdev"]         = &rename_exdev;
   _map["security_capability"]  = &security_capability;
   _map["srcmounts"]            = &srcmounts;
@@ -176,6 +177,7 @@ Config::Config()
   _map["threads"]              = &threads;
   _map["version"]              = &version;
   _map["xattr"]                = &xattr;
+  _map["combinedirs"]          = &combinedirs;
 }
 
 Config&

@@ -142,6 +142,7 @@ public:
   ConfigSTR      version;
   ConfigBOOL     writeback_cache;
   XAttr          xattr;
+  ConfigSTR      combinedirs;
 
 public:
   friend std::ostream& operator<<(std::ostream &s,

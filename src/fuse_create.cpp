@@ -21,7 +21,7 @@
 #include "fs_clonepath.hpp"
 #include "fs_open.hpp"
 #include "fs_path.hpp"
-#include "fs_exists.hpp"
+#include "fs_combine_dir.hpp"
 #include "ugid.hpp"
 
 #include "fuse.h"
@@ -126,51 +126,6 @@ namespace l
   }
 
   static
-  void 
-  combinedir(const Branches::CPtr &branches_,
-             const char           *fusepath_,
-             const StrVec         &combinedirs_,
-             StrVec               *paths_)
-  {
-    string fusepath(fusepath_);
-    bool exist = false;
-    for(const auto &dir : combinedirs_)
-    {
-      if (fusepath.rfind(dir, 0) == 0) 
-      {
-        exist = true;
-        break;
-      }
-    }
-
-    if (!exist) 
-    {
-      return;
-    }
-
-    const string *basepath  = NULL;
-    string basename = fs::path::basename(fusepath_);
-    for(const auto &branch : *branches_)
-    {
-      for(const auto &dir : combinedirs_)
-      {
-        string path = fs::path::make(dir, basename);
-        if(fs::exists(branch.path, path))
-        {
-          basepath = &branch.path;
-          break;
-        }
-      }
-    }
-
-    if (basepath != NULL)
-    {
-      paths_->push_back(*basepath);
-    }
-
-  }
-
-  static
   int
   create(const Policy::Search &searchFunc_,
          const Policy::Create &createFunc_,
@@ -190,7 +145,7 @@ namespace l
     fusedirpath = fs::path::dirname(fusepath_);
 
     StrVec combinedirs = {"/cache/", "/sealed/"};
-    combinedir(branches_, fusepath_, combinedirs, &createpaths);
+    fs.combinedir(branches_, fusepath_, combinedirs, &createpaths);
 
     
     if (createpaths.size() == 0) 
