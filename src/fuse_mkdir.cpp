@@ -134,13 +134,13 @@ namespace l
       return 0;
     }
 
-    const string basepath*  = NULL;
+    const string *basepath  = NULL;
     string basename = fs::path::basename(fusepath_);
     for(const auto &branch : *branches_)
     {
       for(const auto &dir : combinedirs_)
       {
-        string path = fs::path::make(dir, basename)
+        string path = fs::path::make(dir, basename);
         if(fs::exists(branch.path, path))
         {
           basepath = &branch.path;
@@ -173,7 +173,7 @@ namespace l
     fusedirpath = fs::path::dirname(fusepath_);
 
     StrVec combinedirs = {"/cache/", "/sealed/"};
-    rv = combinedir(branches_, fusepath_, &combinedirs, createpaths);
+    rv = combinedir(branches_, fusepath_, combinedirs, createpaths);
 
     if (createpaths.size() == 0) 
     {
