@@ -125,6 +125,51 @@ namespace l
   }
 
   static
+  void 
+  combinedir(const Branches::CPtr &branches_,
+             const char           *fusepath_,
+             const StrVec         &combinedirs_,
+             StrVec               *paths_)
+  {
+    string fusepath(fusepath_);
+    bool exist = false;
+    for(const auto &dir : combinedirs_)
+    {
+      if (fusepath.rfind(dir, 0) == 0) 
+      {
+        exist = true;
+        break;
+      }
+    }
+
+    if (!exist) 
+    {
+      return 0;
+    }
+
+    const string *basepath  = NULL;
+    string basename = fs::path::basename(fusepath_);
+    for(const auto &branch : *branches_)
+    {
+      for(const auto &dir : combinedirs_)
+      {
+        string path = fs::path::make(dir, basename);
+        if(fs::exists(branch.path, path))
+        {
+          basepath = &branch.path;
+          break;
+        }
+      }
+    }
+
+    if (basepath != NULL)
+    {
+      paths_->push_back(*basepath);
+    }
+
+  }
+
+  static
   int
   create(const Policy::Search &searchFunc_,
          const Policy::Create &createFunc_,
@@ -143,17 +188,24 @@ namespace l
 
     fusedirpath = fs::path::dirname(fusepath_);
 
-    rv = searchFunc_(branches_,fusedirpath,&existingpaths);
-    if(rv == -1)
-      return -errno;
+    StrVec combinedirs = {"/cache/", "/sealed/"};
+    combinedir(branches_, fusepath_, combinedirs, &createpaths);
 
-    rv = createFunc_(branches_,fusedirpath,&createpaths);
-    if(rv == -1)
-      return -errno;
+    
+    if (createpaths.size() == 0) 
+    {
+      rv = searchFunc_(branches_,fusedirpath,&existingpaths);
+      if(rv == -1)
+        return -errno;
 
-    rv = fs::clonepath_as_root(existingpaths[0],createpaths[0],fusedirpath);
-    if(rv == -1)
-      return -errno;
+      rv = createFunc_(branches_,fusedirpath,&createpaths);
+      if(rv == -1)
+        return -errno;
+
+      rv = fs::clonepath_as_root(existingpaths[0],createpaths[0],fusedirpath);
+      if(rv == -1)
+        return -errno;
+    }
 
     return l::create_core(createpaths[0],
                           fusepath_,

@@ -113,7 +113,7 @@ namespace l
   }
 
   static
-  int 
+  void 
   combinedir(const Branches::CPtr &branches_,
              const char           *fusepath_,
              const StrVec         &combinedirs_,
@@ -136,7 +136,7 @@ namespace l
     }
 
     const string *basepath  = NULL;
-    string basename = fs::path::basename(fusepath_);
+    string basename = fs::path::basename(fusepath);
     for(const auto &branch : *branches_)
     {
       for(const auto &dir : combinedirs_)
@@ -174,7 +174,7 @@ namespace l
     fusedirpath = fs::path::dirname(fusepath_);
 
     StrVec combinedirs = {"/cache/", "/sealed/"};
-    rv = combinedir(branches_, fusepath_, combinedirs, &createpaths);
+    combinedir(branches_, fusepath_, combinedirs, &createpaths);
 
     if (createpaths.size() == 0) 
     {
