@@ -23,6 +23,7 @@
 #include <string>
 
 using std::string;
+using std::stringstream;
 
 namespace fs
 {
@@ -85,7 +86,7 @@ namespace fs
         dirs.push_back(substr);
     }
  
-    return dirs
+    return dirs;
   }
 
 }

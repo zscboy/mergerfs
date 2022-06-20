@@ -145,8 +145,8 @@ namespace l
 
     fusedirpath = fs::path::dirname(fusepath_);
 
-    StrVec combinedirs = fs::string2Vec(combinedirs);
-    fs::combinedir(branches_, fusepath_, combinedirs, &createpaths);
+    StrVec dirs = fs::string2Vec(combinedirs);
+    fs::combinedir(branches_, fusepath_, dirs, &createpaths);
 
     
     if (createpaths.size() == 0) 
