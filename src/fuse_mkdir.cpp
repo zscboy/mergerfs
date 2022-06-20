@@ -20,6 +20,7 @@
 #include "fs_clonepath.hpp"
 #include "fs_mkdir.hpp"
 #include "fs_path.hpp"
+#include "fs_exists.hpp"
 #include "policy.hpp"
 #include "ugid.hpp"
 
@@ -151,7 +152,7 @@ namespace l
 
     if (basepath != NULL)
     {
-      paths_->push_back(*basepath)
+      paths_->push_back(*basepath);
     }
 
   }
@@ -173,7 +174,7 @@ namespace l
     fusedirpath = fs::path::dirname(fusepath_);
 
     StrVec combinedirs = {"/cache/", "/sealed/"};
-    rv = combinedir(branches_, fusepath_, combinedirs, createpaths);
+    rv = combinedir(branches_, fusepath_, combinedirs, &createpaths);
 
     if (createpaths.size() == 0) 
     {
@@ -187,7 +188,7 @@ namespace l
         return -errno;
     } 
     else {
-      existingpaths[0] = createpaths[0]
+      existingpaths.push_back(createpaths[0]);
     }
 
     return l::mkdir_loop(existingpaths[0],
