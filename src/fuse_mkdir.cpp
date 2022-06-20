@@ -132,7 +132,7 @@ namespace l
 
     if (!exist) 
     {
-      return 0;
+      return;
     }
 
     const string *basepath  = NULL;
