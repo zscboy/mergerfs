@@ -122,7 +122,6 @@ namespace l
         const mode_t          umask_,
         const string          combinedirs)
   {
-    int rv;
     string fusedirpath;
     StrVec createpaths;
     StrVec existingpaths;
@@ -171,6 +170,7 @@ namespace FUSE
                     cfg->branches,
                     fusepath_,
                     mode_,
-                    fc->umask);
+                    fc->umask,
+                    cfg->combinedirs);
   }
 }
