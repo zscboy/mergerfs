@@ -126,7 +126,7 @@ namespace l
     StrVec createpaths;
     StrVec existingpaths;
 
-    std::count << "mkdir combinedirs" << combinedirs << std::endl;
+    std::cout << "mkdir combinedirs" << combinedirs << std::endl;
     fusedirpath = fs::path::dirname(fusepath_);
 
     StrVec dirs = fs::string2Vec(combinedirs);
