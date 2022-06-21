@@ -83,7 +83,7 @@ namespace fs
  
     while (ss.good()) {
         string substr;
-        getline(ss, substr, ',');
+        getline(ss, substr, ':');
         dirs.push_back(substr);
     }
  
