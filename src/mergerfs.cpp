@@ -175,7 +175,7 @@ namespace l
     int r = Redis::init("tcp://127.0.0.1:6379");
     if (r < 0) {
        std::cerr << "init redis failed, please check !" << std::endl;
-       return;
+       return 0;
     }
 
     Redis::hset("file2disk", "/cache/abc", "/mnt/dir1");
