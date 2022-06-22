@@ -12,13 +12,14 @@ class Redis
         Redis();
         ~Redis();
 
-        static int init(string address);
-        static bool set(string key, string value);
-        static sw::redis::OptionalString get(string key);
-        static bool hset(string hash, string field, string value);
-        static sw::redis::OptionalString hget(string hash, string field);
+        static Redis getInstance();
+        int init(string address);
+        bool set(string key, string value);
+        sw::redis::OptionalString get(string key);
+        bool hset(string hash, string field, string value);
+        sw::redis::OptionalString hget(string hash, string field);
 
     private:
-        static sw::redis::Redis *redis; 
+        sw::redis::Redis *redis; 
 
 };
