@@ -111,7 +111,8 @@ Config::Config()
     version(MERGERFS_VERSION),
     writeback_cache(false),
     xattr(XAttr::ENUM::PASSTHROUGH),
-    combinedirs()
+    combinedirs(),
+    redis()
 {
   _map["async_read"]           = &async_read;
   _map["auto_cache"]           = &auto_cache;
@@ -178,6 +179,7 @@ Config::Config()
   _map["version"]              = &version;
   _map["xattr"]                = &xattr;
   _map["combinedirs"]          = &combinedirs;
+  _map["redis"]          = &redis;
 }
 
 Config&

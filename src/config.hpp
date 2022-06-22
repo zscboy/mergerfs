@@ -143,6 +143,7 @@ public:
   ConfigBOOL     writeback_cache;
   XAttr          xattr;
   ConfigSTR      combinedirs;
+  ConfigSTR      redis;
 
 public:
   friend std::ostream& operator<<(std::ostream &s,

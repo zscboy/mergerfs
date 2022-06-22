@@ -172,14 +172,13 @@ namespace l
     l::setup_resources();
     l::get_fuse_operations(ops,cfg->nullrw);
 
-    int r = Redis::init("tcp://127.0.0.1:6379");
+    int r = Redis::init((std::string)cfg->redis);
     if (r < 0) {
        std::cerr << "init redis failed, please check !" << std::endl;
        return 0;
     }
 
     Redis::hset("file2disk", "test1", "abcd");
-    Redis::hset("file2disk", "/cache/abc", "/mnt/dir1");
     return fuse_main(args.argc,
                      args.argv,
                      &ops);
