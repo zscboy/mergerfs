@@ -1,7 +1,7 @@
 #include "config.hpp"
 #include <string>
 #include <sw/redis++/redis++.h>
-
+#include "redis.hpp"
 // using namespace sw::redis;
 // #include <iostream>
 
