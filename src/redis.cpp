@@ -7,8 +7,8 @@
 // sw::redis::Redis* Redis::redis; 
 
 using std::string;
-  Redis::Redis() {}
-  Redis::~Redis(){}
+//   Redis::Redis() {}
+//   Redis::~Redis(){}
 
   Redis& getInstance()
   {
@@ -45,7 +45,7 @@ using std::string;
         // }
 
         try {
-            return redis->set(key, value);
+            return redis.set(key, value);
         }
         catch (const sw::redis::Error &e) {
             std::cerr << " redis set error " << e.what() << std::endl;
@@ -62,7 +62,7 @@ using std::string;
         // }
 
         try {
-            return redis->get(key);
+            return redis.get(key);
         }
         catch (const sw::redis::Error &e) {
             std::cerr << " redis get error " << e.what() << std::endl;
@@ -78,7 +78,7 @@ using std::string;
         // }
 
         try {
-            return redis->hset(hash, field, field);
+            return redis.hset(hash, field, field);
         }
         catch (const sw::redis::Error &e) {
             std::cerr << " redis hset error " << e.what() << std::endl;
@@ -94,7 +94,7 @@ using std::string;
         // }
 
         try {
-            return redis->hget(hash, field);
+            return redis.hget(hash, field);
         }
         catch (const sw::redis::Error &e) {
             std::cerr << " redis hget error " << e.what() << std::endl;

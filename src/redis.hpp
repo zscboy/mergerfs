@@ -9,8 +9,8 @@ using std::string;
 class Redis
 {
     public:    
-        Redis();
-        ~Redis();
+        Redis(S const&)               = delete;
+        void operator=(Redis const&)  = delete;
 
         static Redis getInstance();
         int init(string address);
@@ -20,6 +20,10 @@ class Redis
         sw::redis::OptionalString hget(string hash, string field);
 
     private:
+        Redis() {} 
+        Redis(Redis const&); 
+        void operator=(Redis const&);
+
         sw::redis::Redis redis; 
 
 };
