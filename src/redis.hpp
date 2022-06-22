@@ -9,21 +9,21 @@ using std::string;
 class Redis
 {
     public:    
-        Redis(S const&)               = delete;
-        void operator=(Redis const&)  = delete;
+        // Redis(Redis const&)               = delete;
+        // void operator=(Redis const&)  = delete;
 
-        static Redis getInstance();
-        int init(string address);
-        bool set(string key, string value);
-        sw::redis::OptionalString get(string key);
-        bool hset(string hash, string field, string value);
-        sw::redis::OptionalString hget(string hash, string field);
+        // static Redis& getInstance();
+        static int init(string address);
+        static bool set(string key, string value);
+        static sw::redis::OptionalString get(string key);
+        static bool hset(string hash, string field, string value);
+        static sw::redis::OptionalString hget(string hash, string field);
 
     private:
-        Redis() {} 
-        Redis(Redis const&); 
-        void operator=(Redis const&);
+        // Redis() {} 
+        // Redis(Redis const&); 
+        // void operator=(Redis const&);
 
-        sw::redis::Redis redis; 
+        static sw::redis::Redis redis; 
 
 };
