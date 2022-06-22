@@ -15,6 +15,6 @@ class Redis
         static sw::redis::OptionalString hget(string hash, string field);
 
     private:
-        static sw::redis::Redis redis; 
+        static sw::redis::Redis *redis; 
 
 };
