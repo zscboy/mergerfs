@@ -1,15 +1,14 @@
-#include "config.hpp"
-#include <string>
-#include <sw/redis++/redis++.h>
+// #include "config.hpp"
+// #include <string>
+// #include <sw/redis++/redis++.h>
 #include "redis.hpp"
-// using namespace sw::redis;
-// #include <iostream>
+#include <iostream>
 
 using std::string;
   Redis::Redis() {}
   Redis::~Redis(){}
           
-  static int Redis::init(string address)
+  int Redis::init(string address)
     {
         if (address.empty())
         {
@@ -21,7 +20,7 @@ using std::string;
         try {
                 auto instance = sw::redis::Redis(address);
                 redis = &instance;
-                return 0
+                return 0;
         }
         catch (const sw::redis::Error &e) {
             std::cerr << " instance redis error " << e.what() << std::endl;
@@ -29,7 +28,7 @@ using std::string;
         }
     }
 
-    static bool Redis::set(string key, string value)
+    bool Redis::set(string key, string value)
     {
         if (redis == NULL) {
                 std::cerr << "redis instance == NULL" << std::endl;
@@ -46,7 +45,7 @@ using std::string;
     }
 
 
-    static sw::redis::OptionalString Redis::get(string key)
+    sw::redis::OptionalString Redis::get(string key)
     {
         if (redis == NULL) {
                 std::cerr << "redis instance == NULL" << std::endl;
@@ -62,7 +61,7 @@ using std::string;
         }
     }
 
-    static bool Redis::hset(string hash, string field, string value)
+    bool Redis::hset(string hash, string field, string value)
     {
         if (redis == NULL) {
                 std::cerr << "redis instance == NULL" << std::endl;
@@ -78,7 +77,7 @@ using std::string;
         }
     }
 
-    static sw::redis::OptionalString Redis::hget(string hash, string field)
+    sw::redis::OptionalString Redis::hget(string hash, string field)
     {
         if (redis == NULL) {
             std::cerr << "redis instance == NULL" << std::endl;
