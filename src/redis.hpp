@@ -28,7 +28,7 @@ class Redis
 
         static bool set(string key, string value)
         {
-            if (redis == null) {
+            if (redis == NULL) {
                  std::cerr << "redis instance == null" << std::endl;
                 return -1;
             }
@@ -44,7 +44,7 @@ class Redis
         
         static sw::redis::OptionalString get(string key)
         {
-            if (redis == null) {
+            if (redis == NULL) {
                  std::cerr << "redis instance == null" << std::endl;
                 return -1;
             }
@@ -59,7 +59,7 @@ class Redis
 
         static bool hset(string hash, string field, string value)
         {
-            if (redis == null) {
+            if (redis == NULL) {
                  std::cerr << "redis instance == null" << std::endl;
                 return -1;
             }
