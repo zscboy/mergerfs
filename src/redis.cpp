@@ -1,22 +1,14 @@
-// #include "config.hpp"
-// #include <string>
 // #include <sw/redis++/redis++.h>
 #include "redis.hpp"
 #include <iostream>
 
-sw::redis::Redis Redis::redis
+sw::redis::Redis Redis::redis;
 
 using std::string;
-  Redis::Redis() {}
-  Redis::~Redis(){}
 
-//   Redis& getInstance()
-//   {
-//         static Redis instance; // Guaranteed to be destroyed.
-//                                 // Instantiated on first use.
-//         return instance;
-//   }
-          
+  Redis::Redis() {}
+  Redis::~Redis(){}  
+
   int Redis::init(string address)
     {
         if (address.empty())
