@@ -20,7 +20,7 @@ class Redis
             // string url = "tcp://" + address + "?socket_timeout=50ms&connect_timeout=1s"
             try {
                  auto instance = sw::redis::Redis(address);
-                 redis = &instance
+                 redis = &instance;
             }
             catch (const sw::redis::Error &e) {
                 std::cerr << " instance redis error " << e.what() << std::endl;
@@ -47,7 +47,7 @@ class Redis
         {
             if (redis == NULL) {
                  std::cerr << "redis instance == NULL" << std::endl;
-                return "";
+                return sw::redis::OptionalString();
             }
 
             try {
@@ -77,7 +77,7 @@ class Redis
         {
             if (redis == NULL) {
                  std::cerr << "redis instance == NULL" << std::endl;
-                return "";
+                return sw::redis::OptionalString();
             }
 
             try {

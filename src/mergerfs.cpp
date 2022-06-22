@@ -177,8 +177,8 @@ namespace l
        std::cerr << "init redis failed, please check !" << std::endl;
        return;
     }
-    
-    Redis::hset("file2disk", "/cache/abc", "/mnt/dir1")
+
+    Redis::hset("file2disk", "/cache/abc", "/mnt/dir1");
     return fuse_main(args.argc,
                      args.argv,
                      &ops);
