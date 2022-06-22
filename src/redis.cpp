@@ -2,7 +2,7 @@
 #include "redis.hpp"
 #include <iostream>
 
-sw::redis::Redis Redis::redis;
+auto Redis::redis;
 
 using std::string;
 

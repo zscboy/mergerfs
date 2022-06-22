@@ -5,7 +5,9 @@
 using std::string;
 class Redis
 {
-    public:    
+    public:
+        Redis();
+        ~Redis();
         static int init(string address);
         static bool set(string key, string value);
         static sw::redis::OptionalString get(string key);
