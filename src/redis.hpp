@@ -11,7 +11,7 @@ class Redis
     public:
         static int init(string address)
         {
-            if (address == NULL || address == "")
+            if (address.empty())
             {
                 std::cerr << "redis server address can not empty" << std::endl;
                 return -1;
