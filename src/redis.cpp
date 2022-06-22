@@ -4,7 +4,7 @@
 #include "redis.hpp"
 #include <iostream>
 
-sw::redis::Redis Redis::redis; 
+sw::redis::Redis* Redis::redis; 
 
 using std::string;
   Redis::Redis() {}
