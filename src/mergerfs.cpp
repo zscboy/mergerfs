@@ -75,9 +75,7 @@
 
 #include <string.h>
 
-#include <sw/redis++/redis++.h>
-
-using namespace sw::redis;
+#include "redis.hpp"
 
 
 namespace l
@@ -151,21 +149,6 @@ namespace l
     resources::setpriority(prio);
   }
 
-  void testredis(void)
-  {
-      try {
-        auto redis = Redis("tcp://127.0.0.1:6379");
-        redis.set("key", "val");
-        auto val = redis.get("key");    // val is of type OptionalString. See 'API Reference' section for details.
-        if (val) {
-            // Dereference val to get the returned value of std::string type.
-            std::cout << " get redis key " << *val << std::endl;
-        }   // else key doesn't exist.
-      
-      } catch (const Error &e) {
-        std::cout << " get redis key error " << e.what() << std::endl;
-     }
-  }
 
   int
   main(const int   argc_,
@@ -189,7 +172,8 @@ namespace l
     l::setup_resources();
     l::get_fuse_operations(ops,cfg->nullrw);
 
-    testredis();
+    Redis::init("tcp://127.0.0.1:6379");
+    Redis::hset("file2disk", "/cache/abc", "/mnt/dir1")
     return fuse_main(args.argc,
                      args.argv,
                      &ops);
