@@ -20,6 +20,6 @@ class Redis
         sw::redis::OptionalString hget(string hash, string field);
 
     private:
-        sw::redis::Redis *redis; 
+        sw::redis::Redis redis; 
 
 };

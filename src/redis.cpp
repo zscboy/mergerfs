@@ -27,8 +27,8 @@ using std::string;
 
         // string url = "tcp://" + address + "?socket_timeout=50ms&connect_timeout=1s"
         try {
-                auto instance = sw::redis::Redis(address);
-                redis = &instance;
+                redis = sw::redis::Redis(address);
+                // redis = &instance;
                 return 0;
         }
         catch (const sw::redis::Error &e) {
@@ -39,10 +39,10 @@ using std::string;
 
     bool Redis::set(string key, string value)
     {
-        if (redis == NULL) {
-                std::cerr << "redis instance == NULL" << std::endl;
-            return false;
-        }
+        // if (redis == NULL) {
+        //         std::cerr << "redis instance == NULL" << std::endl;
+        //     return false;
+        // }
 
         try {
             return redis->set(key, value);
@@ -56,10 +56,10 @@ using std::string;
 
     sw::redis::OptionalString Redis::get(string key)
     {
-        if (redis == NULL) {
-                std::cerr << "redis instance == NULL" << std::endl;
-            return sw::redis::OptionalString();
-        }
+        // if (redis == NULL) {
+        //         std::cerr << "redis instance == NULL" << std::endl;
+        //     return sw::redis::OptionalString();
+        // }
 
         try {
             return redis->get(key);
@@ -72,10 +72,10 @@ using std::string;
 
     bool Redis::hset(string hash, string field, string value)
     {
-        if (redis == NULL) {
-                std::cerr << "redis instance == NULL" << std::endl;
-            return false;
-        }
+        // if (redis == NULL) {
+        //     std::cerr << "redis instance == NULL" << std::endl;
+        //     return false;
+        // }
 
         try {
             return redis->hset(hash, field, field);
@@ -88,10 +88,10 @@ using std::string;
 
     sw::redis::OptionalString Redis::hget(string hash, string field)
     {
-        if (redis == NULL) {
-            std::cerr << "redis instance == NULL" << std::endl;
-            return sw::redis::OptionalString();
-        }
+        // if (redis == NULL) {
+        //     std::cerr << "redis instance == NULL" << std::endl;
+        //     return sw::redis::OptionalString();
+        // }
 
         try {
             return redis->hget(hash, field);
