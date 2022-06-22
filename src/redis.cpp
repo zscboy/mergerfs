@@ -4,6 +4,8 @@
 #include "redis.hpp"
 #include <iostream>
 
+sw::redis::Redis Redis::redis; 
+
 using std::string;
   Redis::Redis() {}
   Redis::~Redis(){}
@@ -69,7 +71,7 @@ using std::string;
         }
 
         try {
-            redis->hset(hash, field, field);
+            return redis->hset(hash, field, field);
         }
         catch (const sw::redis::Error &e) {
             std::cerr << " redis hset error " << e.what() << std::endl;
