@@ -91,7 +91,10 @@ TESTS_FLAGS = \
 LDFLAGS := \
     ${LDFLAGS} \
     -pthread \
-    -lrt
+    -lrt    \
+	-lredis++ \
+	-lhiredis
+
 
 DESTDIR       =
 PREFIX        = /usr/local
