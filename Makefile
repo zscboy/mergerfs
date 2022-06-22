@@ -81,9 +81,6 @@ FUSE_FLAGS = \
               -Ilibfuse/include \
               -D_FILE_OFFSET_BITS=64 \
               -DFUSE_USE_VERSION=29
-REDIS_FLAGS = \
-              -Iredis-plus-plus/src \
-			  -DREDIS_PLUS_PLUS_CXX_STANDARD=11
 MFS_FLAGS  = \
 	      -DUSE_XATTR=$(USE_XATTR) \
 	      -DUGID_USE_RWLOCK=$(UGID_USE_RWLOCK)
@@ -127,10 +124,10 @@ tests-objects:
 	$(MAKE) $(TESTS_OBJS)
 
 build/mergerfs: libfuse objects
-	$(CXX) $(CXXFLAGS) $(FUSE_FLAGS) $(REDIS_FLAGS) $(MFS_FLAGS) $(CPPFLAGS) $(OBJS) -o $@ libfuse/build/libfuse.a $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) $(FUSE_FLAGS) $(MFS_FLAGS) $(CPPFLAGS) $(OBJS) -o $@ libfuse/build/libfuse.a $(LDFLAGS)
 
 build/tests: build/mergerfs tests-objects
-	$(CXX) $(CXXFLAGS) $(TESTS_FLAGS) $(FUSE_FLAGS) $(REDIS_FLAGS) $(MFS_FLAGS) $(CPPFLAGS) $(TESTS_OBJS) -o $@ libfuse/build/libfuse.a $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) $(TESTS_FLAGS) $(FUSE_FLAGS) $(MFS_FLAGS) $(CPPFLAGS) $(TESTS_OBJS) -o $@ libfuse/build/libfuse.a $(LDFLAGS)
 
 mergerfs: build/mergerfs
 
