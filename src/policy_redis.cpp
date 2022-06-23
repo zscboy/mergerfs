@@ -61,7 +61,7 @@ namespace redis
         validpaths.push_back(branch.path);
     }
 
-    auto incr = Redis::incr(Redis::redis_incr_key)
+    auto incr = Redis::incr(Redis::redis_incr_key);
     const int index = incr % validpaths.size();
     const string basepath = validpaths[index];
     paths_->push_back(basepath);
@@ -96,7 +96,7 @@ namespace redis
     if (fs::isInCombinedir(fusedirpath, combindir)) {
       for(const auto &dir : combindir)
       {
-        string field = fs::make(dir, basename)
+        string field = fs::make(dir, basename);
         basepath = Redis::hget(Redis::redis_key, field);
         if (basepath) {
           std::cout << "Redis find basepath " << fusepath_ << " => " << *basepath << std::endl;
