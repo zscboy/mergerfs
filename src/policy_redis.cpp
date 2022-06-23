@@ -43,6 +43,8 @@ namespace redis
   {
     StrVec validpaths
     fs::info_t info;
+    int error;
+    int rv;
 
     for(const auto &branch : *branches_)
     {

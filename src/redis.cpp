@@ -3,6 +3,8 @@
 #include <iostream>
 
 sw::redis::Redis *Redis::redis;
+const string Redis::redis_key = "file2disk";
+const string Redis::redis_incr_key = "incr;
 
 using std::string;
 

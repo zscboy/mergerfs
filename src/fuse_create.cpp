@@ -146,7 +146,7 @@ namespace l
     string searchpath;
 
     fusedirpath = fs::path::dirname(fusepath_);
-    searchpath = fusedirpath
+    searchpath = fusedirpath;
     
     if (!combinedirs.empty()) {
       searchpath = fusepath_;

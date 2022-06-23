@@ -15,8 +15,8 @@ class Redis
         static sw::redis::OptionalString hget(string hash, string field);
         static long long incr(string key);
 
-        static const string redis_key = "file2disk";
-        static const redis_incr_key = "incr";
+        static const string redis_key;
+        static const redis_incr_key;
 
     private:
         static sw::redis::Redis *redis; 
