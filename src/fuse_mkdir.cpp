@@ -82,6 +82,11 @@ namespace l
 
     rv = l::mkdir_core(fullpath,mode_,umask_);
 
+    if (rv == 0)
+    {
+      Redis::hset(Redis::redis_key, fusepath_, createpath_);
+    }
+
     return error::calc(rv,error_,errno);
   }
 
@@ -109,11 +114,6 @@ namespace l
                                      mode_,
                                      umask_,
                                      error);
-
-        if (error == 0)
-        {
-          Redis::hset(Redis::redis_key, fusepath_, createpaths_[i]);
-        }
       }
 
     return -error;

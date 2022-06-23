@@ -13,7 +13,7 @@ using std::string;
       delete redis;
   }  
 
-  int Redis::init(string address)
+  int Redis::init(string &address)
     {
         if (address.empty())
         {
@@ -33,7 +33,7 @@ using std::string;
         }
     }
 
-    bool Redis::set(string key, string value)
+    bool Redis::set(string &key, string &value)
     {
         if (redis == NULL) {
                 std::cerr << "redis instance == NULL" << std::endl;
@@ -50,7 +50,7 @@ using std::string;
     }
 
 
-    sw::redis::OptionalString Redis::get(string key)
+    sw::redis::OptionalString Redis::get(string &key)
     {
         if (redis == NULL) {
                 std::cerr << "redis instance == NULL" << std::endl;
@@ -66,7 +66,7 @@ using std::string;
         }
     }
 
-    bool Redis::hset(string hash, string field, string value)
+    bool Redis::hset(string &hash, string &field, string &value)
     {
         if (redis == NULL) {
             std::cerr << "redis instance == NULL" << std::endl;
@@ -82,7 +82,7 @@ using std::string;
         }
     }
 
-    sw::redis::OptionalString Redis::hget(string hash, string field)
+    sw::redis::OptionalString Redis::hget(string &hash, string &field)
     {
         if (redis == NULL) {
             std::cerr << "redis instance == NULL" << std::endl;
@@ -98,7 +98,23 @@ using std::string;
         }
     }
 
-    long long Redis::incr(string key)
+    long long Redis::hdel(string &key, string &field)
+    {
+        if (redis == NULL) {
+            std::cerr << "redis instance == NULL" << std::endl;
+            return 0;
+        }
+
+        try {
+            return redis->hdel(key, field);
+        }
+        catch (const sw::redis::Error &e) {
+            std::cerr << " redis hdel error " << e.what() << std::endl;
+            return 0;
+        }
+    }
+
+    long long Redis::incr(string &key)
     {
         if (redis == NULL) {
             std::cerr << "redis instance == NULL" << std::endl;

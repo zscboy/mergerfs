@@ -27,6 +27,7 @@
 
 #include <unistd.h>
 #include <iostream>
+#include "redis.hpp"
 
 using std::string;
 using std::vector;
@@ -76,6 +77,10 @@ namespace l
     rv = fs::rmdir(fullpath);
     if(l::should_unlink(rv,errno,followsymlinks_))
       rv = fs::unlink(fullpath);
+
+    if (rv == 0) {
+      Redis::hdel(Redis::redis_key, fusepath_);
+    }
 
     return error::calc(rv,error_,errno);
   }
