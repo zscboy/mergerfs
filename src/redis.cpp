@@ -74,7 +74,7 @@ using std::string;
         }
 
         try {
-            return redis->hset(hash, field, field);
+            return redis->hset(hash, field, value);
         }
         catch (const sw::redis::Error &e) {
             std::cerr << " redis hset error " << e.what() << std::endl;
