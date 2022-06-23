@@ -150,28 +150,28 @@ namespace l
   }
   void println_policy_name(Config::Read &cfg)
   {
-    std::cout << "access " << cfg->func.access.policy << std::endl;
-    std::cout << "chmod " << cfg->func.chmod.policy << std::endl;
-    std::cout << "chown " << cfg->func.chown.policy << std::endl;
-    std::cout << "create " << cfg->func.create.policy << std::endl;
-    std::cout << "getattr " << cfg->func.getattr.policy << std::endl;
-    std::cout << "getxattr " << cfg->func.getxattr.policy << std::endl;
-    std::cout << "link " << cfg->func.link.policy << std::endl;
+    std::cout << "access " << cfg->func.access.policy.name() << std::endl;
+    std::cout << "chmod " << cfg->func.chmod.policy.name()  << std::endl;
+    std::cout << "chown " << cfg->func.chown.policy.name()  << std::endl;
+    std::cout << "create " << cfg->func.create.policy.name()  << std::endl;
+    std::cout << "getattr " << cfg->func.getattr.policy.name()  << std::endl;
+    std::cout << "getxattr " << cfg->func.getxattr.policy.name()  << std::endl;
+    std::cout << "link " << cfg->func.link.policy.name()  << std::endl;
 
-    std::cout << "listxattr " << cfg->func.listxattr.policy << std::endl;
-    std::cout << "mkdir " << cfg->func.mkdir.policy << std::endl;
-    std::cout << "mknod " << cfg->func.mknod.policy << std::endl;
-    std::cout << "open " << cfg->func.open.policy << std::endl;
-    std::cout << "readlink " << cfg->func.readlink.policy << std::endl;
-    std::cout << "removexattr " << cfg->func.removexattr.policy << std::endl;
+    std::cout << "listxattr " << cfg->func.listxattr.policy.name()  << std::endl;
+    std::cout << "mkdir " << cfg->func.mkdir.policy.name()  << std::endl;
+    std::cout << "mknod " << cfg->func.mknod.policy.name()  << std::endl;
+    std::cout << "open " << cfg->func.open.policy.name()  << std::endl;
+    std::cout << "readlink " << cfg->func.readlink.policy.name()  << std::endl;
+    std::cout << "removexattr " << cfg->func.removexattr.policy.name()  << std::endl;
 
-    std::cout << "rename " << cfg->func.rename.policy << std::endl;
-    std::cout << "rmdir " << cfg->func.rmdir.policy << std::endl;
-    std::cout << "setxattr " << cfg->func.setxattr.policy << std::endl;
-    std::cout << "symlink " << cfg->func.symlink.policy << std::endl;
-    std::cout << "truncate " << cfg->func.truncate.policy << std::endl;
-    std::cout << "unlink " << cfg->func.unlink.policy << std::endl;
-    std::cout << "utimens " << cfg->func.utimens.policy << std::endl;
+    std::cout << "rename " << cfg->func.rename.policy.name()  << std::endl;
+    std::cout << "rmdir " << cfg->func.rmdir.policy.name()  << std::endl;
+    std::cout << "setxattr " << cfg->func.setxattr.policy.name()  << std::endl;
+    std::cout << "symlink " << cfg->func.symlink.policy.name()  << std::endl;
+    std::cout << "truncate " << cfg->func.truncate.policy.name()  << std::endl;
+    std::cout << "unlink " << cfg->func.unlink.policy.name()  << std::endl;
+    std::cout << "utimens " << cfg->func.utimens.policy.name()  << std::endl;
   }
 
   int
