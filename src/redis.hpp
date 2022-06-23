@@ -14,6 +14,7 @@ class Redis
         static bool hset(string hash, string field, string value);
         static sw::redis::OptionalString hget(string hash, string field);
         static long long incr(string key);
+        static long long hdel(string &key, string &field);
 
         static const string redis_key;
         static const string redis_incr_key;
