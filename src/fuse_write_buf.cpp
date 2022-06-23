@@ -27,7 +27,6 @@
 
 #include <stdlib.h>
 #include <unistd.h>
-#include <iostream>
 
 using std::string;
 using std::vector;
@@ -92,7 +91,6 @@ namespace FUSE
             fuse_bufvec            *src_,
             off_t                   offset_)
   {
-    std::cout << "fuse_write_buf::write_buf" << std::endl;
     int rv;
     FileInfo *fi = reinterpret_cast<FileInfo*>(ffi_->fh);
 
@@ -108,7 +106,6 @@ namespace FUSE
                  fuse_bufvec            *src_,
                  off_t                   offset_)
   {
-    std::cout << "fuse_write_buf::write_buf_null"  << std::endl;
     return src_->buf[0].size;
   }
 }

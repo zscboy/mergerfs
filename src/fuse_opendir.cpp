@@ -18,7 +18,6 @@
 #include "dirinfo.hpp"
 
 #include "fuse.h"
-#include <iostream>
 
 
 namespace FUSE
@@ -27,7 +26,6 @@ namespace FUSE
   opendir(const char       *fusepath_,
           fuse_file_info_t *ffi_)
   {
-        std::cout << "fuse_opendir::opendir, fusepath_" << fusepath_ << std::endl;
     Config::Read cfg;
 
     ffi_->fh = reinterpret_cast<uint64_t>(new DirInfo(fusepath_));

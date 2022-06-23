@@ -21,7 +21,6 @@
 #include "fuse.h"
 
 #include <stdio.h>
-#include <iostream>
 
 
 namespace l
@@ -58,7 +57,6 @@ namespace FUSE
                   size_t                  size_,
                   int                     flags_)
   {
-    std::cout << "fuse_copy_file_range::copy_file_range" << std::endl;
     FileInfo *fi_in  = reinterpret_cast<FileInfo*>(ffi_in_->fh);
     FileInfo *fi_out = reinterpret_cast<FileInfo*>(ffi_out_->fh);
 

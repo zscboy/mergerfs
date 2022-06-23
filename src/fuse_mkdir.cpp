@@ -165,7 +165,7 @@ namespace FUSE
   mkdir(const char *fusepath_,
         mode_t      mode_)
   {
-        std::cout << "fuse_mkdir::mkdir, fusepath_" << fusepath_ << std::endl;
+        // std::cout << "fuse_mkdir::mkdir, fusepath_" << fusepath_ << std::endl;
     Config::Read cfg;
     const fuse_context *fc = fuse_get_context();
     const ugid::Set     ugid(fc->uid,fc->gid);

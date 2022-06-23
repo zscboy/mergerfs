@@ -104,7 +104,7 @@ namespace fs
         char back = *path.rbegin();
         if (back == '/') {
           path = path.substr(0, path.size()-1);
-          std::cout << " isInCombinedir combinedir path " << path << " dirpath " << dirpath << std::endl;
+          // std::cout << " isInCombinedir combinedir path " << path << " dirpath " << dirpath << std::endl;
         }
 
         if (path == dirpath) {

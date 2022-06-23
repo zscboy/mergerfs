@@ -21,7 +21,6 @@
 #include "fs_inode.hpp"
 
 #include "fuse.h"
-#include <iostream>
 
 
 namespace l
@@ -51,7 +50,6 @@ namespace FUSE
            struct stat            *st_,
            fuse_timeouts_t        *timeout_)
   {
-    std::cout << "fuse_fgetattr::fgetattr" << std::endl;
     int rv;
     Config::Read cfg;
     FileInfo *fi = reinterpret_cast<FileInfo*>(ffi_->fh);

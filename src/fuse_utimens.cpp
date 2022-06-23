@@ -26,7 +26,6 @@
 #include <string>
 
 #include <fcntl.h>
-#include <iostream>
 
 using std::string;
 
@@ -120,7 +119,6 @@ namespace FUSE
   utimens(const char     *fusepath_,
           const timespec  ts_[2])
   {
-    std::cout << "fuse_utimens::utimens, fusepath_" << fusepath_ << std::endl;
     Config::Read cfg;
     const fuse_context *fc = fuse_get_context();
     const ugid::Set     ugid(fc->uid,fc->gid);

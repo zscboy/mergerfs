@@ -22,7 +22,6 @@
 
 #include <string>
 #include <vector>
-#include <iostream>
 
 using std::string;
 using std::vector;
@@ -59,7 +58,6 @@ namespace FUSE
   access(const char *fusepath_,
          int         mask_)
   {
-    std::cout << "fuse_access::access, fusepath_" << fusepath_ << std::endl;
     Config::Read cfg;
     const fuse_context *fc  = fuse_get_context();
     const ugid::Set     ugid(fc->uid,fc->gid);

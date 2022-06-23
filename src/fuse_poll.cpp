@@ -19,7 +19,6 @@
 #include "errno.hpp"
 
 #include "fuse.h"
-#include <iostream>
 
 
 namespace FUSE
@@ -29,7 +28,6 @@ namespace FUSE
        fuse_pollhandle_t      *ph_,
        unsigned               *reventsp_)
   {
-        std::cout << "fuse_poll::poll " << std::endl;
     (void)ffi_;
     (void)ph_;
     (void)reventsp_;

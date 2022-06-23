@@ -25,7 +25,6 @@
 #include "fuse.h"
 
 #include <string.h>
-#include <iostream>
 
 using std::string;
 
@@ -120,7 +119,6 @@ namespace FUSE
            char       *buf_,
            size_t      size_)
   {
-    std::cout << "fuse_readlink::readlink, fusepath_" << fusepath_ << std::endl;
     Config::Read cfg;
     const fuse_context *fc = fuse_get_context();
     const ugid::Set     ugid(fc->uid,fc->gid);

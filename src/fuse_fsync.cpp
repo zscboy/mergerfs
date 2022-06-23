@@ -23,7 +23,6 @@
 
 #include <string>
 #include <vector>
-#include <iostream>
 
 
 namespace l
@@ -49,7 +48,6 @@ namespace FUSE
   fsync(const fuse_file_info_t *ffi_,
         int                     isdatasync_)
   {
-    std::cout << "fuse_fsync::fsync" << std::endl;
     FileInfo *fi = reinterpret_cast<FileInfo*>(ffi_->fh);
 
     return l::fsync(fi->fd,isdatasync_);

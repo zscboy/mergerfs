@@ -19,7 +19,6 @@
 #include "fs_flock.hpp"
 
 #include "fuse.h"
-#include <iostream>
 
 
 namespace l
@@ -43,7 +42,6 @@ namespace FUSE
   flock(const fuse_file_info_t *ffi_,
         int                     op_)
   {
-    std::cout << "fuse_flock::flock"  << std::endl;
     FileInfo* fi = reinterpret_cast<FileInfo*>(ffi_->fh);
 
     return l::flock(fi->fd,op_);

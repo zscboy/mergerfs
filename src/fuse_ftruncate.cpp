@@ -19,7 +19,6 @@
 #include "fs_ftruncate.hpp"
 
 #include "fuse.h"
-#include <iostream>
 
 
 namespace l
@@ -43,7 +42,6 @@ namespace FUSE
   ftruncate(const fuse_file_info_t *ffi_,
             off_t                   size_)
   {
-    std::cout << "fuse_ftruncate::ftruncate" << std::endl;
     FileInfo *fi = reinterpret_cast<FileInfo*>(ffi_->fh);
 
     return l::ftruncate(fi->fd,size_);

@@ -26,7 +26,6 @@
 
 #include <string>
 #include <vector>
-#include <iostream>
 
 using std::string;
 using std::vector;
@@ -153,7 +152,6 @@ namespace FUSE
         mode_t      mode_,
         dev_t       rdev_)
   {
-    std::cout << "fuse_mknod::mknod, fusepath_" << fusepath_ << std::endl;
     Config::Read cfg;
     const fuse_context *fc = fuse_get_context();
     const ugid::Set     ugid(fc->uid,fc->gid);

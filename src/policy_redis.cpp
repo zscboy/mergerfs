@@ -75,11 +75,11 @@ namespace redis
          const char           *fusepath_,
          StrVec               *paths_)
   {
-    std::cout << "policy_redis::create, fusepath_" << fusepath_ << std::endl;
+    // std::cout << "policy_redis::create, fusepath_" << fusepath_ << std::endl;
     Config::Read cfg;
     auto basepath = Redis::hget(Redis::redis_key, fusepath_);
     if (basepath) {
-      std::cout << "Redis find basepath " << fusepath_ << " => " << *basepath << std::endl;
+      // std::cout << "Redis find basepath " << fusepath_ << " => " << *basepath << std::endl;
       paths_->push_back(*basepath);
       return 0;
     }
@@ -100,7 +100,7 @@ namespace redis
         string field = fs::make(dir, basename);
         basepath = Redis::hget(Redis::redis_key, field);
         if (basepath) {
-          std::cout << "Redis find basepath " << fusepath_ << " => " << *basepath << std::endl;
+          // std::cout << "Redis find basepath " << fusepath_ << " => " << *basepath << std::endl;
           paths_->push_back(*basepath);
           return 0;
         }
@@ -113,7 +113,7 @@ namespace redis
 
     basepath = Redis::hget(Redis::redis_key, fusedirpath);
     if (basepath) {
-      std::cout << "Redis find basepath " << fusepath_ << " => " << *basepath << std::endl;
+      // std::cout << "Redis find basepath " << fusepath_ << " => " << *basepath << std::endl;
       paths_->push_back(*basepath);
       return 0;
     }
@@ -170,11 +170,11 @@ namespace redis
          const char           *fusepath_,
          StrVec               *paths_)
   {
-    std::cout << "policy_redis::search, fusepath_" << fusepath_ << std::endl;
+    // std::cout << "policy_redis::search, fusepath_" << fusepath_ << std::endl;
     Config::Read cfg;
     auto basepath = Redis::hget(Redis::redis_key, fusepath_);
     if (basepath) {
-      std::cout << "Redis find basepath " << fusepath_ << " => " << *basepath << std::endl;
+      // std::cout << "Redis find basepath " << fusepath_ << " => " << *basepath << std::endl;
       paths_->push_back(*basepath);
       return 0;
     }
@@ -195,7 +195,7 @@ namespace redis
         string field = fs::make(dir, basename);
         basepath = Redis::hget(Redis::redis_key, field);
         if (basepath) {
-          std::cout << "Redis find basepath " << fusepath_ << " => " << *basepath << std::endl;
+          // std::cout << "Redis find basepath " << field << " => " << *basepath << std::endl;
           paths_->push_back(*basepath);
           return 0;
         }
@@ -208,7 +208,7 @@ namespace redis
 
     basepath = Redis::hget(Redis::redis_key, fusedirpath);
     if (basepath) {
-      std::cout << "Redis find basepath " << fusepath_ << " => " << *basepath << std::endl;
+      // std::cout << "Redis find basepath " << fusepath_ << " => " << *basepath << std::endl;
       paths_->push_back(*basepath);
       return 0;
     }

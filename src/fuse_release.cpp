@@ -23,7 +23,6 @@
 #include "fuse.h"
 
 #include <string>
-#include <iostream>
 
 
 namespace l
@@ -54,7 +53,6 @@ namespace FUSE
   int
   release(const fuse_file_info_t *ffi_)
   {
-    std::cout << "fuse_release::release "  << std::endl;
     Config::Read cfg;
     FileInfo *fi = reinterpret_cast<FileInfo*>(ffi_->fh);
 

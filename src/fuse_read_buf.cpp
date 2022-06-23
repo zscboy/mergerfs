@@ -61,7 +61,6 @@ namespace FUSE
            size_t                   size_,
            off_t                    offset_)
   {
-        std::cout << "fuse_read_buf::read_buf " << std::endl;
     FileInfo *fi = reinterpret_cast<FileInfo*>(ffi_->fh);
 
     return l::read_buf(fi->fd,
@@ -76,7 +75,6 @@ namespace FUSE
                 size_t                   size_,
                 off_t                    offset_)
   {
-        std::cout << "fuse_read_buf_null::read_buf_null " << std::endl;
     void *mem;
     struct fuse_bufvec *buf;
 

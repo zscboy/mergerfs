@@ -30,7 +30,6 @@
 
 #include <string>
 #include <vector>
-#include <iostream>
 
 using std::string;
 using std::vector;
@@ -206,7 +205,6 @@ namespace FUSE
   open(const char       *fusepath_,
        fuse_file_info_t *ffi_)
   {
-        std::cout << "fuse_open::open, fusepath_" << fusepath_ << std::endl;
     Config::Read cfg;
     const fuse_context *fc  = fuse_get_context();
     const ugid::Set     ugid(fc->uid,fc->gid);

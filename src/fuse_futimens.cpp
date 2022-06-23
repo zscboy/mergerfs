@@ -21,7 +21,6 @@
 #include "fuse.h"
 
 #include <sys/stat.h>
-#include <iostream>
 
 
 namespace l
@@ -47,7 +46,6 @@ namespace FUSE
   futimens(const fuse_file_info_t *ffi_,
            const struct timespec   ts_[2])
   {
-    std::cout << "fuse_futimens::futimens " << std::endl;
     FileInfo *fi = reinterpret_cast<FileInfo*>(ffi_->fh);
 
     return l::futimens(fi->fd,ts_);
