@@ -95,3 +95,19 @@ using std::string;
             return sw::redis::OptionalString();;
         }
     }
+
+    long long Redis::incr(string key)
+    {
+        if (redis == NULL) {
+            std::cerr << "redis instance == NULL" << std::endl;
+            return 0;
+        }
+
+        try {
+            return redis->incr(key);
+        }
+        catch (const sw::redis::Error &e) {
+            std::cerr << " redis hget error " << e.what() << std::endl;
+            return 0;
+        }
+    }

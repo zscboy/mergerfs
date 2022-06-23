@@ -29,6 +29,7 @@ using std::stringstream;
 namespace fs
 {
   static
+  inline
   void 
   combinedir(const Branches::CPtr &branches_,
              const char           *fusepath_,
@@ -74,6 +75,7 @@ namespace fs
   }
 
   static
+  inline
   StrVec 
   string2Vec(const string combinedirs)
   {
@@ -89,5 +91,44 @@ namespace fs
  
     return dirs;
   }
+
+  static
+  inline
+  bool 
+  isInCombinedir(const string &dirpath,  const StrVec &combinedirs_)
+  {
+      for(const auto &dir : combinedirs_)
+      {
+        string path = dir;
+        char back = *path.rbegin();
+        if (back == '/') {
+          string path = dir.substr(0, dir.size());
+          std::cout << " path " << path << std::endl;
+        }
+
+        if (path == dirpath) {
+          return true;
+        }
+      }
+
+      return false;
+  }
+
+  static
+  inline
+  std::string
+  make(const string &base_, const string &suffix_)
+  {
+    char back;
+    std::string path(base_);
+
+    back = *path.rbegin();
+    if((back != '/') && (suffix_[0] != '/'))
+      path.push_back('/');
+    path += suffix_;
+
+    return path;
+  }
+
 
 }

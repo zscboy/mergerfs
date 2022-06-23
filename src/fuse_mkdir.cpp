@@ -126,33 +126,24 @@ namespace l
     string fusedirpath;
     StrVec createpaths;
     StrVec existingpaths;
+    string fusepath;
 
-    std::cout << "mkdir combinedirs " << combinedirs << " fusepath_ " << fusepath_ <<  std::endl;
     fusedirpath = fs::path::dirname(fusepath_);
+    fusepath = fusedirpath;
 
-    StrVec dirs = fs::string2Vec(combinedirs);
-    fs::combinedir(branches_, fusepath_, dirs, &createpaths);
-
-    std::cout << "createpaths size " << createpaths.size() <<  std::endl;
-    if (createpaths.size() > 0)
+    if (!combinedirs.empty())
     {
-      std::cout << "createpaths 0 " << createpaths[0] <<  std::endl;
+      fusepath = fusepath_;
     }
 
-    if (createpaths.size() == 0) 
-    {
-      int rv;
-      rv = getattrPolicy_(branches_,fusedirpath.c_str(),&existingpaths);
-      if(rv == -1)
-        return -errno;
+    int rv;
+    rv = getattrPolicy_(branches_,fusepath.c_str(),&existingpaths);
+    if(rv == -1)
+      return -errno;
 
-      rv = mkdirPolicy_(branches_,fusedirpath.c_str(),&createpaths);
-      if(rv == -1)
-        return -errno;
-    } 
-    else {
-      existingpaths.push_back(createpaths[0]);
-    }
+    rv = mkdirPolicy_(branches_,fusepath.c_str(),&createpaths);
+    if(rv == -1)
+      return -errno;
 
     return l::mkdir_loop(existingpaths[0],
                          createpaths,

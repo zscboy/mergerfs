@@ -143,32 +143,26 @@ namespace l
     string fusedirpath;
     StrVec createpaths;
     StrVec existingpaths;
-    std::cout << "create combinedirs " << combinedirs << " fusepath_ " << fusepath_ <<  std::endl;
+    string searchpath;
+
     fusedirpath = fs::path::dirname(fusepath_);
-
-    StrVec dirs = fs::string2Vec(combinedirs);
-    fs::combinedir(branches_, fusepath_, dirs, &createpaths);
-
-    std::cout << "createpaths size " << createpaths.size() <<  std::endl;
-    if (createpaths.size() > 0)
-    {
-      std::cout << "createpaths 0 " << createpaths[0] <<  std::endl;
+    searchpath = fusedirpath
+    
+    if (!combinedirs.empty()) {
+      searchpath = fusepath_;
     }
     
-    if (createpaths.size() == 0) 
-    {
-      rv = searchFunc_(branches_,fusedirpath,&existingpaths);
-      if(rv == -1)
-        return -errno;
+    rv = searchFunc_(branches_,searchpath,&existingpaths);
+    if(rv == -1)
+      return -errno;
 
-      rv = createFunc_(branches_,fusedirpath,&createpaths);
-      if(rv == -1)
-        return -errno;
+    rv = createFunc_(branches_,searchpath,&createpaths);
+    if(rv == -1)
+      return -errno;
 
-      rv = fs::clonepath_as_root(existingpaths[0],createpaths[0],fusedirpath);
-      if(rv == -1)
-        return -errno;
-    }
+    rv = fs::clonepath_as_root(existingpaths[0],createpaths[0],fusedirpath);
+    if(rv == -1)
+      return -errno;
 
     return l::create_core(createpaths[0],
                           fusepath_,

@@ -25,6 +25,9 @@
 
 #include <limits>
 #include <string>
+#include "redis.hpp"
+#include "config.hpp"
+#include "fs_combine_dir.hpp"
 
 
 using std::string;
@@ -38,40 +41,54 @@ namespace redis
          const char           *fusepath_,
          StrVec               *paths_)
   {
-    int rv;
-    int error;
-    uint64_t epmfs;
-    fs::info_t info;
-    const string *basepath;
+    Config::Read cfg;
+    auto basepath = Redis::hget(Redis::redis_key, fusepath_);
+    if (basepath) {
+      std::cout << "Redis find basepath " << fusepath_ << " => " << *basepath << std::endl;
+      paths_->push_back(*basepath);
+      return 0;
+    }
 
-    error = ENOENT;
-    epmfs = std::numeric_limits<uint64_t>::min();
-    basepath = NULL;
-    for(const auto &branch : *branches_)
+    if (!cfg->combinedirs)
+    {
+      std::cerr << "cfg->combinedirs == null" << std::endl;
+      return -1;
+    }
+
+    string fusedirpath = fs::path::dirname(fusepath_);
+    string basename = fs::path::basename(fusepath_);
+    StrVec combindir = fs::string2Vec(cfg->combinedirs);
+
+    if (fs::isInCombinedir(fusedirpath, combindir)) {
+      for(const auto &dir : combindir)
       {
-        if(branch.ro_or_nc())
-          error_and_continue(error,EROFS);
-        if(!fs::exists(branch.path,fusepath_))
-          error_and_continue(error,ENOENT);
-        rv = fs::info(branch.path,&info);
-        if(rv == -1)
-          error_and_continue(error,ENOENT);
-        if(info.readonly)
-          error_and_continue(error,EROFS);
-        if(info.spaceavail < branch.minfreespace())
-          error_and_continue(error,ENOSPC);
-        if(info.spaceavail < epmfs)
-          continue;
-
-        epmfs = info.spaceavail;
-        basepath = &branch.path;
+        string field = fs::make(dir, basename)
+        basepath = Redis::hget(Redis::redis_key, field);
+        if (basepath) {
+          std::cout << "Redis find basepath " << fusepath_ << " => " << *basepath << std::endl;
+          paths_->push_back(*basepath);
+          return 0;
+        }
       }
 
-    if(basepath == NULL)
-      return (errno=error,-1);
+      // 均匀落盘
+      auto incr = Redis::incr(Redis::redis_incr_key)
+      int index = incr % branches_->size();
+      paths_->push_back((*branches_)[index].path);
+      return 0;
+    }
 
-    paths_->push_back(*basepath);
+    basepath = Redis::hget(Redis::redis_key, fusedirpath);
+    if (basepath) {
+      std::cout << "Redis find basepath " << fusepath_ << " => " << *basepath << std::endl;
+      paths_->push_back(*basepath);
+      return 0;
+    }
 
+    // 均匀落盘
+    auto incr = Redis::incr(Redis::redis_incr_key)
+    int index = incr % branches_->size();
+    paths_->push_back((*branches_)[index].path);
     return 0;
   }
 
@@ -122,32 +139,54 @@ namespace redis
          const char           *fusepath_,
          StrVec               *paths_)
   {
-    int rv;
-    uint64_t epmfs;
-    uint64_t spaceavail;
-    const string *basepath;
+    Config::Read cfg;
+    auto basepath = Redis::hget(Redis::redis_key, fusepath_);
+    if (basepath) {
+      std::cout << "Redis find basepath " << fusepath_ << " => " << *basepath << std::endl;
+      paths_->push_back(*basepath);
+      return 0;
+    }
 
-    epmfs = 0;
-    basepath = NULL;
-    for(const auto &branch : *branches_)
+    if (!cfg->combinedirs)
+    {
+      std::cerr << "cfg->combinedirs == null" << std::endl;
+      return -1;
+    }
+
+    string fusedirpath = fs::path::dirname(fusepath_);
+    string basename = fs::path::basename(fusepath_);
+    StrVec combindir = fs::string2Vec(cfg->combinedirs);
+
+    if (fs::isInCombinedir(fusedirpath, combindir)) {
+      for(const auto &dir : combindir)
       {
-        if(!fs::exists(branch.path,fusepath_))
-          continue;
-        rv = fs::statvfs_cache_spaceavail(branch.path,&spaceavail);
-        if(rv == -1)
-          continue;
-        if(spaceavail < epmfs)
-          continue;
-
-        epmfs = spaceavail;
-        basepath = &branch.path;
+        string field = fs::make(dir, basename)
+        basepath = Redis::hget(Redis::redis_key, field);
+        if (basepath) {
+          std::cout << "Redis find basepath " << fusepath_ << " => " << *basepath << std::endl;
+          paths_->push_back(*basepath);
+          return 0;
+        }
       }
 
-    if(basepath == NULL)
-      return (errno=ENOENT,-1);
+      // 均匀落盘
+      auto incr = Redis::incr(Redis::redis_incr_key)
+      int index = incr % branches_->size();
+      paths_->push_back((*branches_)[index].path);
+      return 0;
+    }
 
-    paths_->push_back(*basepath);
+    basepath = Redis::hget(Redis::redis_key, fusedirpath);
+    if (basepath) {
+      std::cout << "Redis find basepath " << fusepath_ << " => " << *basepath << std::endl;
+      paths_->push_back(*basepath);
+      return 0;
+    }
 
+    // 均匀落盘
+    auto incr = Redis::incr(Redis::redis_incr_key)
+    int index = incr % branches_->size();
+    paths_->push_back((*branches_)[index].path);
     return 0;
   }
 }
