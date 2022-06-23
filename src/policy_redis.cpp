@@ -41,7 +41,7 @@ namespace redis
   int
   search_uniform_path(const Branches::CPtr &branches_, StrVec  *paths_)
   {
-    StrVec validpaths
+    StrVec validpaths;
     fs::info_t info;
     int error;
     int rv;
@@ -82,11 +82,11 @@ namespace redis
       return 0;
     }
 
-    if (cfg->combinedirs.empty())
-    {
-      std::cerr << "cfg->combinedirs == null" << std::endl;
-      return -1;
-    }
+    // if (cfg->combinedirs.empty())
+    // {
+    //   std::cerr << "cfg->combinedirs == null" << std::endl;
+    //   return -1;
+    // }
 
     string fusedirpath = fs::path::dirname(fusepath_);
     string basename = fs::path::basename(fusepath_);
@@ -176,11 +176,11 @@ namespace redis
       return 0;
     }
 
-    if (cfg->combinedirs.empty())
-    {
-      std::cerr << "cfg->combinedirs == null" << std::endl;
-      return -1;
-    }
+    // if (cfg->combinedirs.empty())
+    // {
+    //   std::cerr << "cfg->combinedirs == null" << std::endl;
+    //   return -1;
+    // }
 
     string fusedirpath = fs::path::dirname(fusepath_);
     string basename = fs::path::basename(fusepath_);
