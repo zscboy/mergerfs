@@ -107,7 +107,7 @@ using std::string;
             return redis->incr(key);
         }
         catch (const sw::redis::Error &e) {
-            std::cerr << " redis hget error " << e.what() << std::endl;
+            std::cerr << " redis incr error " << e.what() << std::endl;
             return 0;
         }
     }

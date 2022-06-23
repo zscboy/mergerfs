@@ -29,12 +29,43 @@
 #include "config.hpp"
 #include "fs_combine_dir.hpp"
 
+#include <iostream>
+
 
 using std::string;
 
 
 namespace redis
 {
+  static
+  int
+  search_uniform_path(const Branches::CPtr &branches_, StrVec  *paths_)
+  {
+    StrVec validpaths
+    fs::info_t info;
+
+    for(const auto &branch : *branches_)
+    {
+        if(branch.ro_or_nc())
+          error_and_continue(error,EROFS);
+        rv = fs::info(branch.path,&info);
+        if(rv == -1)
+          error_and_continue(error,ENOENT);
+        if(info.readonly)
+          error_and_continue(error,EROFS);
+        if(info.spaceavail < branch.minfreespace())
+          error_and_continue(error,ENOSPC);
+
+        validpaths.push_back(branch.path);
+    }
+
+    auto incr = Redis::incr(Redis::redis_incr_key)
+    int index = incr % validpaths.size();
+    paths_->push_back(validpaths[index]);
+
+    return 0;
+  }
+
   static
   int
   create(const Branches::CPtr &branches_,
@@ -49,7 +80,7 @@ namespace redis
       return 0;
     }
 
-    if (!cfg->combinedirs)
+    if (cfg->combinedirs.empty())
     {
       std::cerr << "cfg->combinedirs == null" << std::endl;
       return -1;
@@ -72,9 +103,7 @@ namespace redis
       }
 
       // 均匀落盘
-      auto incr = Redis::incr(Redis::redis_incr_key)
-      int index = incr % branches_->size();
-      paths_->push_back((*branches_)[index].path);
+      ::redis::search_uniform_path(branches_, paths_);
       return 0;
     }
 
@@ -86,9 +115,7 @@ namespace redis
     }
 
     // 均匀落盘
-    auto incr = Redis::incr(Redis::redis_incr_key)
-    int index = incr % branches_->size();
-    paths_->push_back((*branches_)[index].path);
+    ::redis::search_uniform_path(branches_, paths_);
     return 0;
   }
 
@@ -147,7 +174,7 @@ namespace redis
       return 0;
     }
 
-    if (!cfg->combinedirs)
+    if (cfg->combinedirs.empty())
     {
       std::cerr << "cfg->combinedirs == null" << std::endl;
       return -1;
@@ -160,7 +187,7 @@ namespace redis
     if (fs::isInCombinedir(fusedirpath, combindir)) {
       for(const auto &dir : combindir)
       {
-        string field = fs::make(dir, basename)
+        string field = fs::make(dir, basename);
         basepath = Redis::hget(Redis::redis_key, field);
         if (basepath) {
           std::cout << "Redis find basepath " << fusepath_ << " => " << *basepath << std::endl;
@@ -170,9 +197,7 @@ namespace redis
       }
 
       // 均匀落盘
-      auto incr = Redis::incr(Redis::redis_incr_key)
-      int index = incr % branches_->size();
-      paths_->push_back((*branches_)[index].path);
+      ::redis::search_uniform_path(branches_, paths_);
       return 0;
     }
 
@@ -184,9 +209,7 @@ namespace redis
     }
 
     // 均匀落盘
-    auto incr = Redis::incr(Redis::redis_incr_key)
-    int index = incr % branches_->size();
-    paths_->push_back((*branches_)[index].path);
+    ::redis::search_uniform_path(branches_, paths_);
     return 0;
   }
 }
