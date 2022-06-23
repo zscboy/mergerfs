@@ -32,6 +32,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <iostream>
 
 static const char SECURITY_CAPABILITY[] = "security.capability";
 
@@ -200,6 +201,8 @@ namespace FUSE
            char       *buf_,
            size_t      count_)
   {
+
+    std::cout << "fuse_getxattr::getxattr, fusepath_" << fusepath_ << std::endl;
     Config::Read cfg;
 
     if(fusepath_ == CONTROLFILE)

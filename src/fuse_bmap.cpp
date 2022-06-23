@@ -21,8 +21,7 @@
 #include <cstdint>
 
 #include <stddef.h>
-
-
+#include <iostream>
 namespace FUSE
 {
   int
@@ -30,6 +29,7 @@ namespace FUSE
        size_t      blocksize_,
        uint64_t   *idx_)
   {
+    std::cout << "fuse_bmap::bmap, fusepath_" << fusepath_ << std::endl;
     (void)fusepath_;
     (void)blocksize_;
     (void)idx_;

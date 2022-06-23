@@ -18,6 +18,7 @@
 #include "ugid.hpp"
 
 #include "fuse.h"
+#include <iostream>
 
 
 namespace l
@@ -84,6 +85,7 @@ namespace FUSE
   void *
   init(fuse_conn_info *conn_)
   {
+        std::cout << "fuse_init::init" << std::endl;
     Config::Write cfg;
 
     ugid::init();

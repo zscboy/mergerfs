@@ -22,6 +22,7 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
 
 
 namespace l
@@ -46,6 +47,7 @@ namespace FUSE
   fsyncdir(const fuse_file_info_t *ffi_,
            int                     isdatasync_)
   {
+    std::cout << "fuse_fsyncdir::fsyncdir " << std::endl;
     DirInfo *di = reinterpret_cast<DirInfo*>(ffi_->fh);
 
     return l::fsyncdir(di,isdatasync_);

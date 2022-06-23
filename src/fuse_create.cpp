@@ -29,6 +29,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include "redis.hpp"
 
 using std::string;
 using std::vector;
@@ -121,6 +122,7 @@ namespace l
     if(rv == -1)
       return -errno;
 
+    Redis::hset(Redis::redis_key, fusepath_, createpath_)
     *fh_ = reinterpret_cast<uint64_t>(new FileInfo(rv,fusepath_));
 
     return 0;
@@ -180,6 +182,7 @@ namespace FUSE
          mode_t            mode_,
          fuse_file_info_t *ffi_)
   {
+    std::cout << "fuse_create::create, fusepath_" << fusepath_ << std::endl;
     Config::Read cfg;
     const fuse_context *fc = fuse_get_context();
     const ugid::Set     ugid(fc->uid,fc->gid);

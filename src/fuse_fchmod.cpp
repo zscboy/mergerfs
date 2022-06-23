@@ -19,6 +19,7 @@
 #include "fs_fchmod.hpp"
 
 #include "fuse.h"
+#include <iostream>
 
 
 namespace l
@@ -44,6 +45,7 @@ namespace FUSE
   fchmod(const fuse_file_info_t *ffi_,
          const mode_t            mode_)
   {
+    std::cout << "fuse_fchmod::fchmod"  << std::endl;
     FileInfo *fi = reinterpret_cast<FileInfo*>(ffi_->fh);
 
     return l::fchmod(fi->fd,mode_);

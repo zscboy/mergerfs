@@ -25,6 +25,7 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
 
 using std::string;
 using std::vector;
@@ -123,6 +124,7 @@ namespace FUSE
         uid_t       uid_,
         gid_t       gid_)
   {
+    std::cout << "fuse_chown::chown, fusepath_" << fusepath_ << std::endl;
     Config::Read        cfg;
     const fuse_context *fc  = fuse_get_context();
     const ugid::Set     ugid(fc->uid,fc->gid);

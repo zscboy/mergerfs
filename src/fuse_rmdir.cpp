@@ -26,6 +26,7 @@
 #include <string>
 
 #include <unistd.h>
+#include <iostream>
 
 using std::string;
 using std::vector;
@@ -119,6 +120,7 @@ namespace FUSE
   int
   rmdir(const char *fusepath_)
   {
+    std::cout << "fuse_rmdir::rmdir, fusepath_" << fusepath_ << std::endl;
     Config::Read cfg;
     const fuse_context *fc = fuse_get_context();
     const ugid::Set     ugid(fc->uid,fc->gid);

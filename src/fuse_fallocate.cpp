@@ -19,6 +19,7 @@
 #include "fs_fallocate.hpp"
 
 #include "fuse.h"
+#include <iostream>
 
 
 namespace l
@@ -46,6 +47,7 @@ namespace FUSE
             off_t                   offset_,
             off_t                   len_)
   {
+    std::cout << "fuse_fallocate::fallocate " << std::endl;
     FileInfo *fi = reinterpret_cast<FileInfo*>(ffi_->fh);
 
     return l::fallocate(fi->fd,

@@ -27,6 +27,7 @@
 
 #include <sys/types.h>
 #include <unistd.h>
+#include <iostream>
 
 using std::string;
 
@@ -120,6 +121,7 @@ namespace FUSE
   truncate(const char *fusepath_,
            off_t       size_)
   {
+    std::cout << "fuse_truncate::truncate, fusepath_" << fusepath_ << std::endl;
     Config::Read cfg;
     const fuse_context *fc = fuse_get_context();
     const ugid::Set     ugid(fc->uid,fc->gid);

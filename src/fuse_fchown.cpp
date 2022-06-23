@@ -21,6 +21,7 @@
 #include "fuse.h"
 
 #include <unistd.h>
+#include <iostream>
 
 
 namespace l
@@ -48,6 +49,7 @@ namespace FUSE
          const uid_t             uid_,
          const gid_t             gid_)
   {
+    std::cout << "fuse_fchown::fchown " << std::endl;
     FileInfo *fi = reinterpret_cast<FileInfo*>(ffi_->fh);
 
     return l::fchown(fi->fd,uid_,gid_);

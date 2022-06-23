@@ -20,6 +20,7 @@
 #include "fs_close.hpp"
 
 #include <cstdint>
+#include <iostream>
 
 
 namespace FUSE
@@ -27,6 +28,7 @@ namespace FUSE
   int
   free_hide(const uint64_t fh_)
   {
+    std::cout << "fuse_free_hide::free_hide" << std::endl;
     FileInfo *fi = reinterpret_cast<FileInfo*>(fh_);
 
     fs::close(fi->fd);

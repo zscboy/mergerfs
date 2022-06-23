@@ -21,6 +21,7 @@
 #include <cstdint>
 
 #include <stdio.h>
+#include <iostream>
 
 
 namespace FUSE
@@ -29,6 +30,7 @@ namespace FUSE
   prepare_hide(const char *fusepath_,
                uint64_t   *fh_)
   {
+        std::cout << "fuse_prepare_hide::prepare_hide, fusepath_" << fusepath_ << std::endl;
     int rv;
     fuse_file_info_t ffi = {0};
 

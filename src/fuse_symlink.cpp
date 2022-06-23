@@ -30,6 +30,7 @@
 
 #include <sys/types.h>
 #include <unistd.h>
+#include <iostream>
 
 using std::string;
 
@@ -146,6 +147,7 @@ namespace FUSE
           struct stat     *st_,
           fuse_timeouts_t *timeouts_)
   {
+        std::cout << "fuse_symlink::symlink, linkpath_" << linkpath_ << std::endl;
     int rv;
     Config::Read cfg;
     const fuse_context *fc  = fuse_get_context();

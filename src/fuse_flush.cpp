@@ -20,6 +20,7 @@
 #include "fs_dup.hpp"
 
 #include "fuse.h"
+#include <iostream>
 
 
 namespace l
@@ -45,6 +46,7 @@ namespace FUSE
   int
   flush(const fuse_file_info_t *ffi_)
   {
+    std::cout << "fuse_flush::flush"  << std::endl;
     FileInfo *fi = reinterpret_cast<FileInfo*>(ffi_->fh);
 
     return l::flush(fi->fd);

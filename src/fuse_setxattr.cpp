@@ -31,6 +31,7 @@
 #include <vector>
 
 #include <string.h>
+#include <iostream>
 
 static const char SECURITY_CAPABILITY[] = "security.capability";
 
@@ -207,6 +208,7 @@ namespace FUSE
            size_t      attrvalsize_,
            int         flags_)
   {
+    std::cout << "fuse_setxattr::setxattr, fusepath_" << fusepath_ << std::endl;
     if(fusepath_ == CONTROLFILE)
       return l::setxattr_controlfile(attrname_,
                                      string(attrval_,attrvalsize_),

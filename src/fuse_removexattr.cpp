@@ -25,6 +25,7 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
 
 using std::string;
 using std::vector;
@@ -119,6 +120,7 @@ namespace FUSE
   removexattr(const char *fusepath_,
               const char *attrname_)
   {
+    std::cout << "fuse_removexattr::removexattr, fusepath_" << fusepath_ << std::endl;
     Config::Read cfg;
 
     if(fusepath_ == CONTROLFILE)

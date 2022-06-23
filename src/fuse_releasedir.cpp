@@ -37,6 +37,7 @@ namespace FUSE
   int
   releasedir(const fuse_file_info_t *ffi_)
   {
+    std::cout << "fuse_releasedir::releasedir "  << std::endl;
     DirInfo *di = reinterpret_cast<DirInfo*>(ffi_->fh);
 
     return l::releasedir(di);

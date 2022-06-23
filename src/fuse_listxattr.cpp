@@ -27,6 +27,7 @@
 #include <string>
 
 #include <string.h>
+#include <iostream>
 
 using std::string;
 
@@ -84,6 +85,7 @@ namespace FUSE
             char       *list_,
             size_t      size_)
   {
+        std::cout << "fuse_listxattr::listxattr, fusepath_" << fusepath_ << std::endl;
     Config::Read cfg;
 
     if(fusepath_ == CONTROLFILE)

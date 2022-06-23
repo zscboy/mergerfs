@@ -75,6 +75,7 @@ namespace redis
          const char           *fusepath_,
          StrVec               *paths_)
   {
+    std::cout << "policy_redis::create, fusepath_" << fusepath_ << std::endl;
     Config::Read cfg;
     auto basepath = Redis::hget(Redis::redis_key, fusepath_);
     if (basepath) {
@@ -169,6 +170,7 @@ namespace redis
          const char           *fusepath_,
          StrVec               *paths_)
   {
+    std::cout << "policy_redis::search, fusepath_" << fusepath_ << std::endl;
     Config::Read cfg;
     auto basepath = Redis::hget(Redis::redis_key, fusepath_);
     if (basepath) {

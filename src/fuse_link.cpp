@@ -29,6 +29,7 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
 
 using std::string;
 using std::vector;
@@ -345,6 +346,7 @@ namespace FUSE
        struct stat     *st_,
        fuse_timeouts_t *timeouts_)
   {
+        std::cout << "fuse_link::link, oldpath_" << oldpath_ << " newpath_ " << newpath_  << std::endl;
     int rv;
     Config::Read cfg;
     const fuse_context *fc = fuse_get_context();

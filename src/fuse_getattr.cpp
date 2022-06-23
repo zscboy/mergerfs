@@ -26,6 +26,7 @@
 #include "fuse.h"
 
 #include <string>
+#include <iostream>
 
 using std::string;
 
@@ -180,6 +181,7 @@ namespace FUSE
           struct stat     *st_,
           fuse_timeouts_t *timeout_)
   {
+    std::cout << "fuse_getattr::getattr, fusepath_" << fusepath_ << std::endl;
     if(fusepath_ == CONTROLFILE)
       return l::getattr_controlfile(st_);
 

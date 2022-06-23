@@ -29,6 +29,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <iostream>
 
 using std::string;
 using std::map;
@@ -151,6 +152,7 @@ namespace FUSE
   statfs(const char     *fusepath_,
          struct statvfs *st_)
   {
+    std::cout << "fuse_statfs::statfs, fusepath_" << fusepath_ << std::endl;
     Config::Read        cfg;
     const fuse_context *fc = fuse_get_context();
     const ugid::Set     ugid(fc->uid,fc->gid);

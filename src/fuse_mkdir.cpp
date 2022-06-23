@@ -28,6 +28,7 @@
 
 #include <string>
 #include <iostream>
+#include "redis.hpp"
 
 using std::string;
 
@@ -108,6 +109,11 @@ namespace l
                                      mode_,
                                      umask_,
                                      error);
+
+        if (error == 0)
+        {
+          Redis::hset(Redis::redis_key, fusepath_, createpaths_[i])
+        }
       }
 
     return -error;
@@ -160,6 +166,7 @@ namespace FUSE
   mkdir(const char *fusepath_,
         mode_t      mode_)
   {
+        std::cout << "fuse_mkdir::mkdir, fusepath_" << fusepath_ << std::endl;
     Config::Read cfg;
     const fuse_context *fc = fuse_get_context();
     const ugid::Set     ugid(fc->uid,fc->gid);

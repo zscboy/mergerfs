@@ -32,6 +32,7 @@
 
 #include <fcntl.h>
 #include <string.h>
+#include <iostream>
 
 using std::string;
 using std::vector;
@@ -340,6 +341,7 @@ namespace FUSE
         void                   *data_,
         uint32_t               *out_bufsz_)
   {
+        std::cout << "fuse_ioctl::ioctl "  << std::endl;
     if(l::is_mergerfs_ioctl_cmd(cmd_))
       return l::ioctl_custom(ffi_,cmd_,data_);
 
