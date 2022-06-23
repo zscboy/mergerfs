@@ -38,6 +38,7 @@
 #include "policy_newest.hpp"
 #include "policy_pfrd.hpp"
 #include "policy_rand.hpp"
+#include "policy_redis.hpp"
 
 struct Policies
 {
@@ -65,6 +66,7 @@ struct Policies
     static Policy::Newest::Action  newest;
     static Policy::PFRD::Action    pfrd;
     static Policy::Rand::Action    rand;
+    static Policy::REDIS::Action   redis;
   };
 
   struct Create
@@ -91,6 +93,7 @@ struct Policies
     static Policy::Newest::Create  newest;
     static Policy::PFRD::Create    pfrd;
     static Policy::Rand::Create    rand;
+    static Policy::REDIS::Create   redis;
   };
 
   struct Search
@@ -117,5 +120,6 @@ struct Policies
     static Policy::Newest::Search  newest;
     static Policy::PFRD::Search    pfrd;
     static Policy::Rand::Search    rand;
+    static Policy::REDIS::Search   redis;
   };
 };

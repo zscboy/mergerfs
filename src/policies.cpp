@@ -42,7 +42,8 @@
   FUNC(msppfrd)                                 \
   FUNC(newest)                                  \
   FUNC(pfrd)                                    \
-  FUNC(rand)
+  FUNC(rand)                                    \
+  FUNC(redis)
 
 Policy::ActionImpl*
 Policies::Action::find(const std::string &name_)
@@ -88,6 +89,7 @@ Policy::MSPPFRD::Action Policies::Action::msppfrd;
 Policy::Newest::Action  Policies::Action::newest;
 Policy::PFRD::Action    Policies::Action::pfrd;
 Policy::Rand::Action    Policies::Action::rand;
+Policy::REDIS::Action   Policies::Action::redis;
 
 Policy::All::Create     Policies::Create::all;
 Policy::EPAll::Create   Policies::Create::epall;
@@ -109,6 +111,7 @@ Policy::MSPPFRD::Create Policies::Create::msppfrd;
 Policy::Newest::Create  Policies::Create::newest;
 Policy::PFRD::Create    Policies::Create::pfrd;
 Policy::Rand::Create    Policies::Create::rand;
+Policy::REDIS::Create    Policies::Create::redis;
 
 Policy::All::Search     Policies::Search::all;
 Policy::EPAll::Search   Policies::Search::epall;
@@ -130,3 +133,4 @@ Policy::MSPPFRD::Search Policies::Search::msppfrd;
 Policy::Newest::Search  Policies::Search::newest;
 Policy::PFRD::Search    Policies::Search::pfrd;
 Policy::Rand::Search    Policies::Search::rand;
+Policy::REDIS::Search   Policies::Search::redis;
