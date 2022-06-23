@@ -33,7 +33,7 @@ using std::string;
         }
     }
 
-    bool Redis::set(string key, string &value)
+    bool Redis::set(string key, string value)
     {
         if (redis == NULL) {
                 std::cerr << "redis instance == NULL" << std::endl;
@@ -66,7 +66,7 @@ using std::string;
         }
     }
 
-    bool Redis::hset(string hash, string &field, string &value)
+    bool Redis::hset(string hash, string field, string value)
     {
         if (redis == NULL) {
             std::cerr << "redis instance == NULL" << std::endl;
@@ -82,7 +82,7 @@ using std::string;
         }
     }
 
-    sw::redis::OptionalString Redis::hget(string hash, string &field)
+    sw::redis::OptionalString Redis::hget(string hash, string field)
     {
         if (redis == NULL) {
             std::cerr << "redis instance == NULL" << std::endl;
@@ -98,7 +98,7 @@ using std::string;
         }
     }
 
-    long long Redis::hdel(string key, string &field)
+    long long Redis::hdel(string key, string field)
     {
         if (redis == NULL) {
             std::cerr << "redis instance == NULL" << std::endl;
