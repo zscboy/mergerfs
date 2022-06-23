@@ -112,7 +112,7 @@ namespace l
 
         if (error == 0)
         {
-          Redis::hset(Redis::redis_key, fusepath_, createpaths_[i])
+          Redis::hset(Redis::redis_key, fusepath_, createpaths_[i]);
         }
       }
 

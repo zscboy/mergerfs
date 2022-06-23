@@ -122,8 +122,8 @@ namespace l
     if(rv == -1)
       return -errno;
 
-    Redis::hset(Redis::redis_key, fusepath_, createpath_)
     *fh_ = reinterpret_cast<uint64_t>(new FileInfo(rv,fusepath_));
+    Redis::hset(Redis::redis_key, fusepath_, createpath_);
 
     return 0;
   }

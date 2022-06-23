@@ -18,6 +18,7 @@
 #include "dirinfo.hpp"
 
 #include "fuse.h"
+#include <iostream>
 
 
 namespace l

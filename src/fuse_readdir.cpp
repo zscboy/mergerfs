@@ -34,7 +34,7 @@ namespace FUSE
   readdir(const fuse_file_info_t *ffi_,
           fuse_dirents_t         *buf_)
   {
-    std::cout << "fuse_readdir::readdir, fusepath_" << fusepath_ << std::endl;
+    std::cout << "fuse_readdir::readdir " << std::endl;
     Config::Read cfg;
     DirInfo            *di = reinterpret_cast<DirInfo*>(ffi_->fh);
     const fuse_context *fc = fuse_get_context();
