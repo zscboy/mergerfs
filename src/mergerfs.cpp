@@ -196,6 +196,8 @@ namespace l
     l::setup_resources();
     l::get_fuse_operations(ops,cfg->nullrw);
 
+    println_policy_name(cfg);
+    
     int r = Redis::init((std::string)cfg->redis);
     if (r < 0) {
        std::cerr << "init redis failed, please check !" << std::endl;
