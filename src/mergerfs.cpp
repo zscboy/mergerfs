@@ -196,15 +196,30 @@ namespace l
     l::setup_resources();
     l::get_fuse_operations(ops,cfg->nullrw);
 
-    println_policy_name(cfg);
-    
-    int r = Redis::init((std::string)cfg->redis);
-    if (r < 0) {
-       std::cerr << "init redis failed, please check !" << std::endl;
-       return 0;
+    // println_policy_name(cfg);
+    if (cfg->func.create.policy.name() == "redis")
+    {
+      if (cfg->combinedirs.to_string().empty())
+      {
+        std::cerr << "not set combinedirs!" << std::endl;
+        return 0;
+      }
+
+      if (cfg->redis.to_string().empty())
+      {
+        std::cerr << "not set redis!" << std::endl;
+        return 0;
+      }
+
+
+      int r = Redis::init((std::string)cfg->redis);
+      if (r < 0) {
+        std::cerr << "init redis failed, please check !" << std::endl;
+        return 0;
+      }
     }
 
-    Redis::hset("file2disk", "test1", "abcd");
+    // Redis::hset("file2disk", "test1", "abcd");
     return fuse_main(args.argc,
                      args.argv,
                      &ops);

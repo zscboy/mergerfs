@@ -137,8 +137,7 @@ namespace l
          const mode_t          mode_,
          const mode_t          umask_,
          const int             flags_,
-         uint64_t             *fh_,
-         const string          combinedirs)
+         uint64_t             *fh_)
   {
     int rv;
     string fullpath;
@@ -150,7 +149,7 @@ namespace l
     fusedirpath = fs::path::dirname(fusepath_);
     searchpath = fusedirpath;
     
-    if (!combinedirs.empty()) {
+    if (!createFunc_.name() == "redis") {
       searchpath = fusepath_;
     }
     
@@ -199,7 +198,6 @@ namespace FUSE
                      mode_,
                      fc->umask,
                      ffi_->flags,
-                     &ffi_->fh,
-                     cfg->combinedirs);
+                     &ffi_->fh);
   }
 }

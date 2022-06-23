@@ -126,8 +126,7 @@ namespace l
         const Branches       &branches_,
         const char           *fusepath_,
         const mode_t          mode_,
-        const mode_t          umask_,
-        const string          combinedirs)
+        const mode_t          umask_)
   {
     string fusedirpath;
     StrVec createpaths;
@@ -137,7 +136,7 @@ namespace l
     fusedirpath = fs::path::dirname(fusepath_);
     fusepath = fusedirpath;
 
-    if (!combinedirs.empty())
+    if (mkdirPolicy_.name() == "redis")
     {
       fusepath = fusepath_;
     }
@@ -176,7 +175,6 @@ namespace FUSE
                     cfg->branches,
                     fusepath_,
                     mode_,
-                    fc->umask,
-                    cfg->combinedirs);
+                    fc->umask);
   }
 }
