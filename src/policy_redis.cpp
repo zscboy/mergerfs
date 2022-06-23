@@ -62,8 +62,9 @@ namespace redis
     }
 
     auto incr = Redis::incr(Redis::redis_incr_key)
-    int index = incr % validpaths.size();
-    paths_->push_back(validpaths[index]);
+    const int index = incr % validpaths.size();
+    const string basepath = validpaths[index];
+    paths_->push_back(basepath);
 
     return 0;
   }

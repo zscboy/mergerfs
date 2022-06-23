@@ -16,7 +16,7 @@ class Redis
         static long long incr(string key);
 
         static const string redis_key;
-        static const redis_incr_key;
+        static const string redis_incr_key;
 
     private:
         static sw::redis::Redis *redis; 
