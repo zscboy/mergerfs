@@ -149,7 +149,7 @@ namespace l
     fusedirpath = fs::path::dirname(fusepath_);
     searchpath = fusedirpath;
     
-    if (!createFunc_.name() == "redis") {
+    if (createFunc_.name() == "redis") {
       searchpath = fusepath_;
     }
     
