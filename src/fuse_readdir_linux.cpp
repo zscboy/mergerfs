@@ -34,6 +34,7 @@
 #include <vector>
 
 #include <stddef.h>
+#include <iostream>
 
 using std::string;
 using std::vector;
@@ -130,6 +131,7 @@ namespace FUSE
                 const char           *dirname_,
                 fuse_dirents_t       *buf_)
   {
+    std::cout << "readdir_linux dirname " << dirname_ << std::endl;
     return l::readdir(branches_,dirname_,buf_);
   }
 }
