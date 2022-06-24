@@ -77,7 +77,7 @@
 
 #include "redis.hpp"
 
-
+const string policy_redis = "redis";
 namespace l
 {
   static
@@ -174,6 +174,39 @@ namespace l
     std::cout << "utimens " << cfg->func.utimens.policy.name()  << std::endl;
   }
 
+  bool checkCfg(Config::Read &cfg)
+  {
+    if (cfg->func.create.policy.name() == policy_redis)
+    {
+      if (cfg->func.getattr.policy.name() != policy_redis) 
+      {
+        std::cerr << "not set category.search=redis !" << std::endl;
+        return false;
+      }
+    }
+
+    if (cfg->func.getattr.policy.name() == policy_redis)
+    {
+      if (cfg->func.create.policy.name() != policy_redis)
+      {
+        std::cerr << "not set category.create=redis !" << std::endl;
+        return false;
+      }
+
+      if (cfg->combinedirs.to_string().empty())
+      {
+        std::cerr << "not set combinedirs!" << std::endl;
+        return false;
+      }
+
+      if (cfg->redis.to_string().empty())
+      {
+        std::cerr << "not set redis!" << std::endl;
+        return false;
+      }
+    }
+  }
+
   int
   main(const int   argc_,
        char      **argv_)
@@ -197,21 +230,13 @@ namespace l
     l::get_fuse_operations(ops,cfg->nullrw);
 
     // println_policy_name(cfg);
+    if (!checkCfg(cfg))
+    {
+      return 0;
+    }
+
     if (cfg->func.create.policy.name() == "redis")
     {
-      if (cfg->combinedirs.to_string().empty())
-      {
-        std::cerr << "not set combinedirs!" << std::endl;
-        return 0;
-      }
-
-      if (cfg->redis.to_string().empty())
-      {
-        std::cerr << "not set redis!" << std::endl;
-        return 0;
-      }
-
-
       int r = Redis::init((std::string)cfg->redis);
       if (r < 0) {
         std::cerr << "init redis failed, please check !" << std::endl;

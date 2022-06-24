@@ -92,9 +92,9 @@ namespace redis
 
     string fusedirpath = fs::path::dirname(fusepath_);
     string basename = fs::path::basename(fusepath_);
-    StrVec combindir = fs::string2Vec(cfg->combinedirs);
+    StrVec combindir = fs::string2vec(cfg->combinedirs);
 
-    if (fs::isInCombinedir(fusedirpath, combindir)) {
+    if (fs::is_in_combinedir(fusedirpath, combindir)) {
       for(const auto &dir : combindir)
       {
         string field = fs::make(dir, basename);
@@ -187,9 +187,9 @@ namespace redis
 
     string fusedirpath = fs::path::dirname(fusepath_);
     string basename = fs::path::basename(fusepath_);
-    StrVec combindir = fs::string2Vec(cfg->combinedirs);
+    StrVec combindir = fs::string2vec(cfg->combinedirs);
 
-    if (fs::isInCombinedir(fusedirpath, combindir)) {
+    if (fs::is_in_combinedir(fusedirpath, combindir)) {
       for(const auto &dir : combindir)
       {
         string field = fs::make(dir, basename);

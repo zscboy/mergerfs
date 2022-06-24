@@ -78,7 +78,7 @@ namespace fs
   static
   inline
   StrVec 
-  string2vec(const string combinedirs)
+  string2Vec(const string combinedirs)
   {
     StrVec dirs;
  
@@ -96,7 +96,7 @@ namespace fs
   static
   inline
   bool 
-  is_in_combinedir(const string &dirpath,  const StrVec &combinedirs_)
+  isInCombinedir(const string &dirpath,  const StrVec &combinedirs_)
   {
       for(const auto &dir : combinedirs_)
       {
