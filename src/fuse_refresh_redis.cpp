@@ -80,9 +80,9 @@ namespace l
             continue;;
           }
 
-          const string filepath = fs::path::make(dirpath_,d->name);
-          fullpath = fs::path::make(basepath_,filepath);
-          std::cout << "refresh_dir_to_redis dir " << dirpath_ << " basepath_ " << basepath_ << " fullpath " << fullpath  << "d->name " << d->name << std::endl;
+          const string filepath = fs::make(dirpath_,d->name);
+          fullpath = fs::make(basepath_,filepath);
+          std::cout << "refresh_dir_to_redis dir " << dirpath_ << " basepath_ " << basepath_ << " fullpath " << fullpath  << " filepath " << filepath  << " d->name " << d->name << std::endl;
           struct stat st;
           int rv = fs::lstat(fullpath,&st);
           if(rv == -1)

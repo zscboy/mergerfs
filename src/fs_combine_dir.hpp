@@ -131,5 +131,21 @@ namespace fs
     return path;
   }
 
+  static
+  inline
+  std::string
+  make(const string &base_, const char *suffix_)
+  {
+    char back;
+    std::string path(base_);
+
+    back = *path.rbegin();
+    if((back != '/') && (suffix_[0] != '/'))
+      path.push_back('/');
+    path += suffix_;
+
+    return path;
+  }
+
 
 }
