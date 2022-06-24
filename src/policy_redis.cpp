@@ -28,6 +28,8 @@
 #include "redis.hpp"
 #include "config.hpp"
 #include "fs_combine_dir.hpp"
+#include "policy_eprand.hpp"
+#include "policy_epff.hpp"
 
 #include <iostream>
 
