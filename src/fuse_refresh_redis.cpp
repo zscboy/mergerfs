@@ -77,7 +77,7 @@ namespace l
           d = (struct linux_dirent64*)(buf + pos);
           const string filepath = fs::path::make(dirpath_,d->name);
           fullpath = fs::path::make(basepath_,filepath);
-          std::cout << "refresh_dir_to_redis dir " << dirpath_ << " basepath_ " << basepath_ << " fullpath " << fullpath << std::endl;
+          std::cout << "refresh_dir_to_redis dir " << dirpath_ << " basepath_ " << basepath_ << " fullpath " << fullpath  << "d->name " << d->name << std::endl;
           struct stat st;
           int rv = fs::lstat(fullpath,&st);
           if(rv == -1)
@@ -85,7 +85,7 @@ namespace l
           else if(S_ISDIR(st.st_mode))
             refresh_dir_to_redis(basepath_, filepath);
 
-          Redis::hset(Redis::redis_key, basepath_, filepath);
+          Redis::hset(Redis::redis_key, filepath, basepath_);
           std::cout << "refresh_dir_to_redis dir " << dirpath_ << " basepath_ " << basepath_ << " => " << filepath << std::endl;
         }
     }
