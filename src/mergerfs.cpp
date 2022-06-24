@@ -246,6 +246,15 @@ namespace l
         return 0;
       }
 
+      // test redis
+      int redis_err = 0;
+      Redis::hget(Redis::redis_key, "test", &redis_err);
+      if (redis_err !=  0)
+      {
+        std::cerr << "init redis failed, please check !" << std::endl;
+        return 0;
+      }
+
       FUSE::refresh_redis(cfg->branches, cfg->combinedirs);
     }
 

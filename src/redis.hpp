@@ -12,7 +12,7 @@ class Redis
         static bool set(string key, string value);
         static sw::redis::OptionalString get(string key);
         static bool hset(string hash, string field, string value);
-        static sw::redis::OptionalString hget(string hash, string field);
+        static sw::redis::OptionalString hget(string hash, string field, int *err);
         static long long incr(string key);
         static long long hdel(string key, string field);
 

@@ -82,7 +82,7 @@ using std::string;
         }
     }
 
-    sw::redis::OptionalString Redis::hget(string hash, string field)
+    sw::redis::OptionalString Redis::hget(string hash, string field, int *err)
     {
         if (redis == NULL) {
             std::cerr << "redis instance == NULL" << std::endl;
@@ -94,6 +94,10 @@ using std::string;
         }
         catch (const sw::redis::Error &e) {
             std::cerr << " redis hget error " << e.what() << std::endl;
+            if (err)
+            {
+              *err = -1;
+            }
             return sw::redis::OptionalString();;
         }
     }

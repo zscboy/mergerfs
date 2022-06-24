@@ -39,7 +39,7 @@ namespace redis
 {
   static
   int
-  search_uniform_path(const Branches::CPtr &branches_, StrVec  *paths_)
+  round_branches(const Branches::CPtr &branches_, StrVec  *paths_)
   {
     StrVec validpaths;
     fs::info_t info;
@@ -70,25 +70,57 @@ namespace redis
   }
 
   static
-  int
-  create(const Branches::CPtr &branches_,
-         const char           *fusepath_,
-         StrVec               *paths_)
+  int 
+  search_path_none_redis(const Branches::CPtr &branches_,
+                        const char           *fusepath_,
+                        StrVec               *paths_,
+                        Config::Read         &cfg)
+  {
+    int rv;
+
+    rv = Policies::Search::epff(branches_,fusepath_,paths_);
+    if(rv == 0)
+    {
+      return 0;
+    }
+
+    StrVec combinedirs = fs::string2vec(cfg->combinedirs);
+    fs::combinedir(branches_, fusepath_, combinedirs, paths_);
+
+    if (!paths_->empty())
+    {
+      return 0;
+    }
+
+    string fusedirpath = fs::path::dirname(fusepath_);
+    return Policies::Search::eprand(branches_,fusedirpath,paths_);
+  }
+
+  static
+  int 
+  search_path_from_redis(const Branches::CPtr &branches_,
+                        const char           *fusepath_,
+                        StrVec               *paths_)
   {
     // std::cout << "policy_redis::create, fusepath_" << fusepath_ << std::endl;
     Config::Read cfg;
-    auto basepath = Redis::hget(Redis::redis_key, fusepath_);
+    int redis_err = 0;
+    auto basepath = Redis::hget(Redis::redis_key, fusepath_, &redis_err);
+    if (redis_err != 0) {
+      return search_path_none_redis(branches_, fusepath_, paths_);
+    }
+
     if (basepath) {
       // std::cout << "Redis find basepath " << fusepath_ << " => " << *basepath << std::endl;
       paths_->push_back(*basepath);
       return 0;
     }
 
-    // if (cfg->combinedirs.empty())
-    // {
-    //   std::cerr << "cfg->combinedirs == null" << std::endl;
-    //   return -1;
-    // }
+    if (cfg->combinedirs.to_string().empty())
+    {
+      std::cerr << "cfg->combinedirs == null" << std::endl;
+      return -1;
+    }
 
     string fusedirpath = fs::path::dirname(fusepath_);
     string basename = fs::path::basename(fusepath_);
@@ -98,7 +130,11 @@ namespace redis
       for(const auto &dir : combindir)
       {
         string field = fs::make(dir, basename);
-        basepath = Redis::hget(Redis::redis_key, field);
+        basepath = Redis::hget(Redis::redis_key, field, &redis_err);
+        if (redis_err != 0) {
+          return search_path_none_redis(branches_, fusepath_, paths_);
+        }
+
         if (basepath) {
           // std::cout << "Redis find basepath " << fusepath_ << " => " << *basepath << std::endl;
           paths_->push_back(*basepath);
@@ -107,11 +143,15 @@ namespace redis
       }
 
       // 均匀落盘
-      ::redis::search_uniform_path(branches_, paths_);
+      ::redis::round_branches(branches_, paths_);
       return 0;
     }
 
-    basepath = Redis::hget(Redis::redis_key, fusedirpath);
+    basepath = Redis::hget(Redis::redis_key, fusedirpath, &redis_err);
+    if (redis_err != 0) {
+      return search_path_none_redis(branches_, fusepath_, paths_);
+    }
+
     if (basepath) {
       // std::cout << "Redis find basepath " << fusepath_ << " => " << *basepath << std::endl;
       paths_->push_back(*basepath);
@@ -119,8 +159,17 @@ namespace redis
     }
 
     // 均匀落盘
-    ::redis::search_uniform_path(branches_, paths_);
+    ::redis::round_branches(branches_, paths_);
     return 0;
+  }
+
+  static
+  int
+  create(const Branches::CPtr &branches_,
+         const char           *fusepath_,
+         StrVec               *paths_)
+  {
+    return search_path_from_redis(branches_, fusepath_, paths_);
   }
 
   static
@@ -167,55 +216,10 @@ namespace redis
   static
   int
   search(const Branches::CPtr &branches_,
-         const char           *fusepath_,
-         StrVec               *paths_)
+          const char           *fusepath_,
+          StrVec               *paths_)
   {
-    // std::cout << "policy_redis::search, fusepath_" << fusepath_ << std::endl;
-    Config::Read cfg;
-    auto basepath = Redis::hget(Redis::redis_key, fusepath_);
-    if (basepath) {
-      // std::cout << "Redis find basepath " << fusepath_ << " => " << *basepath << std::endl;
-      paths_->push_back(*basepath);
-      return 0;
-    }
-
-    // if (cfg->combinedirs.empty())
-    // {
-    //   std::cerr << "cfg->combinedirs == null" << std::endl;
-    //   return -1;
-    // }
-
-    string fusedirpath = fs::path::dirname(fusepath_);
-    string basename = fs::path::basename(fusepath_);
-    StrVec combindir = fs::string2vec(cfg->combinedirs);
-
-    if (fs::is_in_combinedir(fusedirpath, combindir)) {
-      for(const auto &dir : combindir)
-      {
-        string field = fs::make(dir, basename);
-        basepath = Redis::hget(Redis::redis_key, field);
-        if (basepath) {
-          // std::cout << "Redis find basepath " << field << " => " << *basepath << std::endl;
-          paths_->push_back(*basepath);
-          return 0;
-        }
-      }
-
-      // 均匀落盘
-      ::redis::search_uniform_path(branches_, paths_);
-      return 0;
-    }
-
-    basepath = Redis::hget(Redis::redis_key, fusedirpath);
-    if (basepath) {
-      // std::cout << "Redis find basepath " << fusepath_ << " => " << *basepath << std::endl;
-      paths_->push_back(*basepath);
-      return 0;
-    }
-
-    // 均匀落盘
-    ::redis::search_uniform_path(branches_, paths_);
-    return 0;
+    return search_path_from_redis(branches_, fusepath_, paths_);
   }
 }
 
