@@ -42,7 +42,6 @@ namespace l
   refresh_dir_to_redis(const string basepath_, const string dirpath_)
   {
     char *buf;
-    // dev_t dev;
     int dirfd;
     int64_t nread;
     string fullpath;
@@ -55,14 +54,12 @@ namespace l
       return;
     }
 
-    fullpath = fs::path::make(basepath_,dirpath_);
+    fullpath = fs::make(basepath_,dirpath_);
     dirfd = fs::open_dir_ro(fullpath);
     if(dirfd == -1)
     {
       return;
     }
-
-    // dev = fs::devid(dirfd);
 
     for(;;)
     {
@@ -82,7 +79,7 @@ namespace l
 
           const string filepath = fs::make(dirpath_,d->name);
           fullpath = fs::make(basepath_,filepath);
-          std::cout << "refresh_dir_to_redis dir " << dirpath_ << " basepath_ " << basepath_ << " fullpath " << fullpath  << " filepath " << filepath  << " d->name " << d->name << std::endl;
+
           struct stat st;
           int rv = fs::lstat(fullpath,&st);
           if(rv == -1)
@@ -108,14 +105,10 @@ namespace FUSE
   void 
   refresh_redis(const Branches::CPtr &branches_, const string combinedirs)
   {
-    StrVec dirs = fs::string2vec(combinedirs);
-    for (const auto &dir : dirs)
+    const string root = "/"
+    for(const auto &branch : *branches_)
     {
-      for(const auto &branch : *branches_)
-      {
-        l::refresh_dir_to_redis(branch.path, dir);
-      }
-
+      l::refresh_dir_to_redis(branch.path, root);
     }
   }
 }
