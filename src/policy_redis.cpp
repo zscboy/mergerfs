@@ -109,7 +109,7 @@ namespace redis
     int redis_err = 0;
     auto basepath = Redis::hget(Redis::redis_key, fusepath_, &redis_err);
     if (redis_err != 0) {
-      return search_path_none_redis(branches_, fusepath_, paths_);
+      return search_path_none_redis(branches_, fusepath_, paths_, cfg);
     }
 
     if (basepath) {
@@ -134,7 +134,7 @@ namespace redis
         string field = fs::path::make(dir.c_str(), basename.c_str());
         basepath = Redis::hget(Redis::redis_key, field, &redis_err);
         if (redis_err != 0) {
-          return search_path_none_redis(branches_, fusepath_, paths_);
+          return search_path_none_redis(branches_, fusepath_, paths_, cfg);
         }
 
         if (basepath) {
@@ -151,7 +151,7 @@ namespace redis
 
     basepath = Redis::hget(Redis::redis_key, fusedirpath, &redis_err);
     if (redis_err != 0) {
-      return search_path_none_redis(branches_, fusepath_, paths_);
+      return search_path_none_redis(branches_, fusepath_, paths_, cfg);
     }
 
     if (basepath) {
