@@ -76,6 +76,7 @@
 #include <string.h>
 
 #include "redis.hpp"
+#include "fs_refresh_redis.hpp"
 
 const string policy_redis = "redis";
 namespace l
