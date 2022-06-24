@@ -88,7 +88,7 @@ namespace l
             refresh_dir_to_redis(basepath_, filepath);
 
           Redis::hset(Redis::redis_key, filepath, basepath_);
-          std::cout << "refresh_dir_to_redis dir " << dirpath_ << " basepath_ " << basepath_ << " => " << filepath << std::endl;
+          // std::cout << "refresh_dir_to_redis dir " << dirpath_ << " basepath_ " << basepath_ << " => " << filepath << std::endl;
         }
     }
 
