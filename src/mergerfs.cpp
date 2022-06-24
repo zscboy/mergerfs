@@ -244,7 +244,7 @@ namespace l
         return 0;
       }
 
-      fs::refresh_redis(cfg->branches, cfg->combinedirs);
+      fuse::refresh_redis(cfg->branches, cfg->combinedirs);
     }
 
     // Redis::hset("file2disk", "test1", "abcd");

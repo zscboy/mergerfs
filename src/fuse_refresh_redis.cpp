@@ -42,7 +42,7 @@ namespace l
   refresh_dir_to_redis(const string basepath_, const string dirpath_)
   {
     char *buf;
-    dev_t dev;
+    // dev_t dev;
     int dirfd;
     int64_t nread;
     string fullpath;
@@ -62,7 +62,7 @@ namespace l
       return;
     }
 
-    dev = fs::devid(dirfd);
+    // dev = fs::devid(dirfd);
 
     for(;;)
     {
@@ -77,7 +77,7 @@ namespace l
           d = (struct linux_dirent64*)(buf + pos);
           const string filepath = fs::path::make(dirpath_,d->name);
           fullpath = fs::path::make(basepath_,filepath);
-
+          std::cout << "refresh_dir_to_redis dir " << dirpath_ << " basepath_ " << basepath_ << " fullpath " << fullpath << std::endl;
           struct stat st;
           int rv = fs::lstat(fullpath,&st);
           if(rv == -1)
