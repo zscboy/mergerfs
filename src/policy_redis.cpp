@@ -95,7 +95,7 @@ namespace redis
     }
 
     string fusedirpath = fs::path::dirname(fusepath_);
-    return Policies::Search::eprand(branches_,fusedirpath,paths_);
+    return Policies::Search::eprand(branches_,fusedirpath.c_str(),paths_);
   }
 
   static
@@ -131,7 +131,7 @@ namespace redis
     if (fs::is_in_combinedir(fusedirpath, combindir)) {
       for(const auto &dir : combindir)
       {
-        string field = fs::make(dir, basename);
+        string field = fs::path::make(dir.c_str(), basename.c_str());
         basepath = Redis::hget(Redis::redis_key, field, &redis_err);
         if (redis_err != 0) {
           return search_path_none_redis(branches_, fusepath_, paths_);

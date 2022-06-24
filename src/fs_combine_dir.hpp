@@ -59,7 +59,7 @@ namespace fs
     {
       for(const auto &dir : combinedirs_)
       {
-        string path = fs::path::make(dir, basename);
+        string path = fs::path::make(dir.c_str(), basename.c_str());
         if(fs::exists(branch.path, path))
         {
           basepath = &branch.path;
@@ -114,38 +114,4 @@ namespace fs
 
       return false;
   }
-
-  static
-  inline
-  std::string
-  make(const string &base_, const string &suffix_)
-  {
-    char back;
-    std::string path(base_);
-
-    back = *path.rbegin();
-    if((back != '/') && (suffix_[0] != '/'))
-      path.push_back('/');
-    path += suffix_;
-
-    return path;
-  }
-
-  static
-  inline
-  std::string
-  make(const string &base_, const char *suffix_)
-  {
-    char back;
-    std::string path(base_);
-
-    back = *path.rbegin();
-    if((back != '/') && (suffix_[0] != '/'))
-      path.push_back('/');
-    path += suffix_;
-
-    return path;
-  }
-
-
 }

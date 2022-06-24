@@ -54,7 +54,7 @@ namespace l
       return;
     }
 
-    fullpath = fs::make(basepath_,dirpath_);
+    fullpath = fs::path::make(basepath_.c_str(),dirpath_.c_str());
     dirfd = fs::open_dir_ro(fullpath);
     if(dirfd == -1)
     {
@@ -77,8 +77,8 @@ namespace l
             continue;;
           }
 
-          const string filepath = fs::make(dirpath_,d->name);
-          fullpath = fs::make(basepath_,filepath);
+          const string filepath = fs::path::make(dirpath_.c_str(),d->name);
+          fullpath = fs::path::make(basepath_.c_str(),filepath.c_str());
 
           struct stat st;
           int rv = fs::lstat(fullpath,&st);
