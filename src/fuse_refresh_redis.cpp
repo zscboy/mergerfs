@@ -75,6 +75,11 @@ namespace l
       for(int64_t pos = 0; pos < nread; pos += d->reclen)
         {
           d = (struct linux_dirent64*)(buf + pos);
+          if (strcmp(d->name, ".") == 0 || strcmp(d->name, "..") == 0) 
+          {
+            continue;;
+          }
+
           const string filepath = fs::path::make(dirpath_,d->name);
           fullpath = fs::path::make(basepath_,filepath);
           std::cout << "refresh_dir_to_redis dir " << dirpath_ << " basepath_ " << basepath_ << " fullpath " << fullpath  << "d->name " << d->name << std::endl;
