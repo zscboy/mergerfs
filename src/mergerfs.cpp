@@ -242,6 +242,8 @@ namespace l
         std::cerr << "init redis failed, please check !" << std::endl;
         return 0;
       }
+
+      fs::refresh_redis(cfg->branches, cfg->combinedirs);
     }
 
     // Redis::hset("file2disk", "test1", "abcd");

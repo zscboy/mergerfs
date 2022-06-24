@@ -23,113 +23,94 @@
 #include <string>
 #include <sstream>
 #include <iostream>
+#include "fs_open.hpp"
+#include "fs_devid.hpp"
+#include "fs_getdents64.hpp"
+#include "mempools.hpp"
+#include "fs_close.hpp"
+#include "linux_dirent64.h"
+#include "fs_combine_dir.hpp"
+#include "redis.hpp"
 
 using std::string;
 using std::stringstream;
 
 namespace fs
 {
+
   static
   inline
-  void 
-  combinedir(const Branches::CPtr &branches_,
-             const char           *fusepath_,
-             const StrVec         &combinedirs_,
-             StrVec               *paths_)
+  void
+  refresh_dir_to_redis(const string basepath_, const string dirpath_)
   {
-    string fusepath(fusepath_);
-    bool exist = false;
-    for(const auto &dir : combinedirs_)
+    char *buf;
+    dev_t dev;
+    int dirfd;
+    int64_t nread;
+    string fullpath;
+    struct linux_dirent64 *d;
+
+    buf = (char*)g_DENTS_BUF_POOL.alloc();
+    if(buf == NULL)
     {
-      if (fusepath.rfind(dir, 0) == 0) 
-      {
-        exist = true;
-        break;
-      }
+      std::cerr << " alloc memory failed, not enough memory !" << std::endl;
+      return;
     }
 
-    if (!exist) 
+    fullpath = fs::path::make(basepath_,dirpath_);
+    dirfd = fs::open_dir_ro(fullpath);
+    if(dirfd == -1)
     {
       return;
     }
 
-    const string *basepath  = NULL;
-    string basename = fs::path::basename(fusepath);
-    for(const auto &branch : *branches_)
+    dev = fs::devid(dirfd);
+
+    for(;;)
     {
-      for(const auto &dir : combinedirs_)
-      {
-        string path = fs::path::make(dir, basename);
-        if(fs::exists(branch.path, path))
+      nread = fs::getdents_64(dirfd,buf,g_DENTS_BUF_POOL.size());
+      if(nread == -1)
+        break;
+      if(nread == 0)
+        break;
+
+      for(int64_t pos = 0; pos < nread; pos += d->reclen)
         {
-          basepath = &branch.path;
-          break;
+          d = (struct linux_dirent64*)(buf + pos);
+          const string filepath = fs::path::make(dirpath_,d->name);
+          fullpath = fs::path::make(basepath_,filepath);
+
+          struct stat st;
+          int rv = fs::lstat(fullpath,&st);
+          if(rv == -1)
+            continue;
+          else if(S_ISDIR(st.st_mode))
+            refresh_dir_to_redis(basepath_, filepath);
+
+          Redis::hset(Redis::redis_key, basepath_, filepath);
+          std::cout << "refresh_dir_to_redis dir " << dirpath_ << " basepath_ " << basepath_ << " => " << filepath << endl;
         }
-      }
     }
 
-    if (basepath != NULL)
+    fs::close(dirfd);
+    g_DENTS_BUF_POOL.free(buf);
+
+  }
+
+  static
+  inline
+  void 
+  refresh_redis(const Branches::CPtr &branches_, const string combinedirs)
+  {
+    StrVec dirs = fs::string2vec(combinedirs);
+    for (const auto &dir : dirs)
     {
-      paths_->push_back(*basepath);
-    }
-
-  }
-
-  static
-  inline
-  StrVec 
-  string2Vec(const string combinedirs)
-  {
-    StrVec dirs;
- 
-    stringstream ss(combinedirs);
- 
-    while (ss.good()) {
-        string substr;
-        getline(ss, substr, ':');
-        dirs.push_back(substr);
-    }
- 
-    return dirs;
-  }
-
-  static
-  inline
-  bool 
-  isInCombinedir(const string &dirpath,  const StrVec &combinedirs_)
-  {
-      for(const auto &dir : combinedirs_)
+      for(const auto &branch : *branches_)
       {
-        string path = dir;
-        char back = *path.rbegin();
-        if (back == '/') {
-          path = path.substr(0, path.size()-1);
-          // std::cout << " isInCombinedir combinedir path " << path << " dirpath " << dirpath << std::endl;
-        }
-
-        if (path == dirpath) {
-          return true;
-        }
+        refresh_dir_to_redis(branch.path, dir);
       }
 
-      return false;
+    }
   }
-
-  static
-  inline
-  std::string
-  make(const string &base_, const string &suffix_)
-  {
-    char back;
-    std::string path(base_);
-
-    back = *path.rbegin();
-    if((back != '/') && (suffix_[0] != '/'))
-      path.push_back('/');
-    path += suffix_;
-
-    return path;
-  }
-
 
 }
