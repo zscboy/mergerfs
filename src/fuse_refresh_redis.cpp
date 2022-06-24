@@ -33,13 +33,11 @@
 #include "redis.hpp"
 
 using std::string;
-using std::stringstream;
 
-namespace fs
+namespace l
 {
 
   static
-  inline
   void
   refresh_dir_to_redis(const string basepath_, const string dirpath_)
   {
@@ -88,7 +86,7 @@ namespace fs
             refresh_dir_to_redis(basepath_, filepath);
 
           Redis::hset(Redis::redis_key, basepath_, filepath);
-          std::cout << "refresh_dir_to_redis dir " << dirpath_ << " basepath_ " << basepath_ << " => " << filepath << endl;
+          std::cout << "refresh_dir_to_redis dir " << dirpath_ << " basepath_ " << basepath_ << " => " << filepath << std::endl;
         }
     }
 
@@ -97,8 +95,11 @@ namespace fs
 
   }
 
-  static
-  inline
+
+}
+
+namespace FUSE
+{
   void 
   refresh_redis(const Branches::CPtr &branches_, const string combinedirs)
   {
@@ -107,10 +108,9 @@ namespace fs
     {
       for(const auto &branch : *branches_)
       {
-        refresh_dir_to_redis(branch.path, dir);
+        l::refresh_dir_to_redis(branch.path, dir);
       }
 
     }
   }
-
 }
