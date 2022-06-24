@@ -105,7 +105,7 @@ namespace FUSE
   void 
   refresh_redis(const Branches::CPtr &branches_, const string combinedirs)
   {
-    const string root = "/"
+    const string root = "/";
     for(const auto &branch : *branches_)
     {
       l::refresh_dir_to_redis(branch.path, root);
