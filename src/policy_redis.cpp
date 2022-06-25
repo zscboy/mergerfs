@@ -151,6 +151,7 @@ namespace redis
         }
       }
 
+      std::cout << "round_branches, fusepath:" << fusepath_ << std::endl;
       // 均匀落盘
       ::redis::round_branches(branches_, paths_);
       return 0;
@@ -167,6 +168,7 @@ namespace redis
       return 0;
     }
 
+    std::cout << "round_branches, fusepath:" << fusepath_ << std::endl;
     // 均匀落盘
     ::redis::round_branches(branches_, paths_);
     return 0;
