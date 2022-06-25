@@ -111,12 +111,12 @@ namespace l
     string fullpath;
     StrVec basepaths;
 
-    auto millisec_since_epoch = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+    auto millisec_since_epoch = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
     rv = searchFunc_(branches_,fusepath_,&basepaths);
     if(rv == -1)
       return -errno;
 
-    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() - millisec_since_epoch;
+    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now().time_since_epoch()).count() - millisec_since_epoch;
     std::cout << "fuse_getattr::getattr searchFunc_ duration: " << duration << std::endl;
     fullpath = fs::path::make(basepaths[0],fusepath_);
 
