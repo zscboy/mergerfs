@@ -15,7 +15,7 @@ class Redis
         static sw::redis::OptionalString hget(string hash, string field, int *err);
         static long long incr(string key);
         static long long hdel(string key, string field);
-        void delete_data();
+        static void delete_data();
 
         static const string redis_key;
         static const string redis_incr_key;

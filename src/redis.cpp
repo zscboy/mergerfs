@@ -24,9 +24,9 @@ using std::string;
         // string url = "tcp://" + address + "?socket_timeout=50ms&connect_timeout=1s"
         try {
             sw::redis::ConnectionOptions connection_options(address);
-            ConnectionPoolOptions pool_options;
+            sw::redis::ConnectionPoolOptions pool_options;
             pool_options.size = 10; 
-            
+
             redis = new sw::redis::Redis(connection_options, pool_options);
             // redis = &instance;
             return 0;
@@ -142,7 +142,7 @@ using std::string;
     {
         if (redis == NULL) {
             std::cerr << "redis instance == NULL" << std::endl;
-            return 0;
+            return;
         }
 
         try {
@@ -150,6 +150,6 @@ using std::string;
         }
         catch (const sw::redis::Error &e) {
             std::cerr << " redis incr error " << e.what() << std::endl;
-            return 0;
+            return;
         }
     }
