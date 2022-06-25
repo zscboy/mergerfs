@@ -70,7 +70,7 @@ namespace redis
 
     string validpathstr;
     for (const auto &path : validpaths) {
-      validpathstr = validpathstr + ":" + path
+      validpathstr = validpathstr + ":" + path;
     }
 
     std::cout << "round_branches incr:" << incr << " vbranches_ " << branches_->to_string() << " validpathstr " << validpathstr << " index " << index << " basepath " << basepath  << std::endl;
