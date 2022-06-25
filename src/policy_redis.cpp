@@ -112,6 +112,7 @@ namespace redis
                         StrVec               *paths_)
   {
     // std::cout << "policy_redis::create, fusepath_" << fusepath_ << std::endl;
+    auto millisec_since_epoch = duration_cast<milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
     Config::Read cfg;
     int redis_err = 0;
     auto basepath = Redis::hget(Redis::redis_key, fusepath_, &redis_err);
@@ -119,6 +120,8 @@ namespace redis
       return search_path_none_redis(branches_, fusepath_, paths_, cfg);
     }
 
+    auto duration = duration_cast<milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() - millisec_since_epoch;
+    std::cout << "fuse_getattr::getattr searchFunc_ duration: " << duration << std::endl;
     if (basepath) {
       // std::cout << "Redis find basepath " << fusepath_ << " => " << *basepath << std::endl;
       paths_->push_back(*basepath);
