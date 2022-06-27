@@ -158,6 +158,7 @@ namespace l
           struct stat     *st_,
           fuse_timeouts_t *timeout_)
   {
+    auto millisec_since_epoch0 = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
     int rv;
     Config::Read cfg;
     const fuse_context *fc = fuse_get_context();
@@ -175,6 +176,7 @@ namespace l
                        cfg->cache_entry :
                        cfg->cache_negative_entry);
     timeout_->attr  = cfg->cache_attr;
+    std::cout << " getattr  fusepath_ " <<  fusepath_ << " time " << std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now().time_since_epoch()).count() - millisec_since_epoch0  << std::endl;
 
     return rv;
   }
@@ -187,7 +189,7 @@ namespace FUSE
           struct stat     *st_,
           fuse_timeouts_t *timeout_)
   {
-    // std::cout << "fuse_getattr::getattr, fusepath_" << fusepath_ << std::endl;
+    std::cout << "fuse_getattr::getattr, fusepath_" << fusepath_ << std::endl;
     if(fusepath_ == CONTROLFILE)
       return l::getattr_controlfile(st_);
 
