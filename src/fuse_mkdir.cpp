@@ -105,6 +105,7 @@ namespace l
     error = -1;
     for(size_t i = 0, ei = createpaths_.size(); i != ei; i++)
       {
+        std::cout << " existingpath_ " << existingpath_ << " createpaths_[i] " << createpaths_[i] << " fusedirpath_ " << std::endl;
         rv = fs::clonepath_as_root(existingpath_,createpaths_[i],fusedirpath_);
         if(rv == -1)
           error = error::calc(rv,error,errno);

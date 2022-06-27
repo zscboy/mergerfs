@@ -178,8 +178,7 @@ namespace redis
 
     std::cout << "round_branches, fusepath:" << fusepath_ << std::endl;
     // 均匀落盘
-    // ::redis::round_branches(branches_, paths_);
-    return Policies::Search::epff(branches_,fusepath_,paths_);
+    ::redis::round_branches(branches_, paths_);
     // return 
     // return 0;
   }
