@@ -190,9 +190,9 @@ namespace FUSE
           fuse_timeouts_t *timeout_)
   {
     std::cout << "fuse_getattr::getattr, fusepath_" << fusepath_ << std::endl;
-    if(fusepath_ == CONTROLFILE)
+    // if(fusepath_ == CONTROLFILE)
       return l::getattr_controlfile(st_);
 
-    return l::getattr(fusepath_,st_,timeout_);
+    // return l::getattr(fusepath_,st_,timeout_);
   }
 }
