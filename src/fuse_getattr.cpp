@@ -181,7 +181,7 @@ namespace l
                        cfg->cache_entry :
                        cfg->cache_negative_entry);
     timeout_->attr  = cfg->cache_attr;
-    std::cout << " getattr  fusepath_ " <<  fusepath_ << " time " << std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now().time_since_epoch()).count() - millisec_since_epoch0  << std::endl;
+    // std::cout << " getattr  fusepath_ " <<  fusepath_ << " time " << std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now().time_since_epoch()).count() - millisec_since_epoch0  << std::endl;
 
     return rv;
   }
