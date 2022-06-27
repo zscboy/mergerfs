@@ -148,13 +148,7 @@ namespace l
     if(symlinkify_ && symlinkify::can_be_symlink(*st_,symlinkify_timeout_))
       st_->st_mode = symlinkify::convert(st_->st_mode);
 
-    fs::inode::calc(fusepath_,st_);
-    std::cout << " st_->st_dev " << st_->st_dev << " st_->st_ino " << st_->st_ino << " st_->st_mode " << st_->st_mode << " st_->st_nlink " << st_->st_nlink
-    << "  st_->st_uid " << st_->st_uid << " st_->st_gid " << st_->st_gid << " st_->st_rdev " << st_->st_rdev << " st_->st_size " << st_->st_size 
-    << " st_->st_blksize " << st_->st_blksize << " st_->st_blocks " << st_->st_blocks << " st_->st_atime " << st_->st_atime   << " st_->st_mtime " << st_->st_mtime 
-    << " st_->st_ctime " << st_->st_ctime << std::endl;
-    
-
+    fs::inode::calc(fusepath_,st_);    
     return 0;
   }
 
@@ -199,24 +193,5 @@ namespace FUSE
       return l::getattr_controlfile(st_);
 
     return l::getattr(fusepath_,st_,timeout_);
-    //     Config::Read cfg;
-
-    //  st_->st_dev=1113232; 
-    //  st_->st_ino=17476277287011453186; 
-    //  st_->st_mode=16877; 
-    //  st_->st_nlink=2;  
-    //  st_->st_uid=0; 
-    //  st_->st_gid=0; 
-    //  st_->st_rdev=0; 
-    //  st_->st_size=126; 
-    //  st_->st_blksize=4096; 
-    //  st_->st_blocks=0; 
-    //  st_->st_atime=1656311318; 
-    //  st_->st_mtime=1656304851; 
-    //  st_->st_ctime=1656304851;
-
-    // timeout_->entry = cfg->cache_entry;
-    // timeout_->attr  = cfg->cache_attr;
-    //  return 0;
   }
 }
