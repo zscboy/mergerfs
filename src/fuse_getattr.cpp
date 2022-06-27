@@ -199,6 +199,7 @@ namespace FUSE
       return l::getattr_controlfile(st_);
 
     // return l::getattr(fusepath_,st_,timeout_);
+        Config::Read cfg;
 
      st_->st_dev=1113232 
      st_->st_ino=17476277287011453186 
