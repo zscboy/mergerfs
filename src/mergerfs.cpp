@@ -233,10 +233,10 @@ namespace l
     l::get_fuse_operations(ops,cfg->nullrw);
 
     // println_policy_name(cfg);
-    if (!checkCfg(cfg))
-    {
-      return 0;
-    }
+    // if (!checkCfg(cfg))
+    // {
+    //   return 0;
+    // }
 
     if (cfg->func.create.policy.name() == "redis")
     {
