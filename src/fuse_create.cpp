@@ -153,7 +153,7 @@ namespace l
       searchpath = fusepath_;
     }
     
-    rv = searchFunc_(branches_,searchpath,&existingpaths);
+    rv = searchFunc_(branches_,fusedirpath, &existingpaths);
     if(rv == -1)
       return -errno;
 

@@ -142,11 +142,11 @@ namespace l
     }
 
     int rv;
-    rv = getattrPolicy_(branches_,fusepath.c_str(),&existingpaths);
+    rv = getattrPolicy_(branches_,fusedirpath, &existingpaths);
     if(rv == -1)
       return -errno;
 
-    rv = mkdirPolicy_(branches_,fusepath.c_str(),&createpaths);
+    rv = mkdirPolicy_(branches_,fusepath,&createpaths);
     if(rv == -1)
       return -errno;
 
