@@ -201,19 +201,19 @@ namespace FUSE
     // return l::getattr(fusepath_,st_,timeout_);
         Config::Read cfg;
 
-     st_->st_dev=1113232 
-     st_->st_ino=17476277287011453186 
-     st_->st_mode=16877 
-     st_->st_nlink=2  
-     st_->st_uid=0 
-     st_->st_gid=0 
-     st_->st_rdev=0 
-     st_->st_size=126 
-     st_->st_blksize=4096 
-     st_->st_blocks=0 
-     st_->st_atime=1656311318 
-     st_->st_mtime=1656304851 
-     st_->st_ctime=1656304851
+     st_->st_dev=1113232; 
+     st_->st_ino=17476277287011453186; 
+     st_->st_mode=16877; 
+     st_->st_nlink=2;  
+     st_->st_uid=0; 
+     st_->st_gid=0; 
+     st_->st_rdev=0; 
+     st_->st_size=126; 
+     st_->st_blksize=4096; 
+     st_->st_blocks=0; 
+     st_->st_atime=1656311318; 
+     st_->st_mtime=1656304851; 
+     st_->st_ctime=1656304851;
 
     timeout_->entry = cfg->cache_entry;
     timeout_->attr  = cfg->cache_attr;
