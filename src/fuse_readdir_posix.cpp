@@ -35,6 +35,7 @@
 #include <vector>
 
 #include <dirent.h>
+#include <iostream>
 
 using std::string;
 using std::vector;
@@ -119,6 +120,7 @@ namespace FUSE
                 const char           *dirname_,
                 fuse_dirents_t       *buf_)
   {
+    std::cout << "fuse_readdir_posix::readdir_posix dirname_:" << dirname_ << std::endl;
     return l::readdir(branches_,dirname_,buf_);
   }
 }

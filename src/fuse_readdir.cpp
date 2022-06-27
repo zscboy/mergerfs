@@ -39,7 +39,7 @@ namespace FUSE
     DirInfo            *di = reinterpret_cast<DirInfo*>(ffi_->fh);
     const fuse_context *fc = fuse_get_context();
     const ugid::Set     ugid(fc->uid,fc->gid);
-
+    std::cout << "fuse_readdir::readdir fusepath:" << di->fusepath << std::endl;
     switch(cfg->readdir)
       {
       case ReadDir::ENUM::LINUX:
