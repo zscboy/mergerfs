@@ -181,7 +181,7 @@ namespace FUSE
          mode_t            mode_,
          fuse_file_info_t *ffi_)
   {
-    // std::cout << "fuse_create::create, fusepath_" << fusepath_ << std::endl;
+    std::cout << "fuse_create::create, fusepath_" << fusepath_ << std::endl;
     Config::Read cfg;
     const fuse_context *fc = fuse_get_context();
     const ugid::Set     ugid(fc->uid,fc->gid);
