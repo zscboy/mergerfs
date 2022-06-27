@@ -149,7 +149,11 @@ namespace l
       st_->st_mode = symlinkify::convert(st_->st_mode);
 
     fs::inode::calc(fusepath_,st_);
-
+    std::cout << " st_->st_dev " << st_->st_dev << " st_->st_ino " << st_->st_ino << " st_->st_mode " << st_->st_mode << " st_->st_nlink " << st_->st_nlink
+    << "  st_->st_uid " << st_->st_uid << " st_->st_gid " << st_->st_gid << " st_->st_rdev " << st_->st_rdev << " st_->st_size " << st_->st_size 
+    << " st_->st_blksize " << st_->st_blksize << " st_->st_blocks " << st_->st_blocks << " st_->st_atime " << st_->st_atime   << " st_->st_mtime " << st_->st_mtime 
+    << " st_->st_ctime " << st_->st_ctime << std::endl;
+    
     return 0;
   }
 
@@ -190,9 +194,9 @@ namespace FUSE
           fuse_timeouts_t *timeout_)
   {
     std::cout << "fuse_getattr::getattr, fusepath_" << fusepath_ << std::endl;
-    // if(fusepath_ == CONTROLFILE)
+    if(fusepath_ == CONTROLFILE)
       return l::getattr_controlfile(st_);
 
-    // return l::getattr(fusepath_,st_,timeout_);
+    return l::getattr(fusepath_,st_,timeout_);
   }
 }
