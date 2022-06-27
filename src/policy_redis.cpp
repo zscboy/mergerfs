@@ -161,8 +161,8 @@ namespace redis
 
       std::cout << "round_branches, fusepath:" << fusepath_ << std::endl;
       // 均匀落盘
-      ::redis::round_branches(branches_, paths_);
-      return 0;
+      return ::redis::round_branches(branches_, paths_);
+      // return 0;
     }
 
     basepath = Redis::hget(Redis::redis_key, fusedirpath, &redis_err);
@@ -178,7 +178,7 @@ namespace redis
 
     std::cout << "round_branches, fusepath:" << fusepath_ << std::endl;
     // 均匀落盘
-    ::redis::round_branches(branches_, paths_);
+    return ::redis::round_branches(branches_, paths_);
     // return 
     // return 0;
   }
