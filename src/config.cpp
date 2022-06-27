@@ -98,7 +98,7 @@ Config::Config()
     nullrw(false),
     pid(::getpid()),
     posix_acl(false),
-    readdir(ReadDir::ENUM::POSIX),
+    readdir(ReadDir::ENUM::LINUX),
     readdirplus(false),
     rename_exdev(RenameEXDEV::ENUM::PASSTHROUGH),
     security_capability(true),
