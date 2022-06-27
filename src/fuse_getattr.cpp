@@ -217,6 +217,6 @@ namespace FUSE
 
     timeout_->entry = cfg->cache_entry;
     timeout_->attr  = cfg->cache_attr;
-     return 0
+     return 0;
   }
 }
