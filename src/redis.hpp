@@ -1,6 +1,7 @@
 // #include "config.hpp"
 #include <string>
 #include <sw/redis++/redis++.h>
+#include "strvec.hpp"
 
 using std::string;
 class Redis
@@ -15,9 +16,12 @@ class Redis
         static sw::redis::OptionalString hget(string hash, string field, int *err);
         static long long incr(string key);
         static long long hdel(string key, string field);
-        static void delete_data();
+        static void delete_data(StrVec paths);
+        static long long sadd(string key, string member);
+        static void set_path(string fusepath, string basepath)
 
-        static const string redis_key;
+        static const string redis_file2disk_hash_key;
+        static const string redis_disk2file_set_key;
         static const string redis_incr_key;
 
     private:

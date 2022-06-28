@@ -123,7 +123,7 @@ namespace l
       return -errno;
 
     *fh_ = reinterpret_cast<uint64_t>(new FileInfo(rv,fusepath_));
-    Redis::hset(Redis::redis_key, fusepath_, createpath_);
+    Redis::set_path(fusepath_, createpath_);
 
     return 0;
   }
@@ -191,7 +191,9 @@ namespace FUSE
     if(cfg->writeback_cache)
       l::tweak_flags_writeback_cache(&ffi_->flags);
 
-    return l::create(cfg->func.getattr.policy,
+    int rv;
+    cfg->lock.lock();
+    rv = l::create(cfg->func.getattr.policy,
                      cfg->func.create.policy,
                      cfg->branches,
                      fusepath_,
@@ -199,5 +201,7 @@ namespace FUSE
                      fc->umask,
                      ffi_->flags,
                      &ffi_->fh);
+    cfg->lock.unlock();
+    return rv;
   }
 }

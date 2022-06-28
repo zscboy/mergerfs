@@ -84,7 +84,7 @@ namespace l
 
     if (rv == 0)
     {
-      Redis::hset(Redis::redis_key, fusepath_, createpath_);
+      Redis::set_path(fusepath_, createpath_);
     }
 
     return error::calc(rv,error_,errno);
@@ -171,11 +171,15 @@ namespace FUSE
     const fuse_context *fc = fuse_get_context();
     const ugid::Set     ugid(fc->uid,fc->gid);
 
-    return l::mkdir(cfg->func.getattr.policy,
+    int rv
+    cfg->lock.lock();
+    rv = l::mkdir(cfg->func.getattr.policy,
                     cfg->func.mkdir.policy,
                     cfg->branches,
                     fusepath_,
                     mode_,
                     fc->umask);
+    cfg->lock.unlock();
+    return rv;
   }
 }

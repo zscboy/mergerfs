@@ -258,7 +258,6 @@ namespace l
       FUSE::refresh_redis(cfg->branches, cfg->combinedirs);
     }
 
-    // Redis::hset("file2disk", "test1", "abcd");
     return fuse_main(args.argc,
                      args.argv,
                      &ops);

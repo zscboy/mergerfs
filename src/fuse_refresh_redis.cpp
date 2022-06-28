@@ -31,6 +31,7 @@
 #include "linux_dirent64.h"
 #include "fs_combine_dir.hpp"
 #include "redis.hpp"
+#include "strvec.hpp"
 
 using std::string;
 
@@ -87,7 +88,7 @@ namespace l
           else if(S_ISDIR(st.st_mode))
             refresh_dir_to_redis(basepath_, filepath);
 
-          Redis::hset(Redis::redis_key, filepath, basepath_);
+          Redis::set_path(filepath, basepath_);
           // std::cout << "refresh_dir_to_redis dir " << dirpath_ << " basepath_ " << basepath_ << " => " << filepath << std::endl;
         }
     }
@@ -105,7 +106,9 @@ namespace FUSE
   void 
   refresh_redis(const Branches::CPtr &branches_, const string combinedirs)
   {
-    Redis::delete_data();
+    StrVec paths;
+    branches_->to_paths(&paths);
+    Redis::delete_data(paths);
 
     const string root = "/";
     for(const auto &branch : *branches_)

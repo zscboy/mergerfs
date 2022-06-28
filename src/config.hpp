@@ -46,6 +46,7 @@
 #include <vector>
 
 #include <sys/stat.h>
+#include <mutex>
 
 typedef ToFromWrapper<bool>                 ConfigBOOL;
 typedef ToFromWrapper<uint64_t>             ConfigUINT64;
@@ -65,6 +66,7 @@ public:
   };
 
   typedef std::vector<Err> ErrVec;
+  std::mutex lock;
 
 public:
   class Read

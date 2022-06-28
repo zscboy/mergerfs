@@ -1,9 +1,11 @@
 // #include <sw/redis++/redis++.h>
 #include "redis.hpp"
 #include <iostream>
+#include "strvec.hpp"
 
 sw::redis::Redis *Redis::redis;
-const string Redis::redis_key = "file2disk";
+const string Redis::redis_file2disk_hash_key = "file2disk";
+const string Redis::redis_disk2file_set_key = "disk2file:";
 const string Redis::redis_incr_key = "incr";
 
 using std::string;
@@ -138,7 +140,7 @@ using std::string;
         }
     }
 
-    void Redis::delete_data()
+    void Redis::delete_data(StrVec paths)
     {
         if (redis == NULL) {
             std::cerr << "redis instance == NULL" << std::endl;
@@ -146,10 +148,41 @@ using std::string;
         }
 
         try {
-            redis->del(redis_key);
+            redis->del(redis_file2disk_hash_key);
+            for (const auto &path : paths) 
+            {
+                string key = redis_disk2file_set_key + basepath;
+                redis->del(key);
+            }
         }
         catch (const sw::redis::Error &e) {
             std::cerr << " redis incr error " << e.what() << std::endl;
             return;
         }
     }
+
+    long long Redis::sadd(string key, string member)
+    {
+        if (redis == NULL) {
+            std::cerr << "redis instance == NULL" << std::endl;
+            return 0;
+        }
+
+        try {
+            redis->sadd(key,member);
+        }
+        catch (const sw::redis::Error &e) {
+            std::cerr << " redis incr error " << e.what() << std::endl;
+            return 0;
+        }
+    }
+
+    
+    void Redis::set_path(string fusepath, string basepath)
+    {
+        hset(redis_file2disk_hash_key, fusepath, basepath);
+
+        string key = redis_disk2file_set_key + basepath;
+        sadd(key, fusepath);
+    }
+
