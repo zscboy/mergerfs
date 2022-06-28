@@ -151,7 +151,7 @@ using std::string;
             redis->del(redis_file2disk_hash_key);
             for (const auto &path : paths) 
             {
-                string key = redis_disk2file_set_key + basepath;
+                string key = redis_disk2file_set_key + path;
                 redis->del(key);
             }
         }
@@ -177,6 +177,23 @@ using std::string;
         }
     }
 
+    long long Redis::srem(string key, string member)
+    {
+        if (redis == NULL) {
+            std::cerr << "redis instance == NULL" << std::endl;
+            return 0;
+        }
+
+        try {
+            redis->srem(key,member);
+        }
+        catch (const sw::redis::Error &e) {
+            std::cerr << " redis incr error " << e.what() << std::endl;
+            return 0;
+        }
+    }
+
+
     
     void Redis::set_path(string fusepath, string basepath)
     {
@@ -185,4 +202,13 @@ using std::string;
         string key = redis_disk2file_set_key + basepath;
         sadd(key, fusepath);
     }
+
+    void Redis::remove_path(string fusepath, string basepath)
+    {
+        hdel(redis_file2disk_hash_key, fusepath);
+
+        string key = redis_disk2file_set_key + basepath;
+        srem(key, fusepath);
+    }
+
 

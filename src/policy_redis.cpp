@@ -120,7 +120,7 @@ namespace redis
     auto millisec_since_epoch = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
     Config::Read cfg;
     int redis_err = 0;
-    auto basepath = Redis::hget(Redis::redis_key, fusepath_, &redis_err);
+    auto basepath = Redis::hget(Redis::redis_file2disk_hash_key, fusepath_, &redis_err);
     if (redis_err != 0) {
       return search_path_none_redis(branches_, fusepath_, paths_, cfg);
     }
@@ -147,7 +147,7 @@ namespace redis
       for(const auto &dir : combindir)
       {
         string field = fs::path::make(dir.c_str(), basename.c_str());
-        basepath = Redis::hget(Redis::redis_key, field, &redis_err);
+        basepath = Redis::hget(Redis::redis_file2disk_hash_key, field, &redis_err);
         if (redis_err != 0) {
           return search_path_none_redis(branches_, fusepath_, paths_, cfg);
         }
@@ -165,7 +165,7 @@ namespace redis
       // return 0;
     }
 
-    basepath = Redis::hget(Redis::redis_key, fusedirpath, &redis_err);
+    basepath = Redis::hget(Redis::redis_file2disk_hash_key, fusedirpath, &redis_err);
     if (redis_err != 0) {
       return search_path_none_redis(branches_, fusepath_, paths_, cfg);
     }

@@ -248,7 +248,7 @@ namespace l
 
       // test redis
       int redis_err = 0;
-      Redis::hget(Redis::redis_key, "test", &redis_err);
+      Redis::hget(Redis::redis_file2disk_hash_key, "test", &redis_err);
       if (redis_err !=  0)
       {
         std::cerr << "init redis failed, please check !" << std::endl;

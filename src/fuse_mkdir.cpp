@@ -171,7 +171,7 @@ namespace FUSE
     const fuse_context *fc = fuse_get_context();
     const ugid::Set     ugid(fc->uid,fc->gid);
 
-    int rv
+    int rv;
     cfg->lock.lock();
     rv = l::mkdir(cfg->func.getattr.policy,
                     cfg->func.mkdir.policy,

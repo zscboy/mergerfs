@@ -107,7 +107,7 @@ namespace FUSE
   refresh_redis(const Branches::CPtr &branches_, const string combinedirs)
   {
     StrVec paths;
-    branches_->to_paths(&paths);
+    branches_->to_paths(paths);
     Redis::delete_data(paths);
 
     const string root = "/";
