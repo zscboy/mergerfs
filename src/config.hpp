@@ -66,7 +66,7 @@ public:
   };
 
   typedef std::vector<Err> ErrVec;
-  std::mutex lock;
+  mutable std::mutex lock;
 
 public:
   class Read

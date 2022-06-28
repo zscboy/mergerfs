@@ -171,15 +171,12 @@ namespace FUSE
     const fuse_context *fc = fuse_get_context();
     const ugid::Set     ugid(fc->uid,fc->gid);
 
-    int rv;
-    cfg->lock.lock();
-    rv = l::mkdir(cfg->func.getattr.policy,
+    std::lock_guard<std::mutex> guard(cfg->lock);
+    return l::mkdir(cfg->func.getattr.policy,
                     cfg->func.mkdir.policy,
                     cfg->branches,
                     fusepath_,
                     mode_,
                     fc->umask);
-    cfg->lock.unlock();
-    return rv;
   }
 }

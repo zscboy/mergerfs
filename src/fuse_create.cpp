@@ -191,9 +191,8 @@ namespace FUSE
     if(cfg->writeback_cache)
       l::tweak_flags_writeback_cache(&ffi_->flags);
 
-    int rv;
-    cfg->lock.lock();
-    rv = l::create(cfg->func.getattr.policy,
+    std::lock_guard<std::mutex> guard(cfg->lock);
+    return l::create(cfg->func.getattr.policy,
                      cfg->func.create.policy,
                      cfg->branches,
                      fusepath_,
@@ -201,7 +200,5 @@ namespace FUSE
                      fc->umask,
                      ffi_->flags,
                      &ffi_->fh);
-    cfg->lock.unlock();
-    return rv;
   }
 }

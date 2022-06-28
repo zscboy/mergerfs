@@ -169,7 +169,7 @@ using std::string;
         }
 
         try {
-            redis->sadd(key,member);
+            return redis->sadd(key,member);
         }
         catch (const sw::redis::Error &e) {
             std::cerr << " redis incr error " << e.what() << std::endl;
@@ -185,7 +185,7 @@ using std::string;
         }
 
         try {
-            redis->srem(key,member);
+            return redis->srem(key,member);
         }
         catch (const sw::redis::Error &e) {
             std::cerr << " redis incr error " << e.what() << std::endl;
