@@ -68,7 +68,6 @@ namespace l
     string fullpath;
     uint64_t namelen;
 
-    // auto millisec_since_epoch0 = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
     fuse_dirents_reset(buf_);
 
     for(const auto &branch : *branches_)
@@ -77,8 +76,6 @@ namespace l
         int dirfd;
         DIR *dh;
         
-        // auto millisec_since_epoch1 = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
-
         basepath = fs::path::make(branch.path,dirname_);
 
         dh = fs::opendir(basepath);
@@ -87,11 +84,9 @@ namespace l
 
         dirfd = fs::dirfd(dh);
         dev   = fs::devid(dirfd);
-        // auto millisec_since_epoch2 = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
         rv = 0;
         for(struct dirent *de = fs::readdir(dh); de && !rv; de = fs::readdir(dh))
           {
-            // auto millisec_since_epoch3 = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
             namelen = l::dirent_exact_namelen(de);
 
             rv = names.put(de->d_name,namelen);
@@ -105,22 +100,15 @@ namespace l
                                         dev,
                                         de->d_ino);
 
-            // auto millisec_since_epoch4 = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
             rv = fuse_dirents_add(buf_,de,namelen);
             if(rv)
               return (fs::closedir(dh),-ENOMEM);
             
-            // auto millisec_since_epoch5 = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
-            // std::cout << " read dir single time : " << millisec_since_epoch5 - millisec_since_epoch3 << " cac inode: " << millisec_since_epoch4 - millisec_since_epoch3  << std::endl;
           }
 
         fs::closedir(dh);
 
-        // auto millisec_since_epoch6 = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
-        std::cout << " read dir time : " << millisec_since_epoch6 - millisec_since_epoch1 << " open dir and read dir: " << millisec_since_epoch2 - millisec_since_epoch1  << std::endl;
       }
-
-      // std::cout << " read dirname_ " <<  dirname_ << " time " << std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now().time_since_epoch()).count() - millisec_since_epoch0  << std::endl;
 
     return 0;
   }
