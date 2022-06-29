@@ -93,16 +93,10 @@ namespace redis
     const string sealedpath = "/sealed";
     const string cachepath = "/cache";
     Config::Read cfg;
-    // if (cfg->combinedirs.to_string().empty())
-    // {
-    //   std::cerr << "cfg->combinedirs == null" << std::endl;
-    //   return -1;
-    // }
 
     string searchpath;
     string fusedirpath = fs::path::dirname(fusepath_);
     string basename = fs::path::basename(fusepath_);
-    // StrVec combindir = fs::string2vec(cfg->combinedirs);
 
     // 特殊处理
     if (cachepath == fusedirpath)
@@ -114,7 +108,7 @@ namespace redis
       // 特殊处理rsync类工具同步文件
       searchpath = fs::path::make(cachepath.c_str(), basename.c_str());
     }
-    std::cout << " fusepath_ " << fusepath_ << "searchpath "<< searchpath <<  std::endl;
+
     if (!searchpath.empty())
     {
       int rv = Policies::Search::epff(branches_, searchpath.c_str(), paths_);
