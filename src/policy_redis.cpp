@@ -83,105 +83,6 @@ namespace redis
     return 0;
   }
 
-  static
-  int 
-  search_path_none_redis(const Branches::CPtr &branches_,
-                        const char           *fusepath_,
-                        StrVec               *paths_,
-                        Config::Read         &cfg)
-  {
-    int rv;
-
-    rv = Policies::Search::epff(branches_,fusepath_,paths_);
-    if(rv == 0)
-    {
-      return 0;
-    }
-
-    StrVec combinedirs = fs::string2vec(cfg->combinedirs);
-    fs::combinedir(branches_, fusepath_, combinedirs, paths_);
-
-    if (!paths_->empty())
-    {
-      return 0;
-    }
-
-    string fusedirpath = fs::path::dirname(fusepath_);
-    return Policies::Search::eprand(branches_,fusedirpath.c_str(),paths_);
-  }
-
-  static
-  int 
-  search_path_from_redis(const Branches::CPtr &branches_,
-                        const char           *fusepath_,
-                        StrVec               *paths_)
-  {
-    // std::cout << "policy_redis::create, fusepath_" << fusepath_ << std::endl;
-    // auto millisec_since_epoch = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
-    Config::Read cfg;
-    int redis_err = 0;
-    auto basepath = Redis::hget(Redis::redis_file2disk_hash_key, fusepath_, &redis_err);
-    if (redis_err != 0) {
-      return search_path_none_redis(branches_, fusepath_, paths_, cfg);
-    }
-
-    // auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now().time_since_epoch()).count() - millisec_since_epoch;
-    // std::cout << "policy::redis search_path_from_redis duration: " << duration << std::endl;
-    if (basepath) {
-      // std::cout << "Redis find basepath " << fusepath_ << " => " << *basepath << std::endl;
-      paths_->push_back(*basepath);
-      return 0;
-    }
-
-    if (cfg->combinedirs.to_string().empty())
-    {
-      std::cerr << "cfg->combinedirs == null" << std::endl;
-      return -1;
-    }
-
-    string fusedirpath = fs::path::dirname(fusepath_);
-    string basename = fs::path::basename(fusepath_);
-    StrVec combindir = fs::string2vec(cfg->combinedirs);
-
-    if (fs::is_in_combinedir(fusedirpath, combindir)) {
-      for(const auto &dir : combindir)
-      {
-        string field = fs::path::make(dir.c_str(), basename.c_str());
-        basepath = Redis::hget(Redis::redis_file2disk_hash_key, field, &redis_err);
-        if (redis_err != 0) {
-          return search_path_none_redis(branches_, fusepath_, paths_, cfg);
-        }
-
-        if (basepath) {
-          // std::cout << "Redis find basepath " << fusepath_ << " => " << *basepath << std::endl;
-          paths_->push_back(*basepath);
-          return 0;
-        }
-      }
-
-      // std::cout << "round_branches, fusepath:" << fusepath_ << std::endl;
-      // 均匀落盘
-      return ::redis::round_branches(branches_, paths_);
-      // return 0;
-    }
-
-    basepath = Redis::hget(Redis::redis_file2disk_hash_key, fusedirpath, &redis_err);
-    if (redis_err != 0) {
-      return search_path_none_redis(branches_, fusepath_, paths_, cfg);
-    }
-
-    if (basepath) {
-      // std::cout << "Redis find basepath " << fusepath_ << " => " << *basepath << std::endl;
-      paths_->push_back(*basepath);
-      return 0;
-    }
-
-    std::cout << "round_branches, fusepath:" << fusepath_ << std::endl;
-    // 均匀落盘
-    return ::redis::round_branches(branches_, paths_);
-    // return 
-    // return 0;
-  }
 
   static
   int
@@ -189,7 +90,42 @@ namespace redis
          const char           *fusepath_,
          StrVec               *paths_)
   {
-    return search_path_from_redis(branches_, fusepath_, paths_);
+    const string sealedpath = "/sealed";
+    const string cachepath = "/cache";
+    Config::Read cfg;
+    if (cfg->combinedirs.to_string().empty())
+    {
+      std::cerr << "cfg->combinedirs == null" << std::endl;
+      return -1;
+    }
+
+    string searchpath;
+    string fusedirpath = fs::path::dirname(fusepath_);
+    string basename = fs::path::basename(fusepath_);
+    StrVec combindir = fs::string2vec(cfg->combinedirs);
+
+    // 特殊处理
+    if (cachepath == fusedirpath)
+    {
+      searchpath = fs::path::make(sealedpath, basename.c_str());
+    } 
+    else if(sealedpath == fusedirpath)
+    {
+      // 特殊处理rsync类工具同步文件
+      searchpath = fs::path::make(cachepath, basename.c_str());
+    }
+
+    if (!searchpath.empty())
+    {
+      rv = Policies::Search::epff(branches_, searchpath, paths_);
+      if(rv == -1)
+      {
+        return ::redis::round_branches(branches_, paths_);
+      }
+      return 0;
+    }
+
+    return Policies::Search::epff(branches_, fusedirpath, paths_);
   }
 
   static
@@ -239,7 +175,17 @@ namespace redis
           const char           *fusepath_,
           StrVec               *paths_)
   {
-    return search_path_from_redis(branches_, fusepath_, paths_);
+    for(auto &branch : *branches_)
+      {
+        if(!fs::exists(branch.path,fusepath_))
+          continue;
+
+        paths_->push_back(branch.path);
+
+        return 0;
+      }
+
+    return (errno=ENOENT,-1);
   }
 }
 
