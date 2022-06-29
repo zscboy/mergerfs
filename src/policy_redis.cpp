@@ -114,7 +114,7 @@ namespace redis
       // 特殊处理rsync类工具同步文件
       searchpath = fs::path::make(cachepath.c_str(), basename.c_str());
     }
-    std::cout << " fusepath_ " << fusepath_ << "searchpath "<< searchpath <<  std::cout;
+    std::cout << " fusepath_ " << fusepath_ << "searchpath "<< searchpath <<  std::endl;
     if (!searchpath.empty())
     {
       int rv = Policies::Search::epff(branches_, searchpath.c_str(), paths_);
