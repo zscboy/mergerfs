@@ -117,7 +117,7 @@ namespace redis
 
     if (!searchpath.empty())
     {
-      rv = Policies::Search::epff(branches_, searchpath, paths_);
+      int rv = Policies::Search::epff(branches_, searchpath.c_str(), paths_);
       if(rv == -1)
       {
         return ::redis::round_branches(branches_, paths_);
@@ -125,7 +125,7 @@ namespace redis
       return 0;
     }
 
-    return Policies::Search::epff(branches_, fusedirpath, paths_);
+    return Policies::Search::epff(branches_, fusedirpath.c_str(), paths_);
   }
 
   static
