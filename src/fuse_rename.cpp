@@ -32,6 +32,7 @@
 #include <algorithm>
 #include <string>
 #include <vector>
+#include <iostream>
 
 using std::string;
 namespace gfs = ghc::filesystem;
@@ -390,6 +391,7 @@ namespace FUSE
   rename(const char *oldfusepath_,
          const char *newfusepath_)
   {
+    std::cout << "fuse_rename::rename oldfusepath_: " << oldfusepath_ << " newfusepath_:" << newfusepath_ << std::endl;
     int rv;
     Config::Read cfg;
     gfs::path oldfusepath(oldfusepath_);
