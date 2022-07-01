@@ -18,11 +18,18 @@
 
 #include "branches.hpp"
 #include <string>
+#include "strvec.hpp"
 
 using std::string;
 
 namespace FUSE
 {
   void 
-  refresh_redis(const Branches::CPtr &branches_, const string combinedirs);
+  refresh_redis(const Branches::CPtr &branches_);
+
+  void 
+  add_branches_redis(const Branches::CPtr &branches_);
+
+  void 
+  remove_redis_branches(const StrVec &paths)
 }
