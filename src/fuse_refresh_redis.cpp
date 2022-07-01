@@ -136,7 +136,7 @@ namespace FUSE
     const string root = "/";
     for(const auto path : paths)
     {
-      l::refresh_dir_to_redis(branch.path, root);
+      l::refresh_dir_to_redis(path, root);
     }
   }
 
