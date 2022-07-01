@@ -33,7 +33,6 @@
 #include "redis.hpp"
 #include "strvec.hpp"
 #include <iterator>
-#include <initializer_list>
 
 using std::string;
 
@@ -102,7 +101,7 @@ namespace l
 
   static
   void 
-  remove_dir_from_redis(const string path)
+  remove_path_from_redis(const string path)
   {
     StrVec paths;
     const string key = Redis::redis_disk2file_set_key + path;
@@ -145,7 +144,7 @@ namespace FUSE
   {
     for(const auto path : paths)
     {
-      l::remove_dir_from_redis(path);
+      l::remove_path_from_redis(path);
     }
   }
 }

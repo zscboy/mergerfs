@@ -227,8 +227,7 @@ using std::string;
         }
     }
 
-    template <typename Output>
-    void Redis::smembers(string key, Output output)
+    void Redis::smembers(string key,  std::back_insert_iterator<StrVec> output)
     {
         if (redis == NULL) {
             std::cerr << "redis instance == NULL" << std::endl;

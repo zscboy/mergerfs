@@ -26,8 +26,7 @@ class Redis
 
         template <typename Input>
         static long long hdel(string key, Input first, Input last);
-        template <typename Output>
-        static void smembers(string key, Output output);
+        static void smembers(string key,  std::back_insert_iterator<StrVec> output);
         
 
         static const string redis_file2disk_hash_key;
