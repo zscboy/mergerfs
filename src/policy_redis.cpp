@@ -80,7 +80,7 @@ namespace redis
       validpathstr = validpathstr + ":" + path;
     }
 
-    if incr >= maxIncr {
+    if (incr >= maxIncr) {
       Redis::set(Redis::redis_incr_key, "0");
     }
     // std::cout << "round_branches incr:" << incr << " vbranches_ " << branches_->to_string() << " validpathstr " << validpathstr << " index " << index << " basepath " << basepath  << std::endl;
