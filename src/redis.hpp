@@ -24,7 +24,7 @@ class Redis
 
         static long long del(string key);
 
-        static long long hdel(string key, std::vector::iterator first, std::vector::iterator last);
+        static long long hdel(string key, StrVec::iterator first, StrVec::iterator last);
         static void smembers(string key,  std::back_insert_iterator<StrVec> output);
         
 

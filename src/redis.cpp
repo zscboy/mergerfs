@@ -125,7 +125,7 @@ using std::string;
         }
     }
 
-    long long Redis::hdel(string key, std::vector::iterator first,  std::vector::iterator last)
+    long long Redis::hdel(string key, StrVec::iterator first,  StrVec::iterator last)
     {
         if (redis == NULL) {
             std::cerr << "redis instance == NULL" << std::endl;
