@@ -40,6 +40,11 @@ using std::string;
         }
     }
 
+    bool Redis::isInit() 
+    {
+        return redis != NULL;
+    }
+
     bool Redis::set(string key, string value)
     {
         if (redis == NULL) {

@@ -26,6 +26,8 @@ class Redis
 
         static long long hdel(string key, StrVec::iterator first, StrVec::iterator last);
         static void smembers(string key,  std::back_insert_iterator<StrVec> output);
+
+        static bool isInit();
         
 
         static const string redis_file2disk_hash_key;

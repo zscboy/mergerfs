@@ -118,6 +118,10 @@ namespace FUSE
   void 
   refresh_redis(const Branches::CPtr &branches_)
   {
+    if (!Redis::isInit()) {
+      return;
+    }
+
     StrVec paths;
     branches_->to_paths(paths);
     Redis::delete_data(paths);
@@ -132,6 +136,10 @@ namespace FUSE
   void 
   add_branches_redis(const StrVec &paths)
   {
+    if (!Redis::isInit()) {
+      return;
+    }
+
     const string root = "/";
     for(const auto path : paths)
     {
@@ -142,6 +150,10 @@ namespace FUSE
   void 
   remove_redis_branches(const StrVec &paths)
   {
+    if (!Redis::isInit()) {
+      return;
+    }
+
     for(const auto path : paths)
     {
       l::remove_path_from_redis(path);
