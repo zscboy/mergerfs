@@ -78,7 +78,7 @@ namespace l
       rv = fs::unlink(fullpath);
 
     if (rv == 0) {
-      Redis::hdel(Redis::redis_disk2file_set_key, fusepath_);
+      Redis::remove_path(fusepath_, basepath_)
     }
 
     return error::calc(rv,error_,errno);
