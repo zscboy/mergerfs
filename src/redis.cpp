@@ -125,8 +125,7 @@ using std::string;
         }
     }
 
-    template <typename Input>
-    long long Redis::hdel(string key, Input first, Input last)
+    long long Redis::hdel(string key, std::vector::iterator first,  std::vector::iterator last)
     {
         if (redis == NULL) {
             std::cerr << "redis instance == NULL" << std::endl;
