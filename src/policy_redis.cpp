@@ -41,6 +41,8 @@ using std::chrono::duration_cast;
 
 using std::string;
 
+const long long maxIncr = 9223372036854775807;
+
 
 namespace redis
 {
@@ -78,7 +80,10 @@ namespace redis
       validpathstr = validpathstr + ":" + path;
     }
 
-    std::cout << "round_branches incr:" << incr << " vbranches_ " << branches_->to_string() << " validpathstr " << validpathstr << " index " << index << " basepath " << basepath  << std::endl;
+    if incr >= maxIncr {
+      Redis::set(Redis::redis_incr_key, "0");
+    }
+    // std::cout << "round_branches incr:" << incr << " vbranches_ " << branches_->to_string() << " validpathstr " << validpathstr << " index " << index << " basepath " << basepath  << std::endl;
 
     return 0;
   }
