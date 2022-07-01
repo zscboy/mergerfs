@@ -125,7 +125,8 @@ using std::string;
         }
     }
 
-    long long Redis::hdel(string key, sw::redis::Input first, sw::redis::Input last)
+    template <typename Input>
+    long long Redis::hdel(string key, Input first, Input last)
     {
         if (redis == NULL) {
             std::cerr << "redis instance == NULL" << std::endl;
@@ -226,8 +227,8 @@ using std::string;
         }
     }
 
-    // template <typename Output>
-    void Redis::smembers(string key, sw::redis::Output output)
+    template <typename Output>
+    void Redis::smembers(string key, Output output)
     {
         if (redis == NULL) {
             std::cerr << "redis instance == NULL" << std::endl;

@@ -16,7 +16,6 @@ class Redis
         static sw::redis::OptionalString hget(string hash, string field, int *err);
         static long long incr(string key);
         static long long hdel(string key, string field);
-        static long long hdel(string key, std::initializer_list<sw::redis::T> il)
         static void delete_data(StrVec paths);
         static long long sadd(string key, string member);
         static long long srem(string key, string member);
@@ -24,7 +23,12 @@ class Redis
         static void remove_path(string fusepath, string basepath);
 
         static long long del(string key);
-        static void smembers(string key, sw::redis::Output output);
+
+        template <typename Input>
+        static long long hdel(string key, Input first, Input last);
+        template <typename Output>
+        static void smembers(string key, Output output);
+        
 
         static const string redis_file2disk_hash_key;
         static const string redis_disk2file_set_key;

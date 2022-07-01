@@ -263,7 +263,7 @@ namespace l
                       tmp_branches.begin(),
                       tmp_branches.end());
     
-    fuse::add_branches_redis(tmp_branches);
+    Fuse::add_branches_redis(tmp_branches);
 
     return 0;
   }
@@ -309,7 +309,7 @@ namespace l
         i = ((match == 0) ? branches_->erase(i) : (i+1));
       }
 
-      FUSE::remove_branches_redis(rmpaths);
+      FUSE::remove_redis_branches(rmpaths);
 
     return 0;
   }
