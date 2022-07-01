@@ -263,7 +263,7 @@ namespace l
                       tmp_branches.begin(),
                       tmp_branches.end());
     
-    FUSE::add_branches_redis(tmp_branches);
+    FUSE::add_branches_redis(paths);
 
     return 0;
   }

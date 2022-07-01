@@ -28,7 +28,7 @@ namespace FUSE
   refresh_redis(const Branches::CPtr &branches_);
 
   void 
-  add_branches_redis(const Branches::CPtr &branches_);
+  add_branches_redis(const StrVec &paths);
 
   void 
   remove_redis_branches(const StrVec &paths);

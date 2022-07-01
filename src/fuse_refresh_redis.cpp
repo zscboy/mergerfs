@@ -131,10 +131,10 @@ namespace FUSE
   }
 
   void 
-  add_branches_redis(const Branches::CPtr &branches_)
+  add_branches_redis(const StrVec &paths)
   {
     const string root = "/";
-    for(const auto &branch : *branches_)
+    for(const auto path : paths)
     {
       l::refresh_dir_to_redis(branch.path, root);
     }
