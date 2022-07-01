@@ -32,6 +32,8 @@
 #include "fs_combine_dir.hpp"
 #include "redis.hpp"
 #include "strvec.hpp"
+#include <iterator>
+#include <initializer_list>
 
 using std::string;
 
@@ -98,13 +100,24 @@ namespace l
 
   }
 
+  static
+  void 
+  remove_dir_from_redis(const string path)
+  {
+    StrVec paths;
+    const string key = Redis::redis_disk2file_set_key + path;
+    Redis::smembers(key, std::back_inserter(paths));
+    Redis::hdel(Redis::redis_file2disk_hash_key, paths.begin(), paths.end());
+    Redis::del(key);
+  }
+
 
 }
 
 namespace FUSE
 {
   void 
-  refresh_redis(const Branches::CPtr &branches_, const string combinedirs)
+  refresh_redis(const Branches::CPtr &branches_)
   {
     StrVec paths;
     branches_->to_paths(paths);
@@ -114,6 +127,25 @@ namespace FUSE
     for(const auto &branch : *branches_)
     {
       l::refresh_dir_to_redis(branch.path, root);
+    }
+  }
+
+  void 
+  add_branches_redis(const Branches::CPtr &branches_)
+  {
+    const string root = "/";
+    for(const auto &branch : *branches_)
+    {
+      l::refresh_dir_to_redis(branch.path, root);
+    }
+  }
+
+  void 
+  remove_redis_branches(const StrVec &paths)
+  {
+    for(const auto path : paths)
+    {
+      l::remove_dir_from_redis(path);
     }
   }
 }

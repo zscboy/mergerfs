@@ -255,7 +255,7 @@ namespace l
         return 0;
       }
 
-      FUSE::refresh_redis(cfg->branches, cfg->combinedirs);
+      FUSE::refresh_redis(cfg->branches);
     }
 
     return fuse_main(args.argc,

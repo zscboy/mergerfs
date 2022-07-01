@@ -29,6 +29,7 @@
 #include <string>
 
 #include <fnmatch.h>
+#include "fuse_refresh_redis.hpp"
 
 using std::string;
 using std::vector;
@@ -261,6 +262,8 @@ namespace l
     branches_->insert(branches_->end(),
                       tmp_branches.begin(),
                       tmp_branches.end());
+    
+    fuse::add_branches_redis(tmp_branches);
 
     return 0;
   }
@@ -289,6 +292,7 @@ namespace l
                 Branches::Impl    *branches_)
   {
     StrVec patterns;
+    StrVec rmpaths;
 
     str::split(str_,':',&patterns);
     for(auto i = branches_->begin(); i != branches_->end();)
@@ -298,10 +302,14 @@ namespace l
         for(auto pi = patterns.cbegin(); pi != patterns.cend() && match != 0; ++pi)
           {
             match = ::fnmatch(pi->c_str(),i->path.c_str(),0);
+
+            if (match == 0) rmpaths.push_back(pi->c_str());
           }
 
         i = ((match == 0) ? branches_->erase(i) : (i+1));
       }
+
+      FUSE::remove_branches_redis(rmpaths);
 
     return 0;
   }

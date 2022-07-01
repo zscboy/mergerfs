@@ -2,6 +2,7 @@
 #include "redis.hpp"
 #include <iostream>
 #include "strvec.hpp"
+#include <initializer_list>
 
 sw::redis::Redis *Redis::redis;
 const string Redis::redis_file2disk_hash_key = "file2disk";
@@ -124,6 +125,22 @@ using std::string;
         }
     }
 
+    long long Redis::hdel(string key, sw::redis::Input first, sw::redis::Input last)
+    {
+        if (redis == NULL) {
+            std::cerr << "redis instance == NULL" << std::endl;
+            return 0;
+        }
+
+        try {
+            return redis->hdel(key, first, last);
+        }
+        catch (const sw::redis::Error &e) {
+            std::cerr << " redis hdel error " << e.what() << std::endl;
+            return 0;
+        }
+    }
+
     long long Redis::incr(string key)
     {
         if (redis == NULL) {
@@ -193,7 +210,38 @@ using std::string;
         }
     }
 
+    long long Redis::del(string key)
+    {
+        if (redis == NULL) {
+            std::cerr << "redis instance == NULL" << std::endl;
+            return 0;
+        }
 
+        try {
+            return redis->del(key);
+        }
+        catch (const sw::redis::Error &e) {
+            std::cerr << " redis incr error " << e.what() << std::endl;
+            return 0;
+        }
+    }
+
+    // template <typename Output>
+    void Redis::smembers(string key, sw::redis::Output output)
+    {
+        if (redis == NULL) {
+            std::cerr << "redis instance == NULL" << std::endl;
+            return;
+        }
+
+        try {
+            return redis->smembers(key, output);
+        }
+        catch (const sw::redis::Error &e) {
+            std::cerr << " redis incr error " << e.what() << std::endl;
+            return;
+        }
+    }
     
     void Redis::set_path(string fusepath, string basepath)
     {
