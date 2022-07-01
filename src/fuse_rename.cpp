@@ -33,6 +33,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include "redis.hpp"
 
 using std::string;
 namespace gfs = ghc::filesystem;
@@ -200,6 +201,9 @@ namespace l
             toremove.push_back(oldfullpath);
             continue;
           }
+
+        Redis::remove_path(oldfusepath_, branch.path);
+        Redis::set_path(newfusepath_, branch.path);
 
         success = true;
       }
