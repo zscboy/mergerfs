@@ -33,6 +33,7 @@
 #include "redis.hpp"
 #include "strvec.hpp"
 #include <iterator>
+#include <unordered_map>
 
 using std::string;
 
@@ -63,6 +64,9 @@ namespace l
       return;
     }
 
+    std::unordered_map<std::string, std::string> path_map;
+    StrVec path_vec;
+
     for(;;)
     {
       nread = fs::getdents_64(dirfd,buf,g_DENTS_BUF_POOL.size());
@@ -89,13 +93,18 @@ namespace l
           else if(S_ISDIR(st.st_mode))
             refresh_dir_to_redis(basepath_, filepath);
 
-          Redis::set_path(filepath, basepath_);
+          // Redis::set_path(filepath, basepath_);
+          paths[filepath] = basepath_;
+          path_vec.push_back(filepath);
           // std::cout << "refresh_dir_to_redis dir " << dirpath_ << " basepath_ " << basepath_ << " => " << filepath << std::endl;
         }
     }
 
     fs::close(dirfd);
     g_DENTS_BUF_POOL.free(buf);
+
+    Redis::hset(Redis::redis_file2disk_hash_key, path_map);
+    Redis::sadd(Redis::redis_disk2file_set_key + basepath_, path_vec);
 
   }
 

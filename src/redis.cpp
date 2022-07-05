@@ -95,6 +95,23 @@ using std::string;
         }
     }
 
+    
+    long long Redis::hset(string hash,  std::unordered_map<std::string, std::string> m)
+    {
+        if (redis == NULL) {
+            std::cerr << "redis instance == NULL" << std::endl;
+            return 0;
+        }
+
+        try {
+            return redis->hset(hash,  m.begin(), m.end());
+        }
+        catch (const sw::redis::Error &e) {
+            std::cerr << " redis hset error " << e.what() << std::endl;
+            return 0;
+        }
+    }
+
     sw::redis::OptionalString Redis::hget(string hash, string field, int *err)
     {
         if (redis == NULL) {
