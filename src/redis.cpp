@@ -7,6 +7,7 @@
 sw::redis::Redis *Redis::redis;
 const string Redis::redis_file2disk_hash_key = "file2disk";
 const string Redis::redis_disk2file_set_key = "disk2file:";
+const string Redis::redis_errpath_set_key = "errpath:"
 const string Redis::redis_incr_key = "incr";
 
 using std::string;
@@ -196,6 +197,38 @@ using std::string;
         catch (const sw::redis::Error &e) {
             std::cerr << " redis incr error " << e.what() << std::endl;
             return 0;
+        }
+    }
+
+    long long Redis::sadd(string key, StrVec::iterator first,  StrVec::iterator last)
+    {
+        if (redis == NULL) {
+            std::cerr << "redis instance == NULL" << std::endl;
+            return 0;
+        }
+
+        try {
+            return redis->sadd(key, first, last);
+        }
+        catch (const sw::redis::Error &e) {
+            std::cerr << " redis incr error " << e.what() << std::endl;
+            return 0;
+        }
+    }
+
+    bool Redis::sismember(string key, string member)
+    {
+        if (redis == NULL) {
+            std::cerr << "redis instance == NULL" << std::endl;
+            return false;
+        }
+
+        try {
+            return redis->sismember(key, member);
+        }
+        catch (const sw::redis::Error &e) {
+            std::cerr << " redis incr error " << e.what() << std::endl;
+            return false;
         }
     }
 

@@ -17,8 +17,12 @@ class Redis
         static long long incr(string key);
         static long long hdel(string key, string field);
         static void delete_data(StrVec paths);
+
         static long long sadd(string key, string member);
+        static long long sadd(string key, StrVec::iterator first,  StrVec::iterator last);
+        static bool sismember(string key, string member);
         static long long srem(string key, string member);
+
         static void set_path(string fusepath, string basepath);
         static void remove_path(string fusepath, string basepath);
 
@@ -32,6 +36,7 @@ class Redis
 
         static const string redis_file2disk_hash_key;
         static const string redis_disk2file_set_key;
+        static const string redis_errpath_set_key;
         static const string redis_incr_key;
 
     private:

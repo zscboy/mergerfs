@@ -256,6 +256,8 @@ namespace l
       }
 
       FUSE::refresh_redis(cfg->branches);
+
+      std::cout << "refresh_redis complete" << std::endl;
     }
 
     return fuse_main(args.argc,

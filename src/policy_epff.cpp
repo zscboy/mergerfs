@@ -27,6 +27,7 @@
 
 #include <string>
 #include <vector>
+#include "redis_err_path.hpp"
 
 using std::string;
 using std::vector;
@@ -113,6 +114,7 @@ namespace epff
         return 0;
       }
 
+    redis::handle_err_path(fusepath_);
     return (errno=ENOENT,-1);
   }
 }
