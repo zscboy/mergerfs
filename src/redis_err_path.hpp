@@ -48,7 +48,7 @@ namespace redis
     const string key_from = Redis::redis_disk2file_set_key + path;
     const string key_to = Redis::redis_errpath_set_key + path;
 
-    bool isExist = Redis::sismember(key, fusepath_);
+    bool isExist = Redis::sismember(key_to, fusepath_);
     if (isExist)
     {
       std::cout << "path " << fusepath_ << " aready in errpath"<< std::endl;
