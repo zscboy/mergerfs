@@ -94,7 +94,7 @@ namespace l
             refresh_dir_to_redis(basepath_, filepath);
 
           // Redis::set_path(filepath, basepath_);
-          paths[filepath] = basepath_;
+          path_map[filepath] = basepath_;
           path_vec.push_back(filepath);
           // std::cout << "refresh_dir_to_redis dir " << dirpath_ << " basepath_ " << basepath_ << " => " << filepath << std::endl;
         }
@@ -104,7 +104,7 @@ namespace l
     g_DENTS_BUF_POOL.free(buf);
 
     Redis::hset(Redis::redis_file2disk_hash_key, path_map);
-    Redis::sadd(Redis::redis_disk2file_set_key + basepath_, path_vec);
+    Redis::sadd(Redis::redis_disk2file_set_key + basepath_, path_vec.begin, path_vec.end);
 
   }
 
