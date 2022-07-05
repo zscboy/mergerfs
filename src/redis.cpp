@@ -7,7 +7,7 @@
 sw::redis::Redis *Redis::redis;
 const string Redis::redis_file2disk_hash_key = "file2disk";
 const string Redis::redis_disk2file_set_key = "disk2file:";
-const string Redis::redis_errpath_set_key = "errpath:"
+const string Redis::redis_errpath_set_key = "errpath:";
 const string Redis::redis_incr_key = "incr";
 
 using std::string;

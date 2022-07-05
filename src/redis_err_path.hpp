@@ -31,7 +31,7 @@ namespace redis
   handle_err_path(const char *fusepath_)
   {
     int err = 0;
-    auto basepath = Redis::hget(Redis::redis_file2disk_hash_key, fusepath_, &err)
+    auto basepath = Redis::hget(Redis::redis_file2disk_hash_key, fusepath_, &err);
     if (err != 0)
     {
       std::cerr << "handle_err_path failed, err: " << err << std::endl;
@@ -40,12 +40,12 @@ namespace redis
 
     if (!basepath)
     {
-      std::cerr << "path " << fusepath_ < " not exist, not need to handle"<< std::endl;
+      std::cerr << "path " << fusepath_ << " not exist, not need to handle"<< std::endl;
       return;
     }
 
     const string path = *basepath;
-    const string key = Redis::redis_disk2file_set_key + path;
+    const string key = Redis::redis_errpath_set_key + path;
 
     bool isExist = Redis::sismember(key, fusepath_);
     if (isExist)
