@@ -45,7 +45,8 @@ namespace redis
     }
 
     const string path = *basepath;
-    const string key = Redis::redis_errpath_set_key + path;
+    const string key_from = Redis::redis_disk2file_set_key + path;
+    const string key_to = Redis::redis_errpath_set_key + path;
 
     bool isExist = Redis::sismember(key, fusepath_);
     if (isExist)
@@ -55,7 +56,7 @@ namespace redis
     }
 
     StrVec paths;
-    Redis::smembers(key, std::back_inserter(paths));
-    Redis::sadd(key, paths.begin(), paths.end());
+    Redis::smembers(key_from, std::back_inserter(paths));
+    Redis::sadd(key_to, paths.begin(), paths.end());
   }
 }

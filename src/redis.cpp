@@ -179,7 +179,7 @@ using std::string;
             }
         }
         catch (const sw::redis::Error &e) {
-            std::cerr << " redis incr error " << e.what() << std::endl;
+            std::cerr << " redis del error " << e.what() << std::endl;
             return;
         }
     }
@@ -195,7 +195,7 @@ using std::string;
             return redis->sadd(key,member);
         }
         catch (const sw::redis::Error &e) {
-            std::cerr << " redis incr error " << e.what() << std::endl;
+            std::cerr << " redis sadd error " << e.what() << std::endl;
             return 0;
         }
     }
@@ -211,7 +211,7 @@ using std::string;
             return redis->sadd(key, first, last);
         }
         catch (const sw::redis::Error &e) {
-            std::cerr << " redis incr error " << e.what() << std::endl;
+            std::cerr << " redis sadd error " << e.what() << std::endl;
             return 0;
         }
     }
@@ -227,7 +227,7 @@ using std::string;
             return redis->sismember(key, member);
         }
         catch (const sw::redis::Error &e) {
-            std::cerr << " redis incr error " << e.what() << std::endl;
+            std::cerr << " redis sismember error " << e.what() << std::endl;
             return false;
         }
     }
@@ -243,7 +243,7 @@ using std::string;
             return redis->srem(key,member);
         }
         catch (const sw::redis::Error &e) {
-            std::cerr << " redis incr error " << e.what() << std::endl;
+            std::cerr << " redis srem error " << e.what() << std::endl;
             return 0;
         }
     }
@@ -259,7 +259,7 @@ using std::string;
             return redis->del(key);
         }
         catch (const sw::redis::Error &e) {
-            std::cerr << " redis incr error " << e.what() << std::endl;
+            std::cerr << " redis del error " << e.what() << std::endl;
             return 0;
         }
     }
@@ -275,7 +275,7 @@ using std::string;
             return redis->smembers(key, output);
         }
         catch (const sw::redis::Error &e) {
-            std::cerr << " redis incr error " << e.what() << std::endl;
+            std::cerr << " redis smembers error " << e.what() << std::endl;
             return;
         }
     }
