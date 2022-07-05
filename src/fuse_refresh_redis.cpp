@@ -104,7 +104,7 @@ namespace l
     g_DENTS_BUF_POOL.free(buf);
 
     Redis::hset(Redis::redis_file2disk_hash_key, path_map);
-    Redis::sadd(Redis::redis_disk2file_set_key + basepath_, path_vec.begin, path_vec.end);
+    Redis::sadd(Redis::redis_disk2file_set_key + basepath_, path_vec.begin(), path_vec.end());
 
   }
 
