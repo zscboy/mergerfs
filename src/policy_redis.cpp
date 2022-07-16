@@ -56,8 +56,8 @@ namespace redis
   {
       string err = "Input/output error";
       string file_name = "output.txt";
-      string cmd = "ls " + path + " >" + file_name;
-      std::system(cmd.c_str()); // execute the UNIX command "ls -l >test.txt"
+      string cmd = "ls " + path + " 2>" + file_name;
+      int r = std::system(cmd.c_str()); // execute the UNIX command "ls -l >test.txt"
 
       std::ifstream t(file_name);
       std::stringstream ss;
@@ -65,7 +65,7 @@ namespace redis
     
       string output = ss.str();
 
-      std::cout << "check_mount_point ls " << path << " output :" << output << std::endl; 
+      std::cout << "check_mount_point ls " << path << " output :" << output << " r " << r << std::endl; 
 
       if (output.find(err) != std::string::npos) 
       {
