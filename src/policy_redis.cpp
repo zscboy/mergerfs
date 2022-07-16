@@ -36,6 +36,10 @@
 #include <sys/time.h>
 #include <ctime>
 
+#include <cstdlib>
+#include <fstream>
+#include <iostream>
+
 using std::chrono::duration_cast;
 
 
@@ -46,12 +50,41 @@ const long long maxIncr = 9223372036854775807;
 
 namespace redis
 {
+
+ //dev/nvme0n1
+static bool chek_mount_point_error(const string path)
+{
+    string err = "Input/output error";
+    string file_name = "output.txt";
+    string cmd = "ls " + path + " >" + file_name;
+    std::system(cmd); // execute the UNIX command "ls -l >test.txt"
+
+    std::ifstream t(file_name);
+    std::stringstream ss;
+    ss << t.rdbuf();
+  
+    string output = buffer.str();
+
+    std::cout << "check_mount_point ls " << path << " output :" << output << std::endl; 
+
+    if (output.find(err) != std::string::npos) 
+    {
+      return true;
+    }
+
+    return false
+}
+
+}
+
   static
   int
   round_branches(const Branches::CPtr &branches_, StrVec  *paths_)
   {
     StrVec validpaths;
     fs::info_t info;
+    struct stat  st;
+    // struct statvfs stvfs;
     int error;
     int rv;
 
@@ -62,6 +95,24 @@ namespace redis
         rv = fs::info(branch.path,&info);
         if(rv == -1)
           error_and_continue(error,ENOENT);
+        if (chek_mount_point_error(branch.path))
+         error_and_continue(error,ENOENT);
+        // int fd = open(branch.path.c_str(), O_RDONLY);
+        // if (fd < 0)
+        // {
+        //   std::cout << "open error, path:" << branch.path << " fd:" << fd << std::endl;
+        //   return -1;
+        // }
+        // close(fd);
+
+        // int r = fs::fstat(fd, &st)
+        // std::cout << " path: " << branch.path << " r: " << rv <<  " st.st_mode: " << st.st_mode std::endl;
+
+        // uint64_t totalSize = 0;
+        // ret = ioctl(fd, BLKGETSIZE64, &totalSize)
+
+        // std::cout << " path: " << branch.path << " ret " << ret << " totalSize " << totalSize << std::endl;
+
         if(info.readonly)
           error_and_continue(error,EROFS);
         if(info.spaceavail < branch.minfreespace())
