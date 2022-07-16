@@ -25,10 +25,8 @@ using std::string;
 
 namespace redis
 {
-  static
-  inline
-  void 
-  handle_err_path(const char *fusepath_)
+
+  void handle_err_path(const char *fusepath_)
   {
     int err = 0;
     auto basepath = Redis::hget(Redis::redis_file2disk_hash_key, fusepath_, &err);
@@ -60,10 +58,8 @@ namespace redis
     Redis::sadd(key_to, paths.begin(), paths.end());
   }
 
-  static
-  inline
-  void 
-  handle_err_basepath(const char *basepath)
+
+  void handle_err_basepath(const char *basepath)
   {
     const string path(basepath);
     const string key_from = Redis::redis_disk2file_set_key + path;

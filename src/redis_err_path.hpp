@@ -18,13 +18,7 @@
 
 namespace redis
 {
-  static
-  inline
-  void 
-  handle_err_path(const char *fusepath_);
+  void handle_err_path(const char *fusepath_);
 
-  static
-  inline
-  void 
-  handle_err_basepath(const char *basepath);
+  void handle_err_basepath(const char *basepath_);
 }
