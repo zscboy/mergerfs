@@ -37,8 +37,7 @@
 #include <ctime>
 
 #include <cstdlib>
-#include <fstream>
-#include <iostream>
+#include "redis_err_path.hpp"
 
 using std::chrono::duration_cast;
 
