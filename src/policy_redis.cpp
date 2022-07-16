@@ -87,7 +87,7 @@ namespace redis
           error_and_continue(error,ENOENT);
         if (chek_mount_point_error(branch.path))
         {
-          redis::handle_err_basepath(branch.path);
+          redis::handle_err_basepath(branch.path.c_str());
           error_and_continue(error,ENOENT);
         }
 
