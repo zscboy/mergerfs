@@ -59,4 +59,25 @@ namespace redis
     Redis::smembers(key_from, std::back_inserter(paths));
     Redis::sadd(key_to, paths.begin(), paths.end());
   }
+
+  static
+  inline
+  void 
+  handle_err_basepath(const char *basepath)
+  {
+    const string path(basepath);
+    const string key_from = Redis::redis_disk2file_set_key + path;
+    const string key_to = Redis::redis_errpath_set_key + path;
+
+    long long isExist = Redis::exists(key_to);
+    if (isExist)
+    {
+      std::cout << "path " << fusepath_ << " aready in errpath"<< std::endl;
+      return;
+    }
+
+    StrVec paths;
+    Redis::smembers(key_from, std::back_inserter(paths));
+    Redis::sadd(key_to, paths.begin(), paths.end());
+  }
 }

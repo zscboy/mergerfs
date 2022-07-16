@@ -51,27 +51,20 @@ const long long maxIncr = 9223372036854775807;
 namespace redis
 {
 
- //dev/nvme0n1
+  
   static bool chek_mount_point_error(const string path)
   {
-      string err = "Input/output error";
       string file_name = "output.txt";
-      string cmd = "ls " + path + " 2>" + file_name;
-      int r = std::system(cmd.c_str()); // execute the UNIX command "ls -l >test.txt"
+      string cmd = "ls " + path + " >" + file_name;
 
-      std::ifstream t(file_name);
-      std::stringstream ss;
-      ss << t.rdbuf();
-    
-      string output = ss.str();
+      int r = std::system(cmd.c_str());
+      remove(file_name.c_str());
 
-      std::cout << "check_mount_point ls " << path << " output :" << output << " r " << r << std::endl; 
-
-      if (output.find(err) != std::string::npos) 
+      if (r != 0)
       {
+        std::cout << "chek_mount_point_error r: "<< r << std::endl;
         return true;
       }
-
       return false;
   }
 
@@ -94,22 +87,10 @@ namespace redis
         if(rv == -1)
           error_and_continue(error,ENOENT);
         if (chek_mount_point_error(branch.path))
-         error_and_continue(error,ENOENT);
-        // int fd = open(branch.path.c_str(), O_RDONLY);
-        // if (fd < 0)
-        // {
-        //   std::cout << "open error, path:" << branch.path << " fd:" << fd << std::endl;
-        //   return -1;
-        // }
-        // close(fd);
-
-        // int r = fs::fstat(fd, &st)
-        // std::cout << " path: " << branch.path << " r: " << rv <<  " st.st_mode: " << st.st_mode std::endl;
-
-        // uint64_t totalSize = 0;
-        // ret = ioctl(fd, BLKGETSIZE64, &totalSize)
-
-        // std::cout << " path: " << branch.path << " ret " << ret << " totalSize " << totalSize << std::endl;
+        {
+          redis::handle_err_basepath(branch.path);
+          error_and_continue(error,ENOENT);
+        }
 
         if(info.readonly)
           error_and_continue(error,EROFS);

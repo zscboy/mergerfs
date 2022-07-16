@@ -46,6 +46,22 @@ using std::string;
         return redis != NULL;
     }
 
+    long long Redis::exists(string key)
+    {
+        if (redis == NULL) {
+                std::cerr << "redis instance == NULL" << std::endl;
+            return 0;
+        }
+
+        try {
+            return redis->exists(key);
+        }
+        catch (const sw::redis::Error &e) {
+            std::cerr << " redis set error " << e.what() << std::endl;
+            return 0;
+        }
+    }
+
     bool Redis::set(string key, string value)
     {
         if (redis == NULL) {

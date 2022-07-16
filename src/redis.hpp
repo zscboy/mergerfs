@@ -10,6 +10,7 @@ class Redis
         Redis();
         ~Redis();
         static int init(string address);
+        static long long exists(string key);
         static bool set(string key, string value);
         static sw::redis::OptionalString get(string key);
         static bool hset(string hash, string field, string value);
