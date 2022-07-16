@@ -52,30 +52,28 @@ namespace redis
 {
 
  //dev/nvme0n1
-static bool chek_mount_point_error(const string path)
-{
-    string err = "Input/output error";
-    string file_name = "output.txt";
-    string cmd = "ls " + path + " >" + file_name;
-    std::system(cmd); // execute the UNIX command "ls -l >test.txt"
+  static bool chek_mount_point_error(const string path)
+  {
+      string err = "Input/output error";
+      string file_name = "output.txt";
+      string cmd = "ls " + path + " >" + file_name;
+      std::system(cmd.c_str()); // execute the UNIX command "ls -l >test.txt"
 
-    std::ifstream t(file_name);
-    std::stringstream ss;
-    ss << t.rdbuf();
-  
-    string output = buffer.str();
+      std::ifstream t(file_name);
+      std::stringstream ss;
+      ss << t.rdbuf();
+    
+      string output = ss.str();
 
-    std::cout << "check_mount_point ls " << path << " output :" << output << std::endl; 
+      std::cout << "check_mount_point ls " << path << " output :" << output << std::endl; 
 
-    if (output.find(err) != std::string::npos) 
-    {
-      return true;
-    }
+      if (output.find(err) != std::string::npos) 
+      {
+        return true;
+      }
 
-    return false
-}
-
-}
+      return false;
+  }
 
   static
   int
