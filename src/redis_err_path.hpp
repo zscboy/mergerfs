@@ -72,7 +72,7 @@ namespace redis
     long long isExist = Redis::exists(key_to);
     if (isExist)
     {
-      std::cout << "path " << fusepath_ << " aready in errpath"<< std::endl;
+      std::cout << "path " << basepath << " aready in errpath"<< std::endl;
       return;
     }
 
