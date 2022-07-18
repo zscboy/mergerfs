@@ -123,7 +123,7 @@ using std::string;
             return redis->hset(hash,  m.begin(), m.end());
         }
         catch (const sw::redis::Error &e) {
-            std::cerr << " redis hset error " << e.what() << std::endl;
+            std::cerr << " redis hset error " << e.what() << " key " << hash << std::endl;
              std::unordered_map<std::string, std::string>::iterator it;
             for (it = m.begin(); it != m.end(); it++)
             {
