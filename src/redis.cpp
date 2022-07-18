@@ -124,6 +124,7 @@ using std::string;
         }
         catch (const sw::redis::Error &e) {
             std::cerr << " redis hset error " << e.what() << std::endl;
+            map<std::string, std::string>::iterator it;
             for (it = m.begin(); it != m.end(); it++)
             {
                  std::cerr << it->first  << ":" << it->second  << std::endl;
