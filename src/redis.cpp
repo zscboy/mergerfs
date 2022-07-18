@@ -123,7 +123,7 @@ using std::string;
             return redis->hset(hash,  m.begin(), m.end());
         }
         catch (const sw::redis::Error &e) {
-            std::cerr << " redis hset error " << e.what() << std::endl;
+            std::cerr << " redis hset error " << e.what() << "m size: " << m.size() << std::endl;
             return 0;
         }
     }
