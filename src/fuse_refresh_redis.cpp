@@ -106,6 +106,12 @@ namespace l
     if (path_map.size() > 0 && path_vec.size() > 0) {
       Redis::hset(Redis::redis_file2disk_hash_key, path_map);
       Redis::sadd(Redis::redis_disk2file_set_key + basepath_, path_vec.begin(), path_vec.end());
+
+      std::unordered_map<std::string, std::string>::iterator it;
+      for (it = path_map.begin(); it != path_map.end(); it++)
+      {
+        std::cerr << " paht " <<  basepath_ <<  it->first  << ":" << it->second  << std::endl;
+      }
     }
 
   }

@@ -124,11 +124,6 @@ using std::string;
         }
         catch (const sw::redis::Error &e) {
             std::cerr << " redis hset error " << e.what() << " key " << hash << std::endl;
-             std::unordered_map<std::string, std::string>::iterator it;
-            for (it = m.begin(); it != m.end(); it++)
-            {
-                 std::cerr << it->first  << ":" << it->second  << std::endl;
-            }
             return 0;
         }
     }
