@@ -112,11 +112,11 @@ using std::string;
     }
 
     
-    long long Redis::hmset(string hash,  std::unordered_map<std::string, std::string> m)
+    void Redis::hmset(string hash,  std::unordered_map<std::string, std::string> m)
     {
         if (redis == NULL) {
             std::cerr << "redis instance == NULL" << std::endl;
-            return 0;
+            return;
         }
 
         try {
@@ -124,7 +124,7 @@ using std::string;
         }
         catch (const sw::redis::Error &e) {
             std::cerr << " redis hset error " << e.what() << " key " << hash << std::endl;
-            return 0;
+            return;
         }
     }
 
