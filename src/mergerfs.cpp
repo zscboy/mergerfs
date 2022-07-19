@@ -255,9 +255,6 @@ namespace l
         return 0;
       }
 
-      
-      std::unordered_map<std::string, std::string> m = {{"f1", "v1"}, {"f2", "v2"}};
-      Redis::hset("test", m);
       FUSE::refresh_redis(cfg->branches);
 
       std::cout << "refresh_redis complete" << std::endl;
