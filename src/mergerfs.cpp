@@ -255,6 +255,11 @@ namespace l
         return 0;
       }
 
+      
+      std::unordered_map<std::string, std::string> path_map;
+      path_map["test1"] = "test1";
+      path_map["test2"] = "test2";
+      Redis::hset("test", path_map);
       FUSE::refresh_redis(cfg->branches);
 
       std::cout << "refresh_redis complete" << std::endl;
