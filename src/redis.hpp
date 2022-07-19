@@ -14,7 +14,7 @@ class Redis
         static bool set(string key, string value);
         static sw::redis::OptionalString get(string key);
         static bool hset(string hash, string field, string value);
-        static long long hset(string hash,  std::unordered_map<std::string, std::string> m);
+        static long long hmset(string hash,  std::unordered_map<std::string, std::string> m);
         static sw::redis::OptionalString hget(string hash, string field, int *err);
         static long long incr(string key);
         static long long hdel(string key, string field);
