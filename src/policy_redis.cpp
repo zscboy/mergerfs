@@ -87,6 +87,7 @@ namespace redis
           error_and_continue(error,ENOENT);
         if (chek_mount_point_error(branch.path))
         {
+          std::cout << "round_branches chek_mount_point_error, path " << branch.path << std::endl;
           redis::handle_err_basepath(branch.path.c_str());
           error_and_continue(error,ENOENT);
         }
@@ -97,6 +98,11 @@ namespace redis
           error_and_continue(error,ENOSPC);
 
         validpaths.push_back(branch.path);
+    }
+
+    if (validpaths.size() == 0) {
+      std::cout << "round_branches validpaths.size() == 0 " << std::endl;
+      return (errno=error,-1);
     }
 
     auto incr = Redis::incr(Redis::redis_incr_key);

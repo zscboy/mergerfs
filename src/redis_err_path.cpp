@@ -53,6 +53,8 @@ namespace redis
       return;
     }
 
+    std::cout << "file " << fusepath_ << " not exist, add to errpath!"<< std::endl;
+
     StrVec paths;
     Redis::smembers(key_from, std::back_inserter(paths));
     Redis::sadd(key_to, paths.begin(), paths.end());
@@ -71,7 +73,7 @@ namespace redis
       std::cout << "path " << basepath << " aready in errpath"<< std::endl;
       return;
     }
-
+    
     StrVec paths;
     Redis::smembers(key_from, std::back_inserter(paths));
     Redis::sadd(key_to, paths.begin(), paths.end());
