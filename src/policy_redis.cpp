@@ -38,6 +38,7 @@
 
 #include <cstdlib>
 #include "redis_err_path.hpp"
+#include "str.hpp"
 
 using std::chrono::duration_cast;
 
