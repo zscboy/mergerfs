@@ -134,15 +134,15 @@ namespace redis
     // const string cachepath = "/cache";
     Config::Read cfg;
 
-    StrVec combinedirs
+    StrVec combinedirs;
     str::split(cfg->combinedirs,':',&combinedirs);
     if (combinedirs.size() < 2) {
        std::cout << "create parse cominedir error, size:" << combinedirs.size() << std::endl;
        return -1;
     }
     
-    string cachepath = combinedirs[0]
-    string sealedpath = combinedirs[1]
+    string cachepath = combinedirs[0];
+    string sealedpath = combinedirs[1];
 
     string searchpath;
     string fusedirpath = fs::path::dirname(fusepath_);
