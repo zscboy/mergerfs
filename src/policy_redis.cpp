@@ -143,7 +143,18 @@ namespace redis
     }
     
     string cachepath = combinedirs[0];
+    char back = *cachepath.rbegin();
+    if (back == '/') {
+      cachepath = cachepath.substr(0, cachepath.size()-1);
+    }
+
     string sealedpath = combinedirs[1];
+    back = *sealedpath.rbegin();
+    if (back == '/') {
+      sealedpath = sealedpath.substr(0, sealedpath.size()-1);
+    }
+
+    std::cout << "cachepath:" << cachepath << " sealedpath:" << sealedpath << std::endl;
 
     string searchpath;
     string fusedirpath = fs::path::dirname(fusepath_);
