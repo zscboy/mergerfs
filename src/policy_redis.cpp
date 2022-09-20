@@ -154,7 +154,7 @@ namespace redis
       sealedpath = sealedpath.substr(0, sealedpath.size()-1);
     }
 
-    std::cout << "cachepath:" << cachepath << " sealedpath:" << sealedpath << std::endl;
+    // std::cout << "cachepath:" << cachepath << " sealedpath:" << sealedpath << std::endl;
 
     string searchpath;
     string fusedirpath = fs::path::dirname(fusepath_);
