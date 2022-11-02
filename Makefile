@@ -92,9 +92,8 @@ LDFLAGS := \
     ${LDFLAGS} \
     -pthread \
     -lrt    \
-	-lredis++ \
-	-lhiredis
-
+    /usr/lib/x86_64-linux-gnu/libredis++.a \
+    /usr/lib/x86_64-linux-gnu/libhiredis.a
 
 DESTDIR       =
 PREFIX        = /usr/local
