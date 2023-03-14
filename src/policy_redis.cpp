@@ -165,12 +165,12 @@ namespace redis
 
     combinedirs.erase(index);
 
-    if index >= 0 {
+    if (index >= 0) {
       for(const auto &dir : combinedirs)
       {
         string searchpath = fs::path::make(dir.c_str(), basename.c_str());
         int rv = Policies::Search::epff(branches_, searchpath.c_str(), paths_);
-        if rv == 0 {
+        if (rv == 0) {
           return 0;
         }
       }
