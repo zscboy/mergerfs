@@ -151,7 +151,7 @@ namespace redis
     int index = -1;
     for(int i=0; i<combinedirs.size(); i++)
     {
-      string dir  = combinedirs[i]
+      string dir  = combinedirs[i];
       char end = *dir.rbegin();
       if (end == '/') {
         combinedirs[i] = dir.substr(0, dir.size()-1);
@@ -163,7 +163,7 @@ namespace redis
 
     }
 
-    combinedirs.erase(index)
+    combinedirs.erase(index);
 
     if index >= 0 {
       for(const auto &dir : combinedirs)
@@ -171,7 +171,7 @@ namespace redis
         string searchpath = fs::path::make(dir.c_str(), basename.c_str());
         int rv = Policies::Search::epff(branches_, searchpath.c_str(), paths_);
         if rv == 0 {
-          return 0
+          return 0;
         }
       }
 
