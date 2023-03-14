@@ -137,48 +137,45 @@ namespace redis
 
     StrVec combinedirs;
     str::split(cfg->combinedirs,':',&combinedirs);
+
     if (combinedirs.size() < 2) {
        std::cout << "create parse cominedir error, size:" << combinedirs.size() << std::endl;
        return -1;
     }
-    
-    string cachepath = combinedirs[0];
-    char back = *cachepath.rbegin();
-    if (back == '/') {
-      cachepath = cachepath.substr(0, cachepath.size()-1);
-    }
 
-    string sealedpath = combinedirs[1];
-    back = *sealedpath.rbegin();
-    if (back == '/') {
-      sealedpath = sealedpath.substr(0, sealedpath.size()-1);
-    }
+    std::cout << "cfg->combinedirs:" << cfg->combinedirs.to_string() << std::endl;
 
-    // std::cout << "cachepath:" << cachepath << " sealedpath:" << sealedpath << std::endl;
-
-    string searchpath;
     string fusedirpath = fs::path::dirname(fusepath_);
     string basename = fs::path::basename(fusepath_);
 
-    // 特殊处理
-    if (cachepath == fusedirpath)
+    int index = -1;
+    for(int i=0; i<combinedirs.size(); i++)
     {
-      searchpath = fs::path::make(sealedpath.c_str(), basename.c_str());
-    } 
-    else if(sealedpath == fusedirpath)
-    {
-      // 特殊处理rsync类工具同步文件
-      searchpath = fs::path::make(cachepath.c_str(), basename.c_str());
+      string dir  = combinedirs[i]
+      char end = *dir.rbegin();
+      if (end == '/') {
+        combinedirs[i] = dir.substr(0, dir.size()-1);
+      }
+
+      if (dir == fusedirpath) {
+         index = i;
+      }
+
     }
 
-    if (!searchpath.empty())
-    {
-      int rv = Policies::Search::epff(branches_, searchpath.c_str(), paths_);
-      if(rv == -1)
+    combinedirs.erase(index)
+
+    if index >= 0 {
+      for(const auto &dir : combinedirs)
       {
-        return ::redis::round_branches(branches_, paths_);
+        string searchpath = fs::path::make(dir.c_str(), basename.c_str());
+        int rv = Policies::Search::epff(branches_, searchpath.c_str(), paths_);
+        if rv == 0 {
+          return 0
+        }
       }
-      return 0;
+
+      return ::redis::round_branches(branches_, paths_);
     }
 
     return Policies::Search::epff(branches_, fusedirpath.c_str(), paths_);
