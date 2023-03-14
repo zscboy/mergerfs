@@ -36,6 +36,7 @@
 #include <sys/time.h>
 #include <ctime>
 
+#include <algorithm>
 #include <cstdlib>
 #include "redis_err_path.hpp"
 #include "str.hpp"
@@ -152,13 +153,16 @@ namespace redis
     StrVec::iterator itr = std::find(combinedirs.begin(), combinedirs.end(), fusedirpath);
     if (itr == combinedirs.end())
     {
-      itr = std::find(combinedirs.begin(), combinedirs.end(), fusedirpath + "/");
+      string searchpath = fusedirpath;
+      searchpath.push_back('/');
+      itr = std::find(combinedirs.begin(), combinedirs.end(), searchpath);
     }
 
     bool search_path_exist = false;
     if (itr != combinedirs.end())
     {
       combinedirs.erase(itr);
+      search_path_exist = true;
     }
 
     if (search_path_exist) {
