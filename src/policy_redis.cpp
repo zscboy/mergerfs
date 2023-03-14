@@ -163,7 +163,7 @@ namespace redis
 
     }
 
-    combinedirs.erase(index);
+    combinedirs.erase(combinedirs.begin() + index);
 
     if (index >= 0) {
       for(const auto &dir : combinedirs)
