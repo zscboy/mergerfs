@@ -148,27 +148,24 @@ namespace redis
     string fusedirpath = fs::path::dirname(fusepath_);
     string basename = fs::path::basename(fusepath_);
 
-    int index = -1;
-    for(int i=0; i<combinedirs.size(); i++)
+
+    StrVec::iterator itr = std::find(combinedirs.begin(), combinedirs.end(), fusedirpath);
+    if (itr == combinedirs.end())
     {
-      string dir  = combinedirs[i];
-      char end = *dir.rbegin();
-      if (end == '/') {
-        combinedirs[i] = dir.substr(0, dir.size()-1);
-      }
-
-      if (dir == fusedirpath) {
-         index = i;
-      }
-
+      itr = std::find(combinedirs.begin(), combinedirs.end(), fusedirpath + "/");
     }
 
-    combinedirs.erase(combinedirs.begin() + index);
+    bool search_path_exist = false;
+    if (itr != combinedirs.end())
+    {
+      combinedirs.erase(itr);
+    }
 
-    if (index >= 0) {
+    if (search_path_exist) {
       for(const auto &dir : combinedirs)
       {
         string searchpath = fs::path::make(dir.c_str(), basename.c_str());
+        std::cout << "ssearchpath " << searchpath << std::endl;
         int rv = Policies::Search::epff(branches_, searchpath.c_str(), paths_);
         if (rv == 0) {
           return 0;
